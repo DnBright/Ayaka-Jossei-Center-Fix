@@ -44,7 +44,7 @@
                                 </div>
                                 <div>
                                     <label class="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-2">WhatsApp Official</label>
-                                    <p class="text-base md:text-lg font-semibold text-slate-900 leading-snug">{{ $settings->site_phone ?? '+62 812 3456 7890' }}</p>
+                                    <p class="text-base md:text-lg font-semibold text-slate-900 leading-snug">+62 815-4200-7626</p>
                                 </div>
                             </div>
 
