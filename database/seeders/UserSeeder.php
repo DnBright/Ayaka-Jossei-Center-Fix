@@ -10,37 +10,38 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        // Admin
+        // Admin Baru
         User::updateOrCreate(
-            ['email' => 'admin@gmail.com'],
+            ['email' => 'admin.utama@ayakajosei.com'],
             [
-                'name' => 'Administrator Ayaka',
-                'password' => Hash::make('password'),
+                'name' => 'Admin Utama',
+                'password' => Hash::make('AyakaAdmin2026!'),
                 'role' => 'admin',
                 'is_approved' => true,
             ]
         );
 
-        // Penulis
+        // Penulis Baru
         User::updateOrCreate(
-            ['email' => 'penulis@ayakajosei.com'],
+            ['email' => 'author.pro@ayakajosei.com'],
             [
-                'name' => 'Penulis Ayaka',
-                'password' => Hash::make('password'),
+                'name' => 'Ayaka Author',
+                'password' => Hash::make('PenulisHebat26!'),
                 'role' => 'penulis',
                 'is_approved' => true,
             ]
         );
 
-        // Sample User (Pending)
+        // User Member Baru (Langsung Aktif/Approved)
         User::updateOrCreate(
-            ['email' => 'user@gmail.com'],
+            ['email' => 'member.vip@gmail.com'],
             [
-                'name' => 'Sample User',
-                'password' => Hash::make('password'),
+                'name' => 'Member VIP',
+                'password' => Hash::make('MemberAyaka2026!'),
                 'role' => 'user',
-                'is_approved' => false,
+                'is_approved' => true,
             ]
         );
     }
+
 }
