@@ -68,19 +68,40 @@
 
                 <!-- Regular Articles -->
                 @for($i = 1; $i <= 4; $i++)
-                    <article class="group journal-reveal border-b border-slate-100 pb-12 text-center lg:text-left">
-                        <a href="#" class="block">
+                    @php
+                        $isMemberOnly = $i % 2 == 0; // Simulate some member-only posts
+                    @endphp
+                    <article class="group journal-reveal border-b border-slate-100 pb-12 text-center lg:text-left relative">
+                        <a href="{{ ($isMemberOnly && !Auth::check()) ? route('register') : '#' }}" class="block">
                             <div class="aspect-video rounded-lg overflow-hidden mb-8 bg-slate-100 relative">
                                 <img src="{{ asset('images/hero-bg.png') }}" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000" alt="Post">
                                 <span class="absolute top-4 left-4 bg-[#da291c] text-white px-4 py-1 text-[8px] font-black uppercase tracking-widest">Kategori</span>
+                                
+                                @if($isMemberOnly && !Auth::check())
+                                    <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm flex flex-col items-center justify-center p-6">
+                                        <svg class="w-10 h-10 text-white mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                                        <span class="text-white text-[10px] font-black uppercase tracking-widest text-center">Daftar Untuk Membaca</span>
+                                    </div>
+                                @endif
                             </div>
                             <div class="flex justify-center lg:justify-start gap-4 mb-4 text-[9px] font-black uppercase tracking-widest text-slate-400">
                                 <span>April {{ 28 - $i }}, 2026</span>
-                                <span class="text-[#da291c]">Member Only</span>
+                                @if($isMemberOnly)
+                                    <span class="text-[#da291c] flex items-center gap-1">
+                                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                                        Member Only
+                                    </span>
+                                @endif
                             </div>
                             <h3 class="text-xl md:text-2xl font-black text-slate-900 mb-4 group-hover:text-[#da291c] transition-colors leading-tight tracking-tighter italic uppercase">Memahami Budaya Kerja 'Kaizen' di Industri Jepang</h3>
-                            <p class="text-sm text-slate-500 line-clamp-3 mb-6 leading-relaxed">Filosofi perbaikan terus-menerus yang menjadi kunci kesuksesan perusahaan raksasa di Jepang.</p>
-                            <span class="text-[10px] font-black uppercase tracking-widest flex items-center justify-center lg:justify-start gap-2">Read More <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"></path></svg></span>
+                            
+                            @if($isMemberOnly && !Auth::check())
+                                <p class="text-sm text-slate-400 line-clamp-3 mb-6 leading-relaxed italic">Konten ini hanya tersedia untuk member resmi Ayaka Josei Center.</p>
+                                <span class="text-[10px] font-black uppercase tracking-widest text-[#da291c] flex items-center justify-center lg:justify-start gap-2">Register to Read <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path></svg></span>
+                            @else
+                                <p class="text-sm text-slate-500 line-clamp-3 mb-6 leading-relaxed">Filosofi perbaikan terus-menerus yang menjadi kunci kesuksesan perusahaan raksasa di Jepang.</p>
+                                <span class="text-[10px] font-black uppercase tracking-widest flex items-center justify-center lg:justify-start gap-2">Read More <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"></path></svg></span>
+                            @endif
                         </a>
                     </article>
                 @endfor
