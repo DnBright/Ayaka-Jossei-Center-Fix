@@ -140,6 +140,31 @@ class UserContentController extends Controller
         return view('user.blog', compact('featuredArticle', 'regularArticles', 'categories'));
     }
 
+    public function showArticle($slug)
+    {
+        $article = Article::with('category', 'author')
+            ->where('slug', $slug)
+            ->where('status', 'published')
+            ->firstOrFail();
+
+        // Increment real-time view count — one per session per article
+        $sessionKey = 'viewed_article_' . $article->id;
+        if (!session()->has($sessionKey)) {
+            $article->increment('views_count');
+            session()->put($sessionKey, true);
+        }
+
+        $relatedArticles = Article::with('category')
+            ->where('status', 'published')
+            ->where('id', '!=', $article->id)
+            ->where('category_id', $article->category_id)
+            ->latest()
+            ->take(3)
+            ->get();
+
+        return view('user.artikel-detail', compact('article', 'relatedArticles'));
+    }
+
     public function ebook()
     {
         $this->syncSharedContent();
@@ -147,6 +172,26 @@ class UserContentController extends Controller
         $ebooks = Ebook::where('is_active', true)->latest()->take(6)->get();
 
         return view('user.ebook', compact('ebooks'));
+    }
+
+    public function downloadEbook($id)
+    {
+        $ebook = Ebook::where('is_active', true)->findOrFail($id);
+
+        // Increment real-time download count — one per session per ebook
+        $sessionKey = 'downloaded_ebook_' . $ebook->id;
+        if (!session()->has($sessionKey)) {
+            $ebook->increment('download_count');
+            session()->put($sessionKey, true);
+        }
+
+        // Serve file if it exists, otherwise redirect back with info
+        $filePath = storage_path('app/public/' . $ebook->file_path);
+        if (file_exists($filePath)) {
+            return response()->download($filePath, $ebook->title . '.pdf');
+        }
+
+        return back()->with('info', 'File e-book sedang dipersiapkan.');
     }
 
     public function galeri()
