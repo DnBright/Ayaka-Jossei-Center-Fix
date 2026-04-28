@@ -14,14 +14,16 @@ class RoleMiddleware
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, string $role): Response
+    public function handle(Request $request, Closure $next, ...$roles): Response
     {
         if (!Auth::check()) {
             return redirect('/login');
         }
 
         $user = Auth::user();
-        if ($user->role !== $role) {
+        
+        // Cek apakah role user ada dalam daftar roles yang diizinkan
+        if (!in_array($user->role, $roles)) {
             // Jika bukan role yang sesuai, arahkan ke dashboard masing-masing
             if ($user->role === 'admin') {
                 return redirect('/admin');

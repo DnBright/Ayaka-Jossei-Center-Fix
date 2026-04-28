@@ -41,9 +41,10 @@ Route::post('/kontak', [App\Http\Controllers\CommunicationController::class, 'st
 Route::get('/ebook', [UserContentController::class, 'ebook'])->name('ebook.index');
 Route::get('/ebook/download/{id}', [UserContentController::class, 'downloadEbook'])->middleware('auth')->name('ebook.download');
 
-Route::middleware(['auth', 'role:admin'])->group(function () {
+Route::middleware(['auth', 'role:admin,penulis'])->group(function () {
     Route::get('/admin', [App\Http\Controllers\AdminController::class, 'dashboard'])->name('admin.dashboard');
 
+    // Artikel Management (Shared)
     Route::get('/admin/artikel', [App\Http\Controllers\ArticleController::class, 'index'])->name('admin.artikel.index');
     Route::get('/admin/artikel/create', [App\Http\Controllers\ArticleController::class, 'create'])->name('admin.artikel.create');
     Route::get('/admin/artikel/{id}/edit', [App\Http\Controllers\ArticleController::class, 'edit'])->name('admin.artikel.edit');
