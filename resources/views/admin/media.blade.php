@@ -3,18 +3,24 @@
 @section('page-title', 'Media Library Ayaka')
 
 @section('content')
-<div class="media-manager-container">
+<div class="media-manager-container" x-data="{ openUploadModal: false }">
     <!-- Header -->
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6">
         <div>
             <h1 class="text-3xl font-black text-slate-900 tracking-tight">Media Library Ayaka</h1>
             <p class="text-slate-500 font-medium mt-1">Kelola koleksi aset visual, dokumentasi, dan media konten edukasi.</p>
         </div>
-        <button class="bg-gradient-to-r from-[#da291c] to-[#b91c1c] text-white px-8 py-4 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-red-900/20 hover:-translate-y-1 transition-all flex items-center gap-3">
+        <button @click="openUploadModal = true" class="bg-gradient-to-r from-[#da291c] to-[#b91c1c] text-white px-8 py-4 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-red-900/20 hover:-translate-y-1 transition-all flex items-center gap-3">
             <i data-lucide="upload" class="w-5 h-5"></i>
             Upload Media Baru
         </button>
     </div>
+
+    @if(session('success'))
+        <div class="mb-8 p-4 bg-emerald-50 text-emerald-700 rounded-2xl font-bold text-sm border border-emerald-100">
+            {{ session('success') }}
+        </div>
+    @endif
 
     <!-- Toolbar -->
     <div class="bg-white rounded-[24px] p-4 border border-slate-100 shadow-sm mb-10 flex flex-col lg:flex-row justify-between items-center gap-6">
@@ -23,49 +29,83 @@
             <input type="text" placeholder="Telusuri aset media..." class="w-full pl-14 pr-6 py-3.5 bg-slate-50 border border-slate-100 rounded-xl text-sm focus:outline-none focus:border-[#da291c] transition-all">
         </div>
         <div class="flex items-center gap-4 w-full lg:w-auto">
-            <button class="flex items-center gap-3 px-5 py-3.5 bg-slate-50 text-slate-600 font-black text-xs uppercase tracking-widest rounded-xl hover:bg-slate-100 transition-colors">
-                <i data-lucide="filter" class="w-4 h-4"></i>
-                Filter
-            </button>
-            <div class="flex bg-slate-100 p-1 rounded-xl">
-                <button class="p-2.5 bg-white text-[#da291c] rounded-lg shadow-sm"><i data-lucide="grid" class="w-4 h-4"></i></button>
-                <button class="p-2.5 text-slate-400 rounded-lg"><i data-lucide="list" class="w-4 h-4"></i></button>
+            <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                {{ $media->total() }} Assets
             </div>
         </div>
     </div>
 
     <!-- Media Grid -->
     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
-        @php
-            $media = [
-                ['name' => 'Tokyo Street.jpg', 'size' => '2.4 MB', 'date' => '2024-01-15', 'url' => 'https://images.unsplash.com/photo-1528659526084-59de817f5413?auto=format&fit=crop&q=80'],
-                ['name' => 'Student Batch 1.jpg', 'size' => '1.8 MB', 'date' => '2024-02-01', 'url' => 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&q=80'],
-                ['name' => 'Classroom.jpg', 'size' => '3.1 MB', 'date' => '2024-02-10', 'url' => 'https://images.unsplash.com/photo-1624253321171-1be53e12f5f4?auto=format&fit=crop&q=80'],
-                ['name' => 'Japan Flag.jpg', 'size' => '1.2 MB', 'date' => '2024-03-05', 'url' => 'https://images.unsplash.com/photo-1542051841857-5f90071e7989?auto=format&fit=crop&q=80'],
-                ['name' => 'Mt Fuji.jpg', 'size' => '4.5 MB', 'date' => '2024-03-12', 'url' => 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&q=80'],
-                ['name' => 'Graduation.jpg', 'size' => '2.9 MB', 'date' => '2024-03-20', 'url' => 'https://images.unsplash.com/photo-1523240715181-2f0f9f20dd98?auto=format&fit=crop&q=80'],
-            ];
-        @endphp
-
-        @foreach($media as $item)
+        @forelse($media as $item)
             <div class="bg-white rounded-3xl border border-slate-100 overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all group relative">
                 <div class="aspect-square bg-slate-50 relative overflow-hidden">
-                    <img src="{{ $item['url'] }}" alt="{{ $item['name'] }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <img src="{{ Storage::url($item->file_path) }}" alt="{{ $item->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                     <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
-                        <button class="w-10 h-10 bg-white text-slate-900 rounded-xl flex items-center justify-center hover:bg-[#da291c] hover:text-white transition-all"><i data-lucide="eye" class="w-5 h-5"></i></button>
-                        <button class="w-10 h-10 bg-red-600 text-white rounded-xl flex items-center justify-center hover:bg-red-700 transition-all shadow-lg shadow-red-900/20"><i data-lucide="trash-2" class="w-5 h-5"></i></button>
+                        <form action="{{ route('admin.media.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus media ini?')">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="w-10 h-10 bg-red-600 text-white rounded-xl flex items-center justify-center hover:bg-red-700 transition-all shadow-lg shadow-red-900/20"><i data-lucide="trash-2" class="w-5 h-5"></i></button>
+                        </form>
                     </div>
                 </div>
                 <div class="p-4">
-                    <h5 class="text-[11px] font-black text-slate-900 truncate mb-1" title="{{ $item['name'] }}">{{ $item['name'] }}</h5>
+                    <h5 class="text-[11px] font-black text-slate-900 truncate mb-1" title="{{ $item->title }}">{{ $item->title }}</h5>
                     <div class="flex items-center justify-between text-[9px] font-bold text-slate-400 uppercase tracking-widest">
-                        <span>{{ $item['size'] }}</span>
+                        <span>{{ round($item->file_size / 1024, 2) }} KB</span>
                         <span class="w-1 h-1 bg-slate-200 rounded-full"></span>
-                        <span>{{ date('d/m/y', strtotime($item['date'])) }}</span>
+                        <span>{{ $item->created_at->format('d/m/y') }}</span>
                     </div>
                 </div>
             </div>
-        @endforeach
+        @empty
+            <div class="col-span-full py-20 text-center text-slate-400 font-bold text-xs uppercase tracking-widest bg-white rounded-[32px] border border-slate-100 shadow-sm">
+                Media Library kosong
+            </div>
+        @endforelse
+    </div>
+    
+    <div class="mt-10">
+        {{ $media->links() }}
+    </div>
+
+    <!-- Upload Modal -->
+    <div x-show="openUploadModal" 
+         x-cloak
+         class="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-900/60 backdrop-blur-sm">
+        <div @click.away="openUploadModal = false" class="bg-white w-full max-w-lg rounded-[32px] shadow-2xl overflow-hidden animate-in zoom-in duration-300">
+            <div class="px-10 py-8 border-b border-slate-100 flex justify-between items-center">
+                <h2 class="text-2xl font-black text-slate-900">Upload Media Baru</h2>
+                <button @click="openUploadModal = false" class="text-slate-400 hover:text-slate-600">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <form action="{{ route('admin.media.store') }}" method="POST" enctype="multipart/form-data" class="p-10">
+                @csrf
+                <div class="grid grid-cols-1 gap-6">
+                    <div>
+                        <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Pilih File (Gambar)</label>
+                        <input type="file" name="file" required accept="image/*" class="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-xs">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Judul Media (Opsional)</label>
+                        <input type="text" name="title" class="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-sm focus:outline-none focus:border-[#da291c] transition-all">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Kategori Media</label>
+                        <select name="type" required class="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-sm focus:outline-none focus:border-[#da291c] transition-all">
+                            <option value="gallery">Galeri Kegiatan</option>
+                            <option value="banner">Banner / Slider</option>
+                            <option value="content">Konten Umum</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mt-10 flex gap-4">
+                    <button type="submit" class="flex-1 bg-[#da291c] text-white py-4 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-red-900/20">Upload & Publish</button>
+                    <button type="button" @click="openUploadModal = false" class="px-8 py-4 bg-slate-100 text-slate-500 rounded-2xl font-black text-sm uppercase tracking-widest">Batal</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 @endsection
