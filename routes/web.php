@@ -70,6 +70,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/admin/komunikasi/{id}', [App\Http\Controllers\CommunicationController::class, 'destroy'])->name('admin.komunikasi.destroy');
 
     Route::get('/admin/users', [App\Http\Controllers\AdminController::class, 'users'])->name('admin.users');
+    Route::post('/admin/users', [App\Http\Controllers\AdminController::class, 'createUser'])->name('admin.users.store');
     Route::post('/admin/users/{id}/approve', [App\Http\Controllers\AdminController::class, 'approveUser'])->name('admin.users.approve');
     Route::post('/admin/users/{id}/reject', [App\Http\Controllers\AdminController::class, 'rejectUser'])->name('admin.users.reject');
 
