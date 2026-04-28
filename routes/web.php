@@ -44,7 +44,7 @@ Route::get('/ebook/download/{id}', [UserContentController::class, 'downloadEbook
 Route::middleware(['auth', 'role:admin,penulis'])->group(function () {
     Route::get('/admin', [App\Http\Controllers\AdminController::class, 'dashboard'])->name('admin.dashboard');
 
-    // Artikel Management (Shared)
+    // Artikel Management (Shared for Admin & Penulis)
     Route::get('/admin/artikel', [App\Http\Controllers\ArticleController::class, 'index'])->name('admin.artikel.index');
     Route::get('/admin/artikel/create', [App\Http\Controllers\ArticleController::class, 'create'])->name('admin.artikel.create');
     Route::get('/admin/artikel/{id}/edit', [App\Http\Controllers\ArticleController::class, 'edit'])->name('admin.artikel.edit');
@@ -52,6 +52,7 @@ Route::middleware(['auth', 'role:admin,penulis'])->group(function () {
     Route::put('/admin/artikel/{id}', [App\Http\Controllers\ArticleController::class, 'update'])->name('admin.artikel.update');
     Route::delete('/admin/artikel/{id}', [App\Http\Controllers\ArticleController::class, 'destroy'])->name('admin.artikel.destroy');
 
+    // Other Admin-Only Modules (Optional: Keep here or move)
     Route::get('/admin/ebook', [App\Http\Controllers\EbookController::class, 'index'])->name('admin.ebook.index');
     Route::post('/admin/ebook', [App\Http\Controllers\EbookController::class, 'store'])->name('admin.ebook.store');
     Route::put('/admin/ebook/{id}', [App\Http\Controllers\EbookController::class, 'update'])->name('admin.ebook.update');
