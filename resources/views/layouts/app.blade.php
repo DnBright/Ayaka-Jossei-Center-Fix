@@ -52,7 +52,7 @@
             <!-- Auth Buttons (Desktop) -->
             <div class="hidden lg:flex items-center space-x-2 border-l border-slate-200 pl-8 ml-2">
                 @if (Route::has('login'))
-                    <a href="{{ route('login') }}" class="px-5 py-2 text-[10px] font-black uppercase tracking-widest text-slate-600 hover:text-[#da291c] transition-colors">Login</a>
+                    <a href="{{ route('login') }}" class="px-5 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest text-slate-600 border border-slate-200 hover:bg-slate-50 transition-all">Login</a>
                 @endif
                 <a href="/register" class="bg-slate-900 text-white px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-[#da291c] transition-all">Join AJC</a>
             </div>
@@ -77,7 +77,7 @@
                 @endforeach
                 <hr class="border-slate-100">
                 <div class="flex flex-col gap-4 pt-2">
-                    <a href="/login" class="text-sm font-black uppercase tracking-widest text-slate-600">Login</a>
+                    <a href="/login" class="border border-slate-200 text-slate-900 py-4 px-6 rounded-2xl text-center text-xs font-black uppercase tracking-widest hover:bg-slate-50 transition-all">Masuk Akun</a>
                     <a href="/register" class="bg-[#da291c] text-white py-4 px-6 rounded-2xl text-center text-xs font-black uppercase tracking-widest shadow-xl shadow-red-500/20">Daftar Sekarang</a>
                 </div>
             </div>
