@@ -3,7 +3,7 @@
 @section('page-title', 'Manajemen User & Role')
 
 @section('content')
-<div class="user-manager-container">
+<div class="user-manager-container" x-data="{ tab: 'internal' }">
     <!-- Header -->
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6">
         <div>
@@ -17,7 +17,7 @@
     </div>
 
     <!-- Tabs -->
-    <div class="flex gap-10 border-b-2 border-slate-100 mb-10 overflow-x-auto pb-1" x-data="{ tab: 'internal' }">
+    <div class="flex gap-10 border-b-2 border-slate-100 mb-10 overflow-x-auto pb-1">
         <button 
             @click="tab = 'internal'"
             :class="tab === 'internal' ? 'border-[#da291c] text-[#da291c]' : 'border-transparent text-slate-400 hover:text-slate-600'"
@@ -42,7 +42,7 @@
     </div>
 
     <!-- Table Container -->
-    <div x-data="{ tab: 'internal' }">
+    <div>
         <!-- Internal Team Table -->
         <div x-show="tab === 'internal'" class="bg-white rounded-[32px] border border-slate-100 shadow-sm overflow-hidden">
             <div class="overflow-x-auto">
