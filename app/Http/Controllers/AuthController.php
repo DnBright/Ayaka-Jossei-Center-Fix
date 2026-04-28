@@ -61,7 +61,15 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
 
-            if (!$user->is_approved && $user->role !== 'admin') {
+            // CEK VALIDASI PINTU: Role harus cocok dengan Form Login
+            if ($request->has('role') && $user->role !== $request->role) {
+                Auth::logout();
+                return back()->withErrors([
+                    'email' => 'Akun Anda tidak terdaftar sebagai ' . ucfirst($request->role) . '.',
+                ])->onlyInput('email');
+            }
+
+            if (!$user->is_approved && $user->role !== 'admin' && $user->role !== 'penulis') {
                 Auth::logout();
                 $request->session()->invalidate();
                 $request->session()->regenerateToken();
@@ -71,16 +79,16 @@ class AuthController extends Controller
             $request->session()->regenerate();
 
             if ($user->role === 'admin') {
-                return redirect('/admin');
+                return redirect()->route('admin.dashboard');
             } elseif ($user->role === 'penulis') {
-                return redirect('/penulis');
+                return redirect()->route('penulis.dashboard');
             } else {
                 return redirect('/');
             }
         }
 
         return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
+            'email' => 'Email atau password yang Anda masukkan salah.',
         ])->onlyInput('email');
     }
 

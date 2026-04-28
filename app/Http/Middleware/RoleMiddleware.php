@@ -22,13 +22,19 @@ class RoleMiddleware
 
         $user = Auth::user();
         
+        // Cek apakah akun sudah disetujui (khusus member/user biasa)
+        if ($user->role === 'user' && !$user->is_approved) {
+            Auth::logout();
+            return redirect()->route('login')->withErrors(['email' => 'Akun Anda sedang menunggu persetujuan Admin.']);
+        }
+
         // Cek apakah role user ada dalam daftar roles yang diizinkan
         if (!in_array($user->role, $roles)) {
-            // Jika bukan role yang sesuai, arahkan ke dashboard masing-masing
+            // PENGALIHAN TEGAS: Kembalikan ke dashboard masing-masing
             if ($user->role === 'admin') {
-                return redirect('/admin');
+                return redirect()->route('admin.dashboard');
             } elseif ($user->role === 'penulis') {
-                return redirect('/penulis');
+                return redirect()->route('penulis.dashboard');
             } else {
                 return redirect('/');
             }

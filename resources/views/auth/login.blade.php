@@ -16,6 +16,7 @@
 
             <form action="{{ route('login') }}" method="POST" class="space-y-6">
                 @csrf
+                <input type="hidden" name="role" value="user">
                 <div>
                     <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 ml-1">Alamat Email</label>
                     <input type="email" name="email" required class="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-slate-900 text-sm font-bold focus:outline-none focus:ring-2 focus:ring-[#da291c]/20 focus:border-[#da291c] transition-all" placeholder="contoh@email.com">
