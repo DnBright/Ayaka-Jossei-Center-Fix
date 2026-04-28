@@ -7,6 +7,23 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
+    public function dashboard()
+    {
+        $stats = [
+            'total_messages' => \App\Models\Message::count(),
+            'total_articles' => \App\Models\Article::count(),
+            'total_ebooks' => \App\Models\Ebook::count(),
+            'total_users' => \App\Models\User::count(),
+            'article_views' => \App\Models\Article::sum('views_count'),
+            'ebook_downloads' => \App\Models\Ebook::sum('download_count'),
+        ];
+
+        $topArticles = \App\Models\Article::with('category')->orderBy('views_count', 'desc')->take(5)->get();
+        $topEbooks = \App\Models\Ebook::orderBy('download_count', 'desc')->take(5)->get();
+
+        return view('admin.dashboard', compact('stats', 'topArticles', 'topEbooks'));
+    }
+
     public function users()
     {
         $internalTeam = User::whereIn('role', ['admin', 'penulis'])->get();
