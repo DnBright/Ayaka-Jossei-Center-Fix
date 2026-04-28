@@ -14,7 +14,7 @@
                         Program <br /> <span class="text-[#da291c]">Pelatihan</span> <br /> Unggulan
                     </h1>
                     <p class="text-lg md:text-xl text-slate-500 max-w-md mx-auto lg:mx-0 leading-relaxed mb-12">
-                        Kurikulum intensif yang dirancang untuk memenuhi standar kompetensi kerja di Jepang.
+                        {{ $pages['program']->content['hero_subtitle'] ?? 'Kurikulum intensif yang dirancang untuk memenuhi standar kompetensi kerja di Jepang.' }}
                     </p>
                     <div class="flex items-center justify-center lg:justify-start gap-12">
                         <button class="bg-slate-900 text-white px-10 py-5 font-black uppercase tracking-widest text-sm hover:bg-[#da291c] transition-all transform hover:-translate-y-1">Jelajahi</button>
@@ -42,9 +42,11 @@
         <div class="container mx-auto px-6">
             <div class="max-w-4xl relative text-center md:text-left">
                 <div class="hidden md:block absolute -left-20 -top-10 w-64 h-80 bg-slate-50 rounded-[40px] -z-10"></div>
-                <h2 class="text-4xl md:text-5xl font-black text-slate-900 tracking-tighter mb-8 leading-tight">Membangun Keterampilan Yang Relevan Dengan Industri Jepang</h2>
+                <h2 class="text-4xl md:text-5xl font-black text-slate-900 tracking-tighter mb-8 leading-tight">
+                    {{ $pages['program']->content['pengantar_title'] ?? 'Membangun Keterampilan Yang Relevan Dengan Industri Jepang' }}
+                </h2>
                 <p class="text-xl md:text-2xl text-slate-600 font-medium leading-relaxed">
-                    Setiap program di AJC didukung oleh instruktur berpengalaman dan kurikulum yang diperbarui secara berkala sesuai regulasi ketenagakerjaan Jepang.
+                    {{ $pages['program']->content['pengantar_subtitle'] ?? 'Setiap program di AJC didukung oleh instruktur berpengalaman dan kurikulum yang diperbarui secara berkala sesuai regulasi ketenagakerjaan Jepang.' }}
                 </p>
             </div>
         </div>
@@ -123,9 +125,12 @@
             <div class="grid lg:grid-cols-2 min-h-auto md:min-h-[500px] rounded-[30px] md:rounded-[50px] overflow-hidden shadow-2xl">
                 <div class="bg-cover bg-center grayscale h-64 md:h-auto" style="background-image: url('{{ asset('images/hero-bg.png') }}')"></div>
                 <div class="bg-slate-900 p-10 md:p-16 lg:p-24 flex flex-col justify-center text-white text-center md:text-left">
-                    <span class="text-[#da291c] font-black tracking-[0.4em] text-[10px] mb-8 uppercase block">Konsultasi Gratis</span>
-                    <h2 class="text-4xl md:text-5xl font-black tracking-tighter uppercase italic mb-8 leading-none">Siap Memulai Karirmu?</h2>
-                    <p class="text-lg opacity-60 mb-12">Dapatkan bimbingan langsung dari konsultan kami mengenai alur pendaftaran dan biaya pelatihan.</p>
+                    <h2 class="text-4xl md:text-5xl font-black tracking-tighter uppercase italic mb-8 leading-none">
+                        {{ $pages['program']->content['cta_title'] ?? 'Siap Memulai Karirmu?' }}
+                    </h2>
+                    <p class="text-lg opacity-60 mb-12">
+                        {{ $pages['program']->content['cta_description'] ?? 'Dapatkan bimbingan langsung dari konsultan kami mengenai alur pendaftaran dan biaya pelatihan.' }}
+                    </p>
                     <button class="bg-[#da291c] text-white px-10 md:px-12 py-4 md:py-5 rounded-full font-black uppercase tracking-widest text-xs flex items-center justify-center gap-6 w-full sm:w-fit hover:scale-105 transition-all mx-auto md:mx-0">
                         Hubungi Kami <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
                     </button>

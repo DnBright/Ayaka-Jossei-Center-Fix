@@ -8,8 +8,12 @@
     <header class="contact-header py-16 md:py-24 text-center bg-white border-b border-slate-100 relative z-10">
         <div class="container mx-auto px-6 contact-reveal">
             <span class="text-[#da291c] font-black tracking-[0.4em] text-[10px] mb-8 block uppercase">Get In Touch</span>
-            <h1 class="text-4xl md:text-6xl lg:text-7xl font-black text-slate-900 tracking-tighter mb-8 font-['Outfit'] leading-[0.95] md:leading-[0.9] italic uppercase">Kemitraan & <br /> <span class="text-[#da291c]">Konsultasi</span></h1>
-            <p class="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto leading-relaxed">Kami siap membantu Anda memulai perjalanan karir profesional di Jepang. Hubungi tim kami untuk konsultasi gratis.</p>
+            <h1 class="text-4xl md:text-6xl lg:text-7xl font-black text-slate-900 tracking-tighter mb-8 font-['Outfit'] leading-[0.95] md:leading-[0.9] italic uppercase">
+                {{ $pages['contact']->content['hero_title'] ?? 'Kemitraan & Konsultasi' }}
+            </h1>
+            <p class="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto leading-relaxed">
+                {{ $pages['contact']->content['hero_subtitle'] ?? 'Kami siap membantu Anda memulai perjalanan karir profesional di Jepang. Hubungi tim kami untuk konsultasi gratis.' }}
+            </p>
         </div>
     </header>
 
@@ -96,8 +100,12 @@
                 <div class="contact-form-col contact-reveal mt-12 lg:mt-0">
                     <div class="bg-white p-8 md:p-12 lg:p-16 rounded-[30px] md:rounded-[40px] shadow-2xl border border-slate-50 relative">
                         <div class="mb-10 md:mb-12 text-center md:text-left">
-                            <h3 class="text-3xl md:text-4xl font-black text-slate-900 mb-3 font-['Outfit'] tracking-tighter">Kirim Pesan</h3>
-                            <p class="text-sm md:text-base text-slate-500 font-medium leading-relaxed">Tim kami biasanya merespon dalam waktu kurang dari 24 jam.</p>
+                            <h3 class="text-3xl md:text-4xl font-black text-slate-900 mb-3 font-['Outfit'] tracking-tighter">
+                                {{ $pages['contact']->content['form_title'] ?? 'Kirim Pesan' }}
+                            </h3>
+                            <p class="text-sm md:text-base text-slate-500 font-medium leading-relaxed">
+                                {{ $pages['contact']->content['form_subtitle'] ?? 'Tim kami biasanya merespon dalam waktu kurang dari 24 jam.' }}
+                            </p>
                         </div>
 
                         @if(session('success'))
@@ -156,7 +164,9 @@
     <!-- 3. FOOTER QUOTE -->
     <footer class="py-16 md:py-24 border-t border-slate-100 text-center">
         <div class="container mx-auto px-6 contact-reveal">
-            <h2 class="text-3xl md:text-5xl font-black text-slate-900 mb-8 md:mb-10 font-['Outfit'] tracking-tighter leading-tight italic">Mari Bergabung <br /> Bersama Ribuan Alumni <span class="text-[#da291c]">Sukses</span> Kami</h2>
+            <h2 class="text-3xl md:text-5xl font-black text-slate-900 mb-8 md:mb-10 font-['Outfit'] tracking-tighter leading-tight italic">
+                {{ $pages['contact']->content['footer_quote'] ?? 'Mari Bergabung Bersama Ribuan Alumni Sukses Kami' }}
+            </h2>
             <div class="w-16 h-1.5 bg-[#da291c] mx-auto rounded-full"></div>
         </div>
     </footer>
