@@ -229,4 +229,13 @@ class UserContentController extends Controller
 
         return view('user.galeri', compact('galleryItems'));
     }
+
+    public function alumni()
+    {
+        $this->syncSharedContent();
+        
+        $alumni = \App\Models\Alumni::where('is_featured', true)->latest()->get();
+        
+        return view('user.alumni', compact('alumni'));
+    }
 }
