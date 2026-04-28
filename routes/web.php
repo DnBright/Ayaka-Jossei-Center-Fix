@@ -31,7 +31,7 @@ Route::get('/galeri', function () {
 
 Route::get('/blog', function () {
     return view('user.blog');
-});
+})->middleware('auth');
 
 Route::get('/alumni', function () {
     return view('user.alumni');

@@ -16,15 +16,30 @@ class UserSeeder extends Seeder
             [
                 'name' => 'Administrator Ayaka',
                 'password' => Hash::make('password'),
+                'role' => 'admin',
+                'is_approved' => true,
             ]
         );
 
         // Penulis
         User::updateOrCreate(
-            ['email' => 'penulis_ayaka'],
+            ['email' => 'penulis@ayakajosei.com'],
             [
                 'name' => 'Penulis Ayaka',
-                'password' => Hash::make('Ayaka@Penulis2026'),
+                'password' => Hash::make('password'),
+                'role' => 'penulis',
+                'is_approved' => true,
+            ]
+        );
+
+        // Sample User (Pending)
+        User::updateOrCreate(
+            ['email' => 'user@gmail.com'],
+            [
+                'name' => 'Sample User',
+                'password' => Hash::make('password'),
+                'role' => 'user',
+                'is_approved' => false,
             ]
         );
     }
