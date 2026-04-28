@@ -73,3 +73,24 @@ Route::get('/admin/users', function () {
 Route::get('/admin/pengaturan', function () {
     return view('admin.pengaturan');
 });
+
+// Penulis Routes
+Route::get('/penulis', function () {
+    return view('penulis.dashboard');
+});
+
+Route::get('/penulis/artikel', function () {
+    return view('penulis.artikel');
+});
+
+Route::get('/penulis/ebook', function () {
+    return view('penulis.ebook');
+});
+
+Route::get('/penulis/media', function () {
+    return view('penulis.media');
+});
+
+Route::get('/penulis/profile', function () {
+    return view('penulis.profile');
+});
