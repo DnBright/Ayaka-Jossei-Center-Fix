@@ -30,7 +30,7 @@
                                 </div>
                                 <div>
                                     <label class="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-2">Alamat Kantor</label>
-                                    <p class="text-base md:text-lg font-semibold text-slate-900 leading-snug">Jl. Raya Sukarno Hatta No. 123, Lowokwaru, Kota Malang, Jawa Timur</p>
+                                    <p class="text-base md:text-lg font-semibold text-slate-900 leading-snug">{{ $settings->site_address ?? 'Jl. Raya Sukarno Hatta No. 123, Lowokwaru, Kota Malang, Jawa Timur' }}</p>
                                 </div>
                             </div>
 
@@ -40,7 +40,7 @@
                                 </div>
                                 <div>
                                     <label class="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-2">WhatsApp Official</label>
-                                    <p class="text-base md:text-lg font-semibold text-slate-900 leading-snug">+62 812 3456 7890</p>
+                                    <p class="text-base md:text-lg font-semibold text-slate-900 leading-snug">{{ $settings->site_phone ?? '+62 812 3456 7890' }}</p>
                                 </div>
                             </div>
 
@@ -50,7 +50,7 @@
                                 </div>
                                 <div>
                                     <label class="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-2">Email Support</label>
-                                    <p class="text-base md:text-lg font-semibold text-slate-900 leading-snug">admin@ayakajosei.com</p>
+                                    <p class="text-base md:text-lg font-semibold text-slate-900 leading-snug">{{ $settings->site_email ?? 'admin@ayakajosei.com' }}</p>
                                 </div>
                             </div>
 
@@ -66,12 +66,14 @@
                         </div>
 
                         <div class="flex justify-center md:justify-start gap-4 mt-12 md:mt-16">
-                            @foreach(['Instagram', 'Facebook', 'TikTok'] as $sm)
-                                <a href="#" class="w-12 h-12 border border-slate-200 rounded-full flex items-center justify-center text-slate-900 hover:bg-[#da291c] hover:text-white hover:border-[#da291c] transition-all">
-                                    <span class="sr-only">{{ $sm }}</span>
+                                <a href="{{ $settings->instagram_url ?? '#' }}" target="_blank" class="w-12 h-12 border border-slate-200 rounded-full flex items-center justify-center text-slate-900 hover:bg-[#da291c] hover:text-white hover:border-[#da291c] transition-all">
+                                    <span class="sr-only">Instagram</span>
                                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-6h2v6zm-1-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm5 7h-2v-3.5c0-1.1-.9-2-2-2s-2 .9-2 2V17h-2v-6h2v1.07c.73-.7 1.76-1.07 2.85-1.07 2.21 0 4 1.79 4 4V17z"></path></svg>
                                 </a>
-                            @endforeach
+                                <a href="{{ $settings->facebook_url ?? '#' }}" target="_blank" class="w-12 h-12 border border-slate-200 rounded-full flex items-center justify-center text-slate-900 hover:bg-[#da291c] hover:text-white hover:border-[#da291c] transition-all">
+                                    <span class="sr-only">Facebook</span>
+                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.312h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.324v-21.35c0-.732-.593-1.325-1.325-1.325z"></path></svg>
+                                </a>
                         </div>
                     </div>
 
@@ -98,31 +100,38 @@
                             <p class="text-sm md:text-base text-slate-500 font-medium leading-relaxed">Tim kami biasanya merespon dalam waktu kurang dari 24 jam.</p>
                         </div>
 
-                        <form action="#" class="space-y-6 md:space-y-8">
+                        @if(session('success'))
+                            <div class="mb-10 p-5 bg-emerald-50 text-emerald-700 rounded-2xl font-bold text-sm border border-emerald-100 animate-in fade-in slide-in-from-top-4 duration-500">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+
+                        <form action="{{ route('kontak.store') }}" method="POST" class="space-y-6 md:space-y-8">
+                            @csrf
                             <div class="space-y-3">
                                 <label class="text-sm font-bold text-slate-900">Nama Lengkap</label>
-                                <input type="text" placeholder="Masukkan nama Anda" class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 focus:outline-none focus:border-[#da291c] focus:bg-white transition-all text-sm">
+                                <input type="text" name="name" required placeholder="Masukkan nama Anda" value="{{ old('name') }}" class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 focus:outline-none focus:border-[#da291c] focus:bg-white transition-all text-sm">
                             </div>
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                                 <div class="space-y-3">
                                     <label class="text-sm font-bold text-slate-900">Email Kontak</label>
-                                    <input type="email" placeholder="example@email.com" class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 focus:outline-none focus:border-[#da291c] focus:bg-white transition-all text-sm">
+                                    <input type="email" name="email" required placeholder="example@email.com" value="{{ old('email') }}" class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 focus:outline-none focus:border-[#da291c] focus:bg-white transition-all text-sm">
                                 </div>
                                 <div class="space-y-3">
                                     <label class="text-sm font-bold text-slate-900">Subjek</label>
-                                    <select class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 focus:outline-none focus:border-[#da291c] focus:bg-white transition-all appearance-none text-sm">
+                                    <select name="subject" required class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 focus:outline-none focus:border-[#da291c] focus:bg-white transition-all appearance-none text-sm">
                                         <option value="">Pilih Subjek</option>
-                                        <option value="konsultasi">Konsultasi Program</option>
-                                        <option value="pendaftaran">Pendaftaran</option>
-                                        <option value="umum">Pertanyaan Umum</option>
+                                        <option value="Konsultasi Program">Konsultasi Program</option>
+                                        <option value="Pendaftaran">Pendaftaran</option>
+                                        <option value="Pertanyaan Umum">Pertanyaan Umum</option>
                                     </select>
                                 </div>
                             </div>
 
                             <div class="space-y-3">
                                 <label class="text-sm font-bold text-slate-900">Pesan Anda</label>
-                                <textarea rows="5" placeholder="Tuliskan pesan atau pertanyaan Anda di sini..." class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 focus:outline-none focus:border-[#da291c] focus:bg-white transition-all resize-none text-sm"></textarea>
+                                <textarea name="message" rows="5" required placeholder="Tuliskan pesan atau pertanyaan Anda di sini..." class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 focus:outline-none focus:border-[#da291c] focus:bg-white transition-all resize-none text-sm">{{ old('message') }}</textarea>
                             </div>
 
                             <button type="submit" class="w-full bg-slate-900 text-white py-5 rounded-2xl font-black uppercase tracking-widest text-sm flex items-center justify-center gap-4 hover:bg-[#da291c] transition-all shadow-xl group">

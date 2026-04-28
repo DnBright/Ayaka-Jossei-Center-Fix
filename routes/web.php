@@ -28,8 +28,8 @@ Route::get('/program', function () {
 
 Route::get('/galeri', [UserContentController::class, 'galeri']);
 
-Route::get('/blog', [UserContentController::class, 'blog'])->middleware('auth');
-Route::get('/blog/{slug}', [UserContentController::class, 'showArticle'])->middleware('auth')->name('blog.show');
+Route::get('/blog', [UserContentController::class, 'blog'])->name('blog.index');
+Route::get('/blog/{slug}', [UserContentController::class, 'showArticle'])->name('blog.show');
 
 Route::get('/alumni', function () {
     return view('user.alumni');

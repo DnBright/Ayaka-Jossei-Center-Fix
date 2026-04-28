@@ -123,17 +123,35 @@ class UserContentController extends Controller
         }
     }
 
-    public function blog()
+    public function blog(\Illuminate\Http\Request $request)
     {
         $this->syncSharedContent();
 
-        $featuredArticle = Article::with('category')->where('status', 'published')->latest()->first();
-        $regularArticles = Article::with('category')
+        $search = $request->input('search');
+        $categoryName = $request->input('category');
+
+        $query = Article::with('category')
             ->where('status', 'published')
-            ->when($featuredArticle, fn ($q) => $q->where('id', '!=', $featuredArticle->id))
+            ->when($search, function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                  ->orWhere('content', 'like', "%{$search}%");
+            })
+            ->when($categoryName && $categoryName !== 'Semua', function ($q) use ($categoryName) {
+                $q->whereHas('category', function ($cq) use ($categoryName) {
+                    $cq->where('name', $categoryName);
+                });
+            });
+
+        // Get Featured Article (only on first page without filters)
+        $featuredArticle = null;
+        if (!$search && (!$categoryName || $categoryName === 'Semua') && $request->input('page', 1) == 1) {
+            $featuredArticle = (clone $query)->latest()->first();
+        }
+
+        $regularArticles = $query->when($featuredArticle, fn ($q) => $q->where('id', '!=', $featuredArticle->id))
             ->latest()
-            ->take(4)
-            ->get();
+            ->paginate(6)
+            ->withQueryString();
 
         $categories = Category::orderBy('name')->pluck('name')->toArray();
 
