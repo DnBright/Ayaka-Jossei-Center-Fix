@@ -18,12 +18,12 @@ jobs:
         server: ${{ secrets.FTP_SERVER }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
-        # Disesuaikan dengan folder Addon Domain Anda di cPanel
+        # Memastikan ke folder yang tepat untuk domain ayakajosseicenter.com
         server-dir: public_html/ayaka_men/
         exclude: |
           **/.git*
           **/.git*/**
           **/node_modules/**
+          **/vendor/**
           **/tests/**
           .env
-
