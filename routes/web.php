@@ -8,7 +8,7 @@ Route::get('/', function () {
 });
 
 // Auth Routes
-Route::get('/login', [AuthController::class, 'showAdminLogin'])->name('login');
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
 Route::get('/admin/login', [AuthController::class, 'showAdminLogin'])->name('login.admin');
@@ -42,7 +42,7 @@ Route::get('/kontak', function () {
 
 Route::get('/ebook', function () {
     return view('user.ebook');
-});
+})->middleware('auth');
 
 Route::middleware('auth')->group(function () {
     Route::get('/admin', function () {
