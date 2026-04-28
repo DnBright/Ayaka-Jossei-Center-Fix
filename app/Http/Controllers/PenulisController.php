@@ -44,9 +44,22 @@ class PenulisController extends Controller
         return view('penulis.ebook', compact('ebooks'));
     }
 
-    public function media()
+    public function media(Request $request)
     {
-        $media = Media::latest()->paginate(12);
+        $search = $request->input('search');
+        $type = $request->input('type');
+
+        $media = Media::latest()
+            ->when($search, function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                  ->orWhere('original_name', 'like', "%{$search}%");
+            })
+            ->when($type && $type !== 'all', function ($q) use ($type) {
+                $q->where('type', $type);
+            })
+            ->paginate(18)
+            ->withQueryString();
+
         return view('penulis.media', compact('media'));
     }
 
