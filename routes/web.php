@@ -97,11 +97,15 @@ Route::middleware(['auth:penulis', 'role:penulis'])->group(function () {
 // Emergency Migration Route
 Route::get('/run-migrate', function () {
     try {
-        // Gunakan Raw SQL untuk memastikan perubahan terjadi
-        \Illuminate\Support\Facades\DB::statement('ALTER TABLE articles MODIFY featured_image TEXT');
-        return "Database dipaksa diperbarui menggunakan RAW SQL! Silakan coba simpan artikel lagi.";
+        // Gunakan Raw SQL untuk memastikan perubahan terjadi di server produksi
+        \Illuminate\Support\Facades\DB::statement('ALTER TABLE articles ADD COLUMN is_member_only TINYINT(1) DEFAULT 0 AFTER status');
+        return "Database berhasil diperbarui! Kolom 'is_member_only' telah ditambahkan. Silakan coba simpan artikel lagi.";
     } catch (\Exception $e) {
-        return "Gagal migrasi paksa: " . $e->getMessage();
+        // Jika kolom sudah ada, abaikan errornya
+        if (str_contains($e->getMessage(), 'Duplicate column name')) {
+            return "Kolom 'is_member_only' sudah ada di database. Sistem aman digunakan.";
+        }
+        return "Gagal update database: " . $e->getMessage();
     }
 });
 
