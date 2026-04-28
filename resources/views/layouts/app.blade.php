@@ -320,6 +320,17 @@
             });
         @endif
 
+        // Global Info/Redirect Notifications
+        @if(session('info'))
+            Swal.fire({
+                icon: 'info',
+                title: 'Akses Terbatas',
+                text: '{{ session('info') }}',
+                confirmButtonColor: '#da291c',
+                confirmButtonText: 'Saya Mengerti'
+            });
+        @endif
+
         // Global Success/Status Notifications
         @if(session('success') || session('status'))
             Swal.fire({

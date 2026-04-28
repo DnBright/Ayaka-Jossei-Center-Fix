@@ -205,6 +205,11 @@ class UserContentController extends Controller
 
     public function ebook(\Illuminate\Http\Request $request)
     {
+        // Proteksi Halaman: Wajib Login
+        if (!auth()->check()) {
+            return redirect()->route('login')->with('info', 'Silakan mendaftar atau login terlebih dahulu untuk mengakses koleksi E-Book materi eksklusif Ayaka Josei Center.');
+        }
+
         $this->syncSharedContent();
 
         $search = $request->input('search');
@@ -215,7 +220,7 @@ class UserContentController extends Controller
                   ->orWhere('description', 'like', "%{$search}%");
             })
             ->latest()
-            ->paginate(6)
+            ->paginate(9)
             ->withQueryString();
 
         return view('user.ebook', compact('ebooks'));
