@@ -107,8 +107,20 @@ class PageController extends Controller
             'content' => 'required|array',
         ]);
 
+        $content = $request->content;
+
+        // Handle File Uploads for Image Keys
+        if ($request->hasFile('content_files')) {
+            foreach ($request->file('content_files') as $key => $file) {
+                if ($file->isValid()) {
+                    $path = $file->store('pages', 'public');
+                    $content[$key] = \Illuminate\Support\Facades\Storage::url($path);
+                }
+            }
+        }
+
         $page->update([
-            'content' => $request->content
+            'content' => $content
         ]);
 
         return back()->with('success', 'Konten halaman berhasil diperbarui.');

@@ -23,16 +23,24 @@
     @endif
 
     <!-- Toolbar -->
-    <div class="bg-white rounded-[24px] p-4 border border-slate-100 shadow-sm mb-10 flex flex-col lg:flex-row justify-between items-center gap-6">
-        <div class="relative flex-1 w-full lg:max-w-md">
-            <i data-lucide="search" class="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5"></i>
-            <input type="text" placeholder="Telusuri aset media..." class="w-full pl-14 pr-6 py-3.5 bg-slate-50 border border-slate-100 rounded-xl text-sm focus:outline-none focus:border-[#da291c] transition-all">
-        </div>
-        <div class="flex items-center gap-4 w-full lg:w-auto">
-            <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                {{ $media->total() }} Assets
+    <div class="bg-white rounded-[24px] p-4 border border-slate-100 shadow-sm mb-10">
+        <form action="{{ route('admin.media.index') }}" method="GET" class="flex flex-col lg:flex-row justify-between items-center gap-6">
+            <div class="relative flex-1 w-full lg:max-w-md">
+                <i data-lucide="search" class="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5"></i>
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Telusuri aset media..." class="w-full pl-14 pr-6 py-3.5 bg-slate-50 border border-slate-100 rounded-xl text-sm focus:outline-none focus:border-[#da291c] transition-all">
             </div>
-        </div>
+            <div class="flex items-center gap-4 w-full lg:w-auto">
+                <select name="type" onchange="this.form.submit()" class="px-6 py-3.5 bg-slate-50 border border-slate-100 rounded-xl text-xs font-black uppercase tracking-widest focus:outline-none focus:border-[#da291c] transition-all">
+                    <option value="all">Semua Kategori</option>
+                    <option value="gallery" {{ request('type') == 'gallery' ? 'selected' : '' }}>Galeri</option>
+                    <option value="banner" {{ request('type') == 'banner' ? 'selected' : '' }}>Banner</option>
+                    <option value="content" {{ request('type') == 'content' ? 'selected' : '' }}>Konten</option>
+                </select>
+                <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest bg-slate-50 px-4 py-3.5 rounded-xl border border-slate-100">
+                    {{ $media->total() }} Assets
+                </div>
+            </div>
+        </form>
     </div>
 
     <!-- Media Grid -->
@@ -61,7 +69,7 @@
                 <div class="p-4">
                     <h5 class="text-[11px] font-black text-slate-900 truncate mb-1" title="{{ $item->title }}">{{ $item->title }}</h5>
                     <div class="flex items-center justify-between text-[9px] font-bold text-slate-400 uppercase tracking-widest">
-                        <span>{{ round(($item->file_size ?? 0) / 1024, 2) }} KB</span>
+                        <span>{{ round(($item->file_size ?? 0) / 1024, 1) }} KB</span>
                         <span class="w-1 h-1 bg-slate-200 rounded-full"></span>
                         <span>{{ $item->created_at->format('d/m/y') }}</span>
                     </div>
