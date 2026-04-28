@@ -9,32 +9,24 @@ class SettingController extends Controller
 {
     public function index()
     {
-        $setting = Setting::firstOrCreate([], [
-            'site_name' => 'Ayaka Josei Center',
-            'site_tagline' => '',
-            'site_description' => '',
-            'instagram_url' => '',
-            'facebook_url' => '',
-        ]);
-
-        $settings = $setting->toArray();
-
+        $settings = Setting::pluck('value', 'key')->toArray();
         return view('admin.pengaturan', compact('settings'));
     }
 
     public function update(Request $request)
     {
-        $validated = $request->validate([
-            'site_name' => 'required|string|max:255',
-            'site_tagline' => 'nullable|string|max:255',
-            'site_description' => 'nullable|string|max:1000',
-            'instagram_url' => 'nullable|string|max:255',
-            'facebook_url' => 'nullable|string|max:255',
+        $data = $request->only([
+            'site_name', 'site_tagline', 'site_description',
+            'instagram_url', 'facebook_url',
         ]);
 
-        $setting = Setting::firstOrCreate([]);
-        $setting->update($validated);
+        foreach ($data as $key => $value) {
+            Setting::updateOrCreate(
+                ['key' => $key],
+                ['value' => $value]
+            );
+        }
 
-        return back()->with('success', 'Pengaturan website berhasil diperbarui.');
+        return back()->with('success', 'Pengaturan website berhasil disimpan.');
     }
 }

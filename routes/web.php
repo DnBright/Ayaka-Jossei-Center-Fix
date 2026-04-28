@@ -29,6 +29,7 @@ Route::get('/program', function () {
 Route::get('/galeri', [UserContentController::class, 'galeri']);
 
 Route::get('/blog', [UserContentController::class, 'blog'])->middleware('auth');
+Route::get('/blog/{slug}', [UserContentController::class, 'showArticle'])->middleware('auth')->name('blog.show');
 
 Route::get('/alumni', function () {
     return view('user.alumni');
@@ -39,6 +40,7 @@ Route::get('/kontak', function () {
 });
 
 Route::get('/ebook', [UserContentController::class, 'ebook'])->middleware('auth');
+Route::get('/ebook/download/{id}', [UserContentController::class, 'downloadEbook'])->middleware('auth')->name('ebook.download');
 
 Route::middleware('auth')->group(function () {
     Route::get('/admin', [App\Http\Controllers\AdminController::class, 'dashboard'])->name('admin.dashboard');
