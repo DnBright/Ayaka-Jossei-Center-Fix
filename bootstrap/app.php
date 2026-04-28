@@ -12,6 +12,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->alias([
+            'role' => \App\Http\Middleware\RoleMiddleware::class,
+        ]);
+
         $middleware->web(append: [
             \App\Http\Middleware\EnsureApproved::class,
         ]);
@@ -23,7 +27,7 @@ return Application::configure(basePath: dirname(__DIR__))
             if ($request->is('penulis') || $request->is('penulis/*')) {
                 return route('login.penulis');
             }
-            return route('login.admin'); // Default
+            return route('login'); // Default ke login umum
         });
     })
     ->withExceptions(function (Exceptions $exceptions): void {

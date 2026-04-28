@@ -41,7 +41,7 @@ Route::post('/kontak', [App\Http\Controllers\CommunicationController::class, 'st
 Route::get('/ebook', [UserContentController::class, 'ebook'])->name('ebook.index');
 Route::get('/ebook/download/{id}', [UserContentController::class, 'downloadEbook'])->middleware('auth')->name('ebook.download');
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin', [App\Http\Controllers\AdminController::class, 'dashboard'])->name('admin.dashboard');
 
     Route::get('/admin/artikel', [App\Http\Controllers\ArticleController::class, 'index'])->name('admin.artikel.index');
@@ -78,7 +78,7 @@ Route::middleware('auth')->group(function () {
 });
 
 // Penulis Routes
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'role:penulis'])->group(function () {
     Route::get('/penulis', function () {
         return view('penulis.dashboard');
     });
