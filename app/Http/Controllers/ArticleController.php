@@ -56,7 +56,7 @@ class ArticleController extends Controller
         $article = Article::findOrFail($id);
         
         // Security: Penulis only can edit their own articles
-        if (Auth::user()->role === 'penulis' && $article->author_id !== Auth::id()) {
+        if (Auth::user()->role === 'penulis' && $article->author_id != Auth::user()->id) {
             abort(403, 'Anda tidak memiliki akses untuk mengedit artikel ini.');
         }
 
@@ -102,7 +102,7 @@ class ArticleController extends Controller
             'slug' => Str::slug($request->title) . '-' . uniqid(),
             'content' => $request->content,
             'featured_image' => $imagePath,
-            'author_id' => Auth::id(),
+            'author_id' => Auth::user()->id,
             'category_id' => $categoryId,
             'status' => $request->status,
             'is_member_only' => $request->boolean('is_member_only'),
