@@ -8,6 +8,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;900&family=Cormorant+Garamond:ital,wght@1,700&display=swap" rel="stylesheet">
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
+        /* Hide Google Translate original UI */
+        .goog-te-banner-frame.skiptranslate, .goog-te-gadget-icon { display: none !important; }
+        body { top: 0px !important; }
+        .goog-te-menu-value { display: none !important; }
+        #google_translate_element { display: none; }
+        .skiptranslate iframe { display: none !important; }
+    </style>
+    <style>
         [x-cloak] { display: none !important; }
     </style>
 </head>
@@ -180,7 +188,53 @@
         </div>
     </footer>
 
-    <!-- Floating Actions -->
+    <!-- Custom Translator UI -->
+    <div x-data="{ open: false, currentLang: 'Indonesia' }" class="fixed bottom-8 left-8 z-[100]">
+        <!-- Floating Button -->
+        <button @click="open = !open" class="w-14 h-14 bg-white rounded-full flex items-center justify-center shadow-2xl border border-slate-100 hover:scale-110 transition-transform group relative">
+            <svg class="w-6 h-6 text-slate-900 group-hover:text-[#da291c] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path></svg>
+            <span class="absolute -top-1 -right-1 w-4 h-4 bg-[#da291c] rounded-full border-2 border-white"></span>
+        </button>
+
+        <!-- Language Menu (Matching Image Design) -->
+        <div x-show="open" 
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 translate-y-10 scale-95"
+             x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+             x-transition:leave-end="opacity-0 translate-y-10 scale-95"
+             @click.outside="open = false"
+             x-cloak
+             class="absolute bottom-20 left-0 w-64 bg-white rounded-[32px] shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-slate-100 overflow-hidden py-4 p-2">
+            
+            <div class="space-y-1 max-h-[400px] overflow-y-auto custom-scrollbar">
+                @php
+                    $langs = [
+                        ['id', 'Indonesia', '🇮🇩'],
+                        ['ar', 'Arabic', '🇸🇦'],
+                        ['zh-CN', 'Chinese', '🇨🇳'],
+                        ['en', 'English', '🇬🇧'],
+                        ['fr', 'French', '🇫🇷'],
+                        ['de', 'German', '🇩🇪'],
+                        ['ko', 'Korean', '🇰🇷'],
+                        ['es', 'Spanish', '🇪🇸']
+                    ];
+                @endphp
+
+                @foreach($langs as $l)
+                    <button @click="changeLanguage('{{ $l[0] }}'); currentLang = '{{ $l[1] }}'; open = false" 
+                            class="w-full flex items-center gap-4 px-6 py-4 rounded-2xl transition-all group text-left"
+                            :class="currentLang === '{{ $l[1] }}' ? 'bg-[#da291c] text-white shadow-lg shadow-red-900/20' : 'text-slate-600 hover:bg-slate-50'">
+                        <span class="text-xl">{{ $l[2] }}</span>
+                        <span class="font-bold text-sm tracking-tight">{{ $l[1] }}</span>
+                    </button>
+                @endforeach
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Actions (Right) -->
     <div class="fixed bottom-8 right-8 z-[100] flex flex-col gap-4">
         <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $settings->site_phone ?? '6281542007626') }}" target="_blank" class="w-14 h-14 bg-green-500 rounded-full flex items-center justify-center shadow-2xl shadow-green-900/40 hover:scale-110 transition-transform">
             <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.767 5.767 0 1.261.405 2.422 1.096 3.369l-1.096 3.193 3.267-1.07c.92.582 2.01.928 3.181.928 3.181 0 5.767-2.586 5.767-5.767 0-3.181-2.586-5.767-5.767-5.767zm3.38 8.136c-.147.412-.729.743-1.002.793-.243.044-.56.079-1.425-.262-1.096-.433-1.802-1.545-1.857-1.618-.055-.073-.442-.587-.442-1.129 0-.541.284-.807.385-.918.101-.111.22-.138.294-.138.074 0 .147.001.211.004.067.003.158-.026.248.188.091.214.312.763.34 0 .027.214.046.303.018.067-.028.147-.042.22-.111s.303-.294.385-.385c.083-.092.166-.156.276-.064.11.092.735.361.855.421.12.06.2.091.248.174.048.083.048.48-.099.892z"></path></svg>
@@ -189,5 +243,27 @@
             <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
         </a>
     </div>
+
+    <!-- Google Translate Engine (Hidden) -->
+    <div id="google_translate_element"></div>
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'id',
+                includedLanguages: 'id,ar,zh-CN,en,fr,de,ko,es',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+
+        function changeLanguage(langCode) {
+            var select = document.querySelector('select.goog-te-combo');
+            if (select) {
+                select.value = langCode;
+                select.dispatchEvent(new Event('change'));
+            }
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 </html>

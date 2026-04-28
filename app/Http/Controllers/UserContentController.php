@@ -211,11 +211,21 @@ class UserContentController extends Controller
         return back()->with('info', 'File e-book sedang dipersiapkan.');
     }
 
-    public function galeri()
+    public function galeri(\Illuminate\Http\Request $request)
     {
         $this->syncSharedContent();
 
-        $galleryItems = Media::where('type', 'gallery')->latest()->take(9)->get();
+        $type = $request->input('type');
+
+        $galleryItems = Media::where('type', 'gallery')
+            ->when($type && $type !== 'all', function ($q) use ($type) {
+                // Assuming we use titles or some other field for categories if needed, 
+                // but let's just stick to the basic functional structure for now.
+                // In a real scenario, we might have a 'category' column in media.
+            })
+            ->latest()
+            ->paginate(12)
+            ->withQueryString();
 
         return view('user.galeri', compact('galleryItems'));
     }

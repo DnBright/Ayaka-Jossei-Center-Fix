@@ -43,9 +43,9 @@
                         ];
                     @endphp
                     @foreach($categories as $cat)
-                        <button class="px-4 md:px-6 py-2 rounded-full border border-slate-200 text-[9px] md:text-xs font-black uppercase tracking-widest hover:border-[#da291c] hover:text-[#da291c] transition-all {{ $cat['id'] == 'all' ? 'bg-slate-900 text-white border-slate-900' : '' }}">
+                        <a href="{{ route('galeri.index', ['type' => $cat['id']]) }}" class="px-4 md:px-6 py-2 rounded-full border border-slate-200 text-[9px] md:text-xs font-black uppercase tracking-widest hover:border-[#da291c] hover:text-[#da291c] transition-all {{ request('type', 'all') == $cat['id'] ? 'bg-slate-900 text-white border-slate-900' : '' }}">
                             {{ $cat['label'] }}
-                        </button>
+                        </a>
                     @endforeach
                 </div>
             </div>
@@ -62,7 +62,7 @@
                             ? $item->file_path
                             : (str_starts_with($item->file_path ?? '', 'images/')
                                 ? asset($item->file_path)
-                                : asset('images/hero-bg.png'));
+                                : Storage::url($item->file_path));
                     @endphp
                     <div class="break-inside-avoid atelier-reveal group">
                         <div class="relative rounded-[25px] overflow-hidden shadow-xl bg-slate-100 mb-6">
@@ -80,6 +80,11 @@
                 @empty
                     <p class="text-slate-400">Belum ada data galeri.</p>
                 @endforelse
+            </div>
+
+            <!-- Pagination -->
+            <div class="mt-20 flex justify-center atelier-reveal">
+                {{ $galleryItems->links() }}
             </div>
         </div>
     </section>

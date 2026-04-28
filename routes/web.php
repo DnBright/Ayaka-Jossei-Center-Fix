@@ -26,7 +26,7 @@ Route::get('/program', function () {
     return view('user.program');
 });
 
-Route::get('/galeri', [UserContentController::class, 'galeri']);
+Route::get('/galeri', [UserContentController::class, 'galeri'])->name('galeri.index');
 
 Route::get('/blog', [UserContentController::class, 'blog'])->name('blog.index');
 Route::get('/blog/{slug}', [UserContentController::class, 'showArticle'])->name('blog.show');
