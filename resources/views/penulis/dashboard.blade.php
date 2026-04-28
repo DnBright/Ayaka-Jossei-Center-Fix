@@ -1,0 +1,102 @@
+@extends('layouts.penulis')
+
+@section('page-title', 'Dashboard Penulis')
+
+@section('content')
+<div class="dashboard-container">
+    <!-- Welcome Area -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6">
+        <div class="flex items-center gap-6">
+            <div class="w-16 h-16 bg-gradient-to-br from-[#da291c] to-[#991b1b] rounded-2xl flex items-center justify-center text-white text-2xl font-black shadow-xl shadow-red-900/20">
+                P
+            </div>
+            <div>
+                <h1 class="text-3xl font-black text-slate-900 tracking-tight">Selamat Datang, Penulis</h1>
+                <p class="text-slate-500 font-medium mt-1">Pantau performa artikel dan materi yang Anda publikasikan.</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-3 bg-white px-5 py-3 rounded-2xl border border-slate-200 shadow-sm text-slate-500 font-bold text-sm">
+            <i data-lucide="calendar" class="w-4 h-4"></i>
+            {{ date('d F Y') }}
+        </div>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        <div class="bg-white p-6 rounded-[24px] border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group overflow-hidden relative">
+            <div class="flex flex-col gap-4 relative z-10">
+                <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <i data-lucide="file-text"></i>
+                </div>
+                <div>
+                    <span class="block text-3xl font-black text-slate-900 leading-none mb-2">12</span>
+                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Artikel Saya</span>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white p-6 rounded-[24px] border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group overflow-hidden relative">
+            <div class="flex flex-col gap-4 relative z-10">
+                <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <i data-lucide="eye"></i>
+                </div>
+                <div>
+                    <span class="block text-3xl font-black text-slate-900 leading-none mb-2">4.5k</span>
+                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Total Pembaca</span>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white p-6 rounded-[24px] border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group overflow-hidden relative">
+            <div class="flex flex-col gap-4 relative z-10">
+                <div class="w-12 h-12 rounded-xl bg-violet-50 text-violet-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <i data-lucide="book-open"></i>
+                </div>
+                <div>
+                    <span class="block text-3xl font-black text-slate-900 leading-none mb-2">8</span>
+                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">E-Book Materi</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="bg-white rounded-[32px] border border-slate-100 shadow-sm overflow-hidden flex flex-col">
+        <div class="px-8 py-6 border-b border-slate-50 flex justify-between items-center bg-slate-50/50">
+            <h3 class="font-black text-slate-900 flex items-center gap-3">
+                <i data-lucide="clock" class="w-5 h-5 text-[#da291c]"></i>
+                Aktivitas Artikel Terakhir
+            </h3>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-slate-50/30">
+                        <th class="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-50">Judul</th>
+                        <th class="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-50">Status</th>
+                        <th class="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-50">Views</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-50">
+                    @php
+                        $articles = [
+                            ['title' => 'Panduan Hidup Hemat di Tokyo', 'status' => 'Published', 'views' => 1200],
+                            ['title' => 'Cara Membuat Resume Bahasa Jepang (Rirekisho)', 'status' => 'Pending', 'views' => 0],
+                            ['title' => 'Budaya Kerja di Perusahaan Kaigo Jepang', 'status' => 'Published', 'views' => 850],
+                        ];
+                    @endphp
+                    @foreach($articles as $art)
+                    <tr class="hover:bg-slate-50/50 transition-colors">
+                        <td class="px-8 py-5 font-bold text-slate-700">{{ $art['title'] }}</td>
+                        <td class="px-8 py-5">
+                            <span class="text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest {{ $art['status'] == 'Published' ? 'bg-emerald-50 text-emerald-600' : 'bg-amber-50 text-amber-600' }}">
+                                {{ $art['status'] }}
+                            </span>
+                        </td>
+                        <td class="px-8 py-5 font-black text-blue-600">{{ $art['views'] }}</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@endsection
