@@ -183,11 +183,20 @@ class UserContentController extends Controller
         return view('user.artikel-detail', compact('article', 'relatedArticles'));
     }
 
-    public function ebook()
+    public function ebook(\Illuminate\Http\Request $request)
     {
         $this->syncSharedContent();
 
-        $ebooks = Ebook::where('is_active', true)->latest()->take(6)->get();
+        $search = $request->input('search');
+
+        $ebooks = Ebook::where('is_active', true)
+            ->when($search, function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%");
+            })
+            ->latest()
+            ->paginate(6)
+            ->withQueryString();
 
         return view('user.ebook', compact('ebooks'));
     }
