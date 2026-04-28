@@ -190,6 +190,11 @@ class UserContentController extends Controller
             ->where('status', 'published')
             ->firstOrFail();
 
+        // Proteksi Konten: Wajib Login jika is_member_only = true
+        if ($article->is_member_only && !auth()->check()) {
+            return redirect()->route('login')->with('info', 'Jurnal ini bersifat eksklusif. Silakan login atau daftarkan akun Anda untuk membaca konten lengkapnya.');
+        }
+
         $article->increment('views_count');
 
         $relatedArticles = Article::with('category')

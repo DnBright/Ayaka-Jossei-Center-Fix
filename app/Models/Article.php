@@ -14,6 +14,7 @@ class Article extends Model
         'author_id',
         'category_id',
         'status',
+        'is_member_only',
         'views_count',
     ];
 

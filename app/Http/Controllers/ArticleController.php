@@ -105,6 +105,7 @@ class ArticleController extends Controller
             'author_id' => Auth::id(),
             'category_id' => $categoryId,
             'status' => $request->status,
+            'is_member_only' => $request->boolean('is_member_only'),
         ]);
 
         $redirectRoute = Auth::user()->role === 'admin' ? 'admin.artikel.index' : 'penulis.artikel.index';
@@ -151,6 +152,7 @@ class ArticleController extends Controller
             'content' => $request->content,
             'category_id' => $categoryId,
             'status' => $request->status,
+            'is_member_only' => $request->boolean('is_member_only'),
         ]);
 
         $redirectRoute = Auth::user()->role === 'admin' ? 'admin.artikel.index' : 'penulis.artikel.index';

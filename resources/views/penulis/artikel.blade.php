@@ -35,7 +35,14 @@
                                     <i data-lucide="file-text" class="w-5 h-5"></i>
                                 </div>
                                 <div>
-                                    <div class="font-bold text-slate-900 group-hover:text-[#da291c] transition-colors line-clamp-1">{{ $art->title }}</div>
+                                    <div class="flex items-center gap-2">
+                                        <div class="font-bold text-slate-900 group-hover:text-[#da291c] transition-colors line-clamp-1">{{ $art->title }}</div>
+                                        @if($art->is_member_only)
+                                            <span class="bg-red-50 text-[#da291c] px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-wider border border-red-100 flex items-center gap-1 shrink-0">
+                                                <i data-lucide="lock" class="w-2.5 h-2.5"></i> Eksklusif
+                                            </span>
+                                        @endif
+                                    </div>
                                     <div class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Oleh: {{ $art->author->name ?? 'System' }}</div>
                                 </div>
                             </div>

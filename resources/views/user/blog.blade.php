@@ -51,19 +51,34 @@
                 <!-- Featured Article -->
                 @if($featuredArticle)
                     @php
+                        $isFeaturedMemberOnly = $featuredArticle->is_member_only;
                         $featuredImage = str_starts_with($featuredArticle->featured_image ?? '', 'http')
                             ? $featuredArticle->featured_image
                             : (str_starts_with($featuredArticle->featured_image ?? '', 'images/')
                                 ? asset($featuredArticle->featured_image)
                                 : asset('images/hero-bg.png'));
                     @endphp
-                    <article class="lg:col-span-2 group journal-reveal">
-                        <a href="{{ route('blog.show', $featuredArticle->slug) }}" class="block">
-                            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start border-b-4 border-slate-900 pb-12">
-                                <div class="lg:col-span-7 rounded-lg overflow-hidden aspect-[16/10] bg-slate-100">
+                    <article class="lg:col-span-2 group journal-reveal relative">
+                        <a href="{{ ($isFeaturedMemberOnly && !Auth::check()) ? route('login') : route('blog.show', $featuredArticle->slug) }}" class="block">
+                            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start border-b-4 border-slate-900 pb-12 relative">
+                                <div class="lg:col-span-7 rounded-lg overflow-hidden aspect-[16/10] bg-slate-100 relative">
                                     <img src="{{ $featuredImage }}" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-105" alt="Featured">
+                                    
+                                    @if($isFeaturedMemberOnly && !Auth::check())
+                                        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm flex flex-col items-center justify-center p-6 z-10">
+                                            <svg class="w-12 h-12 text-white mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                                            <span class="text-white text-xs font-black uppercase tracking-widest text-center">Eksklusif: Login Untuk Membaca</span>
+                                        </div>
+                                    @endif
+                                    
+                                    @if($isFeaturedMemberOnly)
+                                        <span class="absolute top-4 right-4 bg-[#da291c] text-white px-4 py-2 text-[10px] font-black uppercase tracking-widest z-20 flex items-center gap-2 shadow-xl">
+                                            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                                            Member Only
+                                        </span>
+                                    @endif
                                 </div>
-                                <div class="lg:col-span-5 text-center lg:text-left">
+                                <div class="lg:col-span-5 text-center lg:text-left relative z-10">
                                     <div class="flex justify-center lg:justify-start gap-4 mb-6 text-[10px] font-black uppercase tracking-widest text-slate-400">
                                         <span class="flex items-center gap-2"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg> {{ $featuredArticle->created_at->format('M d, Y') }}</span>
                                         <span class="text-[#da291c]">{{ number_format($featuredArticle->views_count) }} Views</span>
@@ -80,7 +95,7 @@
                 <!-- Regular Articles -->
                 @forelse($regularArticles as $i => $article)
                     @php
-                        $isMemberOnly = ($i + 1) % 2 == 0;
+                        $isMemberOnly = $article->is_member_only;
                         $articleImage = str_starts_with($article->featured_image ?? '', 'http')
                             ? $article->featured_image
                             : (str_starts_with($article->featured_image ?? '', 'images/')
@@ -88,7 +103,7 @@
                                 : asset('images/hero-bg.png'));
                     @endphp
                     <article class="group journal-reveal border-b border-slate-100 pb-12 text-center lg:text-left relative">
-                        <a href="{{ ($isMemberOnly && !Auth::check()) ? route('register') : route('blog.show', $article->slug) }}" class="block">
+                        <a href="{{ ($isMemberOnly && !Auth::check()) ? route('login') : route('blog.show', $article->slug) }}" class="block">
                             <div class="aspect-video rounded-lg overflow-hidden mb-8 bg-slate-100 relative">
                                 <img src="{{ $articleImage }}" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000" alt="Post">
                                 <span class="absolute top-4 left-4 bg-[#da291c] text-white px-4 py-1 text-[8px] font-black uppercase tracking-widest">{{ $article->category->name ?? 'Kategori' }}</span>

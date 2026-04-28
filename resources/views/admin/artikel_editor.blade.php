@@ -77,15 +77,23 @@
                                 </button>
                             </div>
 
-                            <div class="py-3 border-y border-slate-100 space-y-2 text-slate-600">
+                            <div class="py-3 border-y border-slate-100 space-y-3 text-slate-600">
                                 <div class="flex items-center gap-2">
                                     <i data-lucide="lock" class="w-4 h-4"></i>
                                     Status: <span class="font-bold" x-text="publishStatus"></span>
                                 </div>
-                                <div class="flex items-center gap-2">
-                                    <i data-lucide="globe" class="w-4 h-4"></i>
-                                    Visibility: <span class="font-bold text-[#2271b1]">Public</span>
+                                
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center gap-2">
+                                        <i data-lucide="users" class="w-4 h-4"></i>
+                                        <span>Member Only</span>
+                                    </div>
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" name="is_member_only" value="1" class="sr-only peer" {{ old('is_member_only', $article?->is_member_only) ? 'checked' : '' }}>
+                                        <div class="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#da291c]"></div>
+                                    </label>
                                 </div>
+
                                 <div class="flex items-center gap-2">
                                     <i data-lucide="calendar" class="w-4 h-4"></i>
                                     Publish: <span class="font-bold">Immediately</span>
