@@ -7,7 +7,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;900&family=Cormorant+Garamond:ital,wght@1,700&display=swap" rel="stylesheet">
 </head>
-<body class="antialiased font-sans text-[#0f172a] bg-white overflow-x-hidden pt-16">
+<body class="antialiased font-sans text-[#0f172a] bg-white overflow-x-hidden pt-16" x-data="{ mobileMenuOpen: false }">
     <!-- Navbar -->
     <nav id="navbar" class="fixed top-0 left-0 w-full z-50 bg-white border-b border-slate-100 py-4 shadow-sm transition-all duration-300">
         <div class="container mx-auto px-6 flex items-center justify-between">
@@ -16,8 +16,14 @@
                 <img src="{{ asset('images/logo ayakan.png') }}" alt="Ayaka Logo" class="h-8 w-auto object-contain">
             </a>
 
-            <!-- Menu -->
-            <div class="hidden lg:flex items-center space-x-2 bg-slate-50 p-1 rounded-full border border-slate-100">
+            <!-- Mobile Menu Toggle -->
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="lg:hidden p-2 text-slate-600">
+                <svg x-show="!mobileMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                <svg x-show="mobileMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+
+            <!-- Menu Desktop -->
+            <div class="hidden lg:flex items-center space-x-1 bg-slate-100/50 p-1.5 rounded-full border border-slate-200/60 backdrop-blur-md">
                 @php
                     $navItems = [
                         ['name' => 'Home', 'href' => '/'],
@@ -30,20 +36,46 @@
                     ];
                 @endphp
                 @foreach($navItems as $item)
-                    <a href="{{ $item['href'] }}" class="px-5 py-2 rounded-full text-[11px] font-black uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-white transition-all {{ request()->is(trim($item['href'], '/')) || (request()->is('/') && $item['href'] == '/') ? 'bg-white text-slate-900 shadow-sm' : '' }}">
+                    @php
+                        $isActive = request()->is(trim($item['href'], '/')) || (request()->is('/') && $item['href'] == '/');
+                    @endphp
+                    <a href="{{ $item['href'] }}" class="px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-500 {{ $isActive ? 'bg-[#da291c] text-white shadow-lg shadow-red-500/20' : 'text-slate-500' }}">
                         {{ $item['name'] }}
                     </a>
                 @endforeach
             </div>
 
             <!-- Auth Buttons -->
-            <div class="flex items-center space-x-3">
+            <div class="hidden lg:flex items-center space-x-2">
                 @if (Route::has('login'))
-                    <a href="{{ route('login') }}" class="px-6 py-2.5 rounded-full text-[11px] font-black uppercase tracking-widest text-slate-700 hover:bg-slate-100 transition-all">Login</a>
+                    <a href="{{ route('login') }}" class="px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] text-slate-700 transition-all">Login</a>
                 @endif
                 @if (Route::has('register'))
-                    <a href="{{ route('register') }}" class="bg-slate-900 px-8 py-2.5 rounded-full text-[11px] font-black uppercase tracking-widest text-white hover:bg-slate-800 transition-all shadow-md">Register</a>
+                    <a href="{{ route('register') }}" class="bg-slate-950 px-8 py-2.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] text-white transition-all shadow-lg shadow-slate-900/10">Register</a>
                 @endif
+            </div>
+        </div>
+
+        <!-- Mobile Menu Drawer -->
+        <div x-show="mobileMenuOpen" 
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 -translate-y-4"
+             x-transition:enter-end="opacity-100 translate-y-0"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100 translate-y-0"
+             x-transition:leave-end="opacity-0 -translate-y-4"
+             class="lg:hidden absolute top-full left-0 w-full bg-white border-b border-slate-100 py-6 px-6 shadow-xl">
+            <div class="flex flex-col space-y-4">
+                @foreach($navItems as $item)
+                    <a href="{{ $item['href'] }}" class="text-sm font-bold uppercase tracking-widest {{ request()->is(trim($item['href'], '/')) ? 'text-[#da291c]' : 'text-slate-600' }}">
+                        {{ $item['name'] }}
+                    </a>
+                @endforeach
+                <hr class="border-slate-100">
+                <div class="flex flex-col space-y-3">
+                    <a href="/login" class="text-sm font-bold uppercase tracking-widest text-slate-600">Login</a>
+                    <a href="/register" class="bg-[#da291c] text-white py-3 px-6 rounded-xl text-center text-sm font-bold uppercase tracking-widest">Register</a>
+                </div>
             </div>
         </div>
     </nav>
