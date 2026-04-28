@@ -124,6 +124,30 @@ class UserContentController extends Controller
         }
     }
 
+    private function ensureAlumni(): void
+    {
+        if (\App\Models\Alumni::count() > 0) {
+            return;
+        }
+
+        $samples = [
+            ['Yuki Amami', 'Batch 12', 'Tokyo Care Center', 'Program Ayaka sangat membantu saya dalam persiapan mental dan bahasa sebelum ke Jepang.'],
+            ['Sakura Hanako', 'Batch 14', 'Osaka Hospital', 'Pengalaman yang luar biasa, sensei sangat sabar membimbing kami.'],
+            ['Rina Satou', 'Batch 11', 'Kyoto Nursing Home', 'Terima kasih AJC telah mewujudkan mimpi saya berkarir di Jepang.'],
+        ];
+
+        foreach ($samples as $index => [$name, $batch, $work, $testi]) {
+            \App\Models\Alumni::create([
+                'name' => $name,
+                'batch' => $batch,
+                'working_at' => $work,
+                'testimonial' => $testi,
+                'image_url' => 'images/hero-bg.png',
+                'is_featured' => true,
+            ]);
+        }
+    }
+
     public function blog(\Illuminate\Http\Request $request)
     {
         $this->syncSharedContent();
