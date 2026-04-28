@@ -14,9 +14,16 @@
                 <h1 class="text-4xl md:text-7xl font-black text-slate-950 tracking-tighter uppercase italic leading-none mb-8">
                     E-Book <br /> <span class="text-slate-400">Edukasi</span>
                 </h1>
-                <p class="text-lg md:text-xl text-slate-500 leading-relaxed max-w-2xl">
+                <p class="text-lg md:text-xl text-slate-500 leading-relaxed max-w-2xl mb-12">
                     Kumpulan materi pembelajaran bahasa Jepang, panduan karir, dan informasi budaya yang dirancang khusus untuk mempersiapkan keberangkatan Anda.
                 </p>
+
+                <!-- Search -->
+                <form action="{{ route('ebook.index') }}" method="GET" class="max-w-xl relative">
+                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari judul e-book atau materi..." class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-12 py-5 font-bold text-slate-900 focus:outline-none focus:border-[#da291c] focus:bg-white transition-all shadow-sm">
+                    <svg class="w-6 h-6 text-[#da291c] absolute left-4 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    <button type="submit" class="absolute right-4 top-1/2 -translate-y-1/2 bg-slate-900 text-white px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-[#da291c] transition-colors">Cari</button>
+                </form>
             </div>
         </div>
     </header>
@@ -31,31 +38,58 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 @forelse($ebooks as $idx => $book)
-                    <div class="bg-white p-8 md:p-10 rounded-[30px] border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-500 reveal-up" style="animation-delay: {{ $idx * 0.1 }}s">
-                        <div class="w-14 h-14 bg-[#da291c]/5 text-[#da291c] rounded-2xl flex items-center justify-center mb-8">
-                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-                            </svg>
-                        </div>
-                        
-                        <div class="flex items-center justify-between gap-4 mb-4">
-                            <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">V{{ $book->id }}</span>
-                            <span class="text-[10px] font-black text-[#da291c] uppercase tracking-widest bg-[#da291c]/5 px-2 py-0.5 rounded">Materi</span>
+                    @php
+                        $coverImage = str_starts_with($book->cover_image ?? '', 'http')
+                            ? $book->cover_image
+                            : (str_starts_with($book->cover_image ?? '', 'images/')
+                                ? asset($book->cover_image)
+                                : (str_starts_with($book->cover_image ?? '', 'ebooks/covers/')
+                                    ? Storage::url($book->cover_image)
+                                    : asset('images/hero-bg.png')));
+                    @endphp
+                    <div class="bg-white rounded-[40px] border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-3 transition-all duration-500 reveal-up overflow-hidden group" style="animation-delay: {{ $idx * 0.1 }}s">
+                        <!-- Cover Image -->
+                        <div class="aspect-[4/3] relative overflow-hidden bg-slate-100">
+                            <img src="{{ $coverImage }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="{{ $book->title }}">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-8">
+                                <div class="text-white">
+                                    <div class="text-[10px] font-black uppercase tracking-[0.2em] mb-2">Metadata</div>
+                                    <div class="text-xs font-bold text-slate-300">Format: PDF • Size: 2.4 MB</div>
+                                </div>
+                            </div>
+                            @if($book->created_at->diffInDays(now()) < 7)
+                                <span class="absolute top-6 left-6 bg-[#da291c] text-white px-4 py-1 rounded-full text-[9px] font-black uppercase tracking-widest shadow-lg shadow-red-900/40 animate-pulse">New</span>
+                            @endif
                         </div>
 
-                        <h3 class="text-xl md:text-2xl font-black text-slate-900 mb-4 tracking-tight uppercase italic leading-none">{{ $book->title }}</h3>
-                        <p class="text-slate-500 text-sm md:text-base leading-relaxed mb-8">{{ $book->description }}</p>
-                        
-                        <button class="w-full bg-slate-900 text-white py-4 rounded-xl text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-[#da291c] transition-all">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
-                            </svg>
-                            Download E-Book
-                        </button>
+                        <div class="p-8 md:p-10">
+                            <div class="flex items-center justify-between gap-4 mb-6">
+                                <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                                    <svg class="w-3 h-3 text-[#da291c]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"></path></svg>
+                                    {{ number_format($book->download_count) }} Downloads
+                                </span>
+                                <span class="text-[10px] font-black text-[#da291c] uppercase tracking-widest bg-[#da291c]/5 px-3 py-1 rounded-lg">Materi AJC</span>
+                            </div>
+
+                            <h3 class="text-xl md:text-2xl font-black text-slate-900 mb-4 tracking-tighter uppercase italic leading-none group-hover:text-[#da291c] transition-colors">{{ $book->title }}</h3>
+                            <p class="text-slate-500 text-sm leading-relaxed mb-8 line-clamp-2 font-medium">{{ $book->description }}</p>
+                            
+                            <a href="{{ route('ebook.download', $book->id) }}" class="w-full bg-slate-950 text-white py-5 rounded-2xl text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-[#da291c] transition-all shadow-xl shadow-slate-900/10">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                                </svg>
+                                Unduh Materi (PDF)
+                            </a>
+                        </div>
                     </div>
                 @empty
                     <p class="text-slate-400">Belum ada e-book tersedia.</p>
                 @endforelse
+            </div>
+
+            <!-- Pagination -->
+            <div class="mt-16 flex justify-center reveal-up">
+                {{ $ebooks->links() }}
             </div>
         </div>
     </section>
