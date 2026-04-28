@@ -30,7 +30,7 @@
     @endif
 
     <div class="bg-white rounded-[32px] border border-slate-100 shadow-sm overflow-hidden">
-        <form id="edit-page-form" action="{{ route('admin.halaman.update', $page->slug) }}" method="POST" class="p-10">
+        <form id="edit-page-form" action="{{ route('admin.halaman.update', $page->slug) }}" method="POST" enctype="multipart/form-data" class="p-10">
             @csrf
             @method('PUT')
             
@@ -45,7 +45,20 @@
                             {{ str_replace('_', ' ', strtoupper($key)) }}
                         </label>
                         
-                        @if(strlen($value) > 100)
+                        @if(str_contains($key, 'image') || str_contains($key, 'bg'))
+                            <div class="flex flex-col md:flex-row gap-6 items-start">
+                                @if($value)
+                                    <div class="w-32 h-32 rounded-2xl overflow-hidden border border-slate-100 shadow-sm shrink-0">
+                                        <img src="{{ str_starts_with($value, 'http') ? $value : asset($value) }}" class="w-full h-full object-cover">
+                                    </div>
+                                @endif
+                                <div class="flex-1 w-full">
+                                    <input type="file" name="content_files[{{ $key }}]" class="w-full px-8 py-6 bg-slate-50 border border-slate-100 rounded-[24px] text-xs">
+                                    <input type="hidden" name="content[{{ $key }}]" value="{{ $value }}">
+                                    <p class="text-[10px] text-slate-400 mt-2">Biarkan kosong jika tidak ingin mengubah gambar.</p>
+                                </div>
+                            </div>
+                        @elseif(strlen($value) > 100)
                             <textarea name="content[{{ $key }}]" rows="5" class="w-full px-8 py-6 bg-slate-50 border border-slate-100 rounded-[24px] text-slate-700 font-medium focus:outline-none focus:border-[#da291c] focus:bg-white transition-all shadow-inner">{{ $value }}</textarea>
                         @else
                             <input type="text" name="content[{{ $key }}]" value="{{ $value }}" class="w-full px-8 py-6 bg-slate-50 border border-slate-100 rounded-[24px] text-slate-700 font-medium focus:outline-none focus:border-[#da291c] focus:bg-white transition-all shadow-inner">

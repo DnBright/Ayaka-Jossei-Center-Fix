@@ -8,7 +8,7 @@
     <section class="relative min-h-screen flex items-center overflow-hidden bg-slate-900">
         <!-- Hero Background -->
         <div class="absolute inset-0 z-0">
-            <img src="{{ asset('images/hero-bg.png') }}" class="w-full h-full object-cover" alt="Ayaka Hero">
+            <img src="{{ isset($pages['home']->content['hero_bg']) ? (str_starts_with($pages['home']->content['hero_bg'], 'http') ? $pages['home']->content['hero_bg'] : asset($pages['home']->content['hero_bg'])) : asset('images/hero-bg.png') }}" class="w-full h-full object-cover" alt="Ayaka Hero">
             <div class="absolute inset-0 bg-black/40"></div>
         </div>
 

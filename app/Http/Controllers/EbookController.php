@@ -42,10 +42,49 @@ class EbookController extends Controller
         return back()->with('success', 'E-Book berhasil diunggah.');
     }
 
+    public function update(Request $request, $id)
+    {
+        $ebook = Ebook::findOrFail($id);
+        
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required',
+            'file' => 'nullable|mimes:pdf,epub|max:10240',
+            'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+        ]);
+
+        $data = [
+            'title' => $request->title,
+            'slug' => Str::slug($request->title),
+            'description' => $request->description,
+        ];
+
+        if ($request->hasFile('file')) {
+            Storage::disk('public')->delete($ebook->file_path);
+            $data['file_path'] = $request->file('file')->store('ebooks/files', 'public');
+        }
+
+        if ($request->hasFile('cover_image')) {
+            if ($ebook->cover_image) {
+                Storage::disk('public')->delete($ebook->cover_image);
+            }
+            $data['cover_image'] = $request->file('cover_image')->store('ebooks/covers', 'public');
+        }
+
+        $ebook->update($data);
+
+        return back()->with('success', 'E-Book berhasil diperbarui.');
+    }
+
     public function destroy($id)
     {
         $ebook = Ebook::findOrFail($id);
-        Storage::disk('public')->delete([$ebook->file_path, $ebook->cover_image]);
+        if ($ebook->file_path) {
+            Storage::disk('public')->delete($ebook->file_path);
+        }
+        if ($ebook->cover_image) {
+            Storage::disk('public')->delete($ebook->cover_image);
+        }
         $ebook->delete();
 
         return back()->with('success', 'E-Book berhasil dihapus.');
