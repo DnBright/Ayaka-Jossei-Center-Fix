@@ -10,10 +10,10 @@
             <div class="hero-content-prof text-center professional-reveal">
                 <span class="prof-label">INSTITUTIONAL PROFILE</span>
                 <h1 class="prof-main-title">
-                    Dedikasi Kami Untuk <br /> <span class="text-[#da291c]">Masa Depan</span> Perempuan Indonesia
+                    {{ $pages['about']->content['hero_title'] ?? 'Dedikasi Kami Untuk Masa Depan Perempuan Indonesia' }}
                 </h1>
                 <p class="prof-hero-lead">
-                    Ayaka Josei Center adalah jembatan profesional menuju karir gemilang di Jepang.
+                    {{ $pages['about']->content['hero_subtitle'] ?? 'Ayaka Josei Center adalah jembatan profesional menuju karir gemilang di Jepang.' }}
                 </p>
             </div>
         </div>
@@ -36,16 +36,16 @@
                 </div>
                 <div class="narrative-text-box mt-12 lg:mt-0">
                     <div class="narrative-block">
-                        <h2 class="text-3xl md:text-4xl font-black text-slate-900 mb-6 md:mb-8 tracking-tighter">Pengantar</h2>
+                        <h2 class="text-3xl md:text-4xl font-black text-slate-900 mb-6 md:mb-8 tracking-tighter">{{ $pages['about']->content['pengantar_title'] ?? 'Pengantar' }}</h2>
                         <p class="text-base md:text-lg text-slate-600 leading-relaxed">
-                            Ayaka Josei Center (AJC) adalah Lembaga Pelatihan Kerja (LPK) yang secara khusus didirikan untuk mempersiapkan perempuan Indonesia agar mampu bersaing secara profesional di Jepang. Kami memahami bahwa tantangan bekerja di luar negeri bukan hanya soal keterampilan teknis, melainkan juga mentalitas dan penguasaan budaya.
+                            {{ $pages['about']->content['pengantar_text'] ?? 'Ayaka Josei Center (AJC) adalah Lembaga Pelatihan Kerja (LPK) yang secara khusus didirikan untuk mempersiapkan perempuan Indonesia agar mampu bersaing secara profesional di Jepang.' }}
                         </p>
                     </div>
                     <div class="w-16 h-0.5 bg-slate-200 my-8 md:my-12"></div>
                     <div class="narrative-block">
-                        <h2 class="text-3xl md:text-4xl font-black text-slate-900 mb-6 md:mb-8 tracking-tighter">Latar Belakang</h2>
+                        <h2 class="text-3xl md:text-4xl font-black text-slate-900 mb-6 md:mb-8 tracking-tighter">{{ $pages['about']->content['latar_belakang_title'] ?? 'Latar Belakang' }}</h2>
                         <p class="text-base md:text-lg text-slate-600 leading-relaxed">
-                            Bermula dari keinginan untuk memberikan perlindungan dan edukasi yang benar bagi calon tenaga kerja perempuan, AJC hadir dengan sistem yang transparan. Kami bekerja sama dengan berbagai perusahaan Jepang untuk memastikan setiap alumni kami mendapatkan hak dan perlindungan yang layak selama bekerja di sana.
+                            {{ $pages['about']->content['latar_belakang_text'] ?? 'Bermula dari keinginan untuk memberikan perlindungan dan edukasi yang benar bagi calon tenaga kerja perempuan, AJC hadir dengan sistem yang transparan.' }}
                         </p>
                     </div>
                 </div>
@@ -67,17 +67,17 @@
                     <div class="vision-text text-center md:text-left">
                         <h3 class="text-[10px] font-black uppercase tracking-[0.2em] text-[#da291c] mb-6">Visi Kami</h3>
                         <p class="text-xl md:text-2xl leading-relaxed text-slate-800 italic font-medium">
-                            "Menjadi lembaga pelatihan terdepan dalam mencetak perempuan Indonesia yang mandiri, berkarakter, dan ahli di bidangnya untuk pasar kerja internasional."
+                            "{{ $pages['about']->content['visi_text'] ?? 'Menjadi lembaga pelatihan terdepan dalam mencetak perempuan Indonesia yang mandiri, berkarakter, dan ahli di bidangnya untuk pasar kerja internasional.' }}"
                         </p>
                     </div>
                     <div class="mission-list space-y-6 text-left">
                         <h3 class="text-[10px] font-black uppercase tracking-[0.2em] text-[#da291c] mb-6 text-center md:text-left">Misi Kami</h3>
                         @php
                             $misi = [
-                                'Menyelenggarakan pelatihan bahasa Jepang yang intensif dan efektif.',
-                                'Membangun mentalitas kerja profesional sesuai standar industri Jepang.',
-                                'Memberikan pendampingan karir yang transparan dan akuntabel.',
-                                'Menjamin keamanan dan kenyamanan peserta selama proses pelatihan hingga penempatan.'
+                                $pages['about']->content['misi_1'] ?? 'Menyelenggarakan pelatihan bahasa Jepang yang intensif dan efektif.',
+                                $pages['about']->content['misi_2'] ?? 'Membangun mentalitas kerja profesional sesuai standar industri Jepang.',
+                                $pages['about']->content['misi_3'] ?? 'Memberikan pendampingan karir yang transparan dan akuntabel.',
+                                $pages['about']->content['misi_4'] ?? 'Menjamin keamanan dan kenyamanan peserta selama proses pelatihan hingga penempatan.'
                             ];
                         @endphp
                         @foreach($misi as $idx => $item)

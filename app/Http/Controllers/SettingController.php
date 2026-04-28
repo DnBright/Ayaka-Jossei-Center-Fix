@@ -19,6 +19,7 @@ class SettingController extends Controller
         $data = $request->only([
             'site_name', 'site_tagline', 'site_description',
             'instagram_url', 'facebook_url',
+            'site_email', 'site_phone', 'site_address',
         ]);
 
         Setting::updateOrCreate(['id' => 1], $data);

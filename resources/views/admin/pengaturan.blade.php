@@ -45,28 +45,42 @@
             </div>
         </div>
 
-        <!-- Social Media -->
+        <!-- Media Sosial & Kontak -->
         <div class="bg-white rounded-[32px] border border-slate-100 shadow-sm overflow-hidden">
             <div class="px-8 py-6 bg-slate-50 border-b border-slate-100 flex items-center gap-4">
                 <div class="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-[#da291c] shadow-sm">
                     <i data-lucide="share-2" class="w-5 h-5"></i>
                 </div>
-                <h3 class="text-lg font-black text-slate-900">Media Sosial</h3>
+                <h3 class="text-lg font-black text-slate-900">Media Sosial & Kontak</h3>
             </div>
-            <div class="p-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="space-y-2">
-                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Instagram URL</label>
-                    <div class="relative">
-                        <i data-lucide="instagram" class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4"></i>
-                        <input type="text" name="instagram_url" value="{{ $settings['instagram_url'] ?? '' }}" class="w-full pl-12 pr-5 py-3.5 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold focus:outline-none focus:border-[#da291c] transition-all">
+            <div class="p-8 space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Instagram URL</label>
+                        <div class="relative">
+                            <i data-lucide="instagram" class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4"></i>
+                            <input type="text" name="instagram_url" value="{{ $settings['instagram_url'] ?? '' }}" class="w-full pl-12 pr-5 py-3.5 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold focus:outline-none focus:border-[#da291c] transition-all">
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Facebook URL</label>
+                        <div class="relative">
+                            <i data-lucide="facebook" class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4"></i>
+                            <input type="text" name="facebook_url" value="{{ $settings['facebook_url'] ?? '' }}" class="w-full pl-12 pr-5 py-3.5 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold focus:outline-none focus:border-[#da291c] transition-all">
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Email Lembaga</label>
+                        <input type="email" name="site_email" value="{{ $settings['site_email'] ?? '' }}" class="w-full px-5 py-3.5 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold focus:outline-none focus:border-[#da291c] transition-all">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Nomor WhatsApp / Telepon</label>
+                        <input type="text" name="site_phone" value="{{ $settings['site_phone'] ?? '' }}" class="w-full px-5 py-3.5 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold focus:outline-none focus:border-[#da291c] transition-all">
                     </div>
                 </div>
                 <div class="space-y-2">
-                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Facebook URL</label>
-                    <div class="relative">
-                        <i data-lucide="facebook" class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4"></i>
-                        <input type="text" name="facebook_url" value="{{ $settings['facebook_url'] ?? '' }}" class="w-full pl-12 pr-5 py-3.5 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold focus:outline-none focus:border-[#da291c] transition-all">
-                    </div>
+                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Alamat Kantor</label>
+                    <textarea name="site_address" rows="2" class="w-full px-5 py-3.5 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold focus:outline-none focus:border-[#da291c] transition-all">{{ $settings['site_address'] ?? '' }}</textarea>
                 </div>
             </div>
         </div>

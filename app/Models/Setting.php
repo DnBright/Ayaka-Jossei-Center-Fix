@@ -9,5 +9,6 @@ class Setting extends Model
     protected $fillable = [
         'site_name', 'site_tagline', 'site_description',
         'instagram_url', 'facebook_url',
+        'site_email', 'site_phone', 'site_address',
     ];
 }

@@ -37,7 +37,8 @@ Route::get('/alumni', function () {
 
 Route::get('/kontak', function () {
     return view('user.kontak');
-});
+})->name('kontak');
+Route::post('/kontak', [App\Http\Controllers\CommunicationController::class, 'store'])->name('kontak.store');
 
 Route::get('/ebook', [UserContentController::class, 'ebook'])->middleware('auth');
 Route::get('/ebook/download/{id}', [UserContentController::class, 'downloadEbook'])->middleware('auth')->name('ebook.download');

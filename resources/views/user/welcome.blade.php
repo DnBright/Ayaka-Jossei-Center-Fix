@@ -20,12 +20,18 @@
                 </div>
                 
                 <h1 class="text-white text-5xl md:text-7xl lg:text-9xl font-black leading-[0.95] md:leading-[0.85] tracking-tighter uppercase italic mb-8">
-                    Ayaka <br />
-                    <span class="text-[#da291c]">Josei</span> Center
+                    @php
+                        $heroTitle = $pages['home']->content['hero_title'] ?? 'Ayaka Josei Center';
+                        $words = explode(' ', $heroTitle);
+                        $lastWord = array_pop($words);
+                        $firstPart = implode(' ', $words);
+                    @endphp
+                    {{ $firstPart }} <br />
+                    <span class="text-[#da291c]">{{ $lastWord }}</span>
                 </h1>
 
                 <p class="text-xl md:text-2xl text-slate-300 font-medium mb-12 max-w-xl leading-relaxed">
-                    Lembaga Pelatihan Kerja (LPK) Khusus Putri untuk Karir Profesional di Jepang.
+                    {{ $pages['home']->content['hero_subtitle'] ?? 'Lembaga Pelatihan Kerja (LPK) Khusus Putri untuk Karir Profesional di Jepang.' }}
                 </p>
 
                 <div class="flex flex-col sm:flex-row items-center gap-6">
@@ -54,20 +60,20 @@
         <div class="container mx-auto px-6">
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-8">
                 <div class="text-center">
-                    <div class="text-4xl font-black text-slate-900 mb-1">500+</div>
-                    <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Alumni Berangkat</div>
+                    <div class="text-4xl font-black text-slate-900 mb-1">{{ $pages['home']->content['stats_1_value'] ?? '500+' }}</div>
+                    <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest">{{ $pages['home']->content['stats_1_label'] ?? 'Alumni Berangkat' }}</div>
                 </div>
                 <div class="text-center">
-                    <div class="text-4xl font-black text-slate-900 mb-1">98%</div>
-                    <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Lulus Interview</div>
+                    <div class="text-4xl font-black text-slate-900 mb-1">{{ $pages['home']->content['stats_2_value'] ?? '98%' }}</div>
+                    <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest">{{ $pages['home']->content['stats_2_label'] ?? 'Lulus Interview' }}</div>
                 </div>
                 <div class="text-center">
-                    <div class="text-4xl font-black text-slate-900 mb-1">20+</div>
-                    <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Partner User</div>
+                    <div class="text-4xl font-black text-slate-900 mb-1">{{ $pages['home']->content['stats_3_value'] ?? '20+' }}</div>
+                    <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest">{{ $pages['home']->content['stats_3_label'] ?? 'Partner User' }}</div>
                 </div>
                 <div class="text-center">
-                    <div class="text-4xl font-black text-slate-900 mb-1">24/7</div>
-                    <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Dukungan Alumni</div>
+                    <div class="text-4xl font-black text-slate-900 mb-1">{{ $pages['home']->content['stats_4_value'] ?? '24/7' }}</div>
+                    <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest">{{ $pages['home']->content['stats_4_label'] ?? 'Dukungan Alumni' }}</div>
                 </div>
             </div>
         </div>
@@ -85,8 +91,8 @@
                 </div>
                 <div class="text-center lg:text-left">
                     <span class="text-[#da291c] font-black tracking-[0.4em] uppercase text-[10px] mb-6 block">Tentang AJC</span>
-                    <h2 class="text-4xl md:text-6xl font-black tracking-tighter leading-none mb-8 italic uppercase">Membangun Masa Depan di Jepang</h2>
-                    <p class="text-lg text-slate-500 leading-relaxed mb-10">Ayaka Josei Center adalah lembaga pelatihan kerja spesialis putri yang berfokus pada pengembangan karir di Jepang. Kami memberikan pelatihan intensif bahasa dan keterampilan teknis untuk mencetak tenaga kerja profesional yang siap bersaing di pasar global.</p>
+                    <h2 class="text-4xl md:text-6xl font-black tracking-tighter leading-none mb-8 italic uppercase">{{ $pages['home']->content['about_title'] ?? 'Membangun Masa Depan di Jepang' }}</h2>
+                    <p class="text-lg text-slate-500 leading-relaxed mb-10">{{ $pages['home']->content['about_description'] ?? 'Ayaka Josei Center adalah lembaga pelatihan kerja spesialis putri yang berfokus pada pengembangan karir di Jepang. Kami memberikan pelatihan intensif bahasa dan keterampilan teknis untuk mencetak tenaga kerja profesional yang siap bersaing di pasar global.' }}</p>
                     <a href="/profil" class="inline-flex items-center gap-4 text-slate-900 font-black uppercase tracking-widest text-xs group">
                         Selengkapnya Tentang Kami 
                         <svg class="w-5 h-5 text-[#da291c] group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
@@ -128,8 +134,8 @@
             <div class="bg-slate-950 rounded-[60px] p-12 md:p-24 text-center text-white relative overflow-hidden">
                 <div class="absolute top-0 right-0 w-96 h-96 bg-[#da291c] rounded-full blur-[150px] opacity-20 translate-x-1/2 -translate-y-1/2"></div>
                 <div class="relative z-10">
-                    <h2 class="text-4xl md:text-7xl font-black tracking-tighter mb-10 italic uppercase leading-none">Siap Menjadi Bagian <br /> Dari Kesuksesan Kami?</h2>
-                    <p class="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto mb-16">Pendaftaran batch baru telah dibuka. Hubungi kami untuk konsultasi gratis mengenai karirmu di Jepang.</p>
+                    <h2 class="text-4xl md:text-7xl font-black tracking-tighter mb-10 italic uppercase leading-none">{{ $pages['home']->content['cta_title'] ?? 'Siap Menjadi Bagian Dari Kesuksesan Kami?' }}</h2>
+                    <p class="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto mb-16">{{ $pages['home']->content['cta_description'] ?? 'Pendaftaran batch baru telah dibuka. Hubungi kami untuk konsultasi gratis mengenai karirmu di Jepang.' }}</p>
                     <div class="flex flex-col sm:flex-row justify-center gap-4">
                         <a href="/login" class="bg-white text-slate-950 px-12 py-5 rounded-full text-xs font-black uppercase tracking-widest hover:bg-[#da291c] hover:text-white transition-all shadow-2xl">Masuk Akun</a>
                         <a href="/register" class="bg-[#da291c] text-white px-12 py-5 rounded-full text-xs font-black uppercase tracking-widest hover:bg-white hover:text-slate-900 transition-all shadow-2xl">Daftar Sekarang</a>
