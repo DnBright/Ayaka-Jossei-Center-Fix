@@ -203,6 +203,57 @@
                 </div>
                 
                 <div class="flex items-center gap-6">
+                    <!-- Notification Dropdown -->
+                    <div class="relative" x-data="{ openNotify: false }">
+                        <button @click="openNotify = !openNotify" class="relative p-2 text-slate-400 hover:text-[#da291c] transition-colors focus:outline-none group">
+                            <i data-lucide="bell"></i>
+                            <span class="absolute top-1 right-1 w-2.5 h-2.5 bg-[#da291c] rounded-full border-2 border-white animate-pulse"></span>
+                        </button>
+
+                        <div x-show="openNotify" 
+                             @click.away="openNotify = false"
+                             x-transition:enter="transition ease-out duration-200"
+                             x-transition:enter-start="opacity-0 translate-y-4"
+                             x-transition:enter-end="opacity-100 translate-y-0"
+                             class="absolute right-0 top-full mt-4 w-80 bg-white rounded-3xl border border-slate-100 shadow-2xl z-50 overflow-hidden">
+                            
+                            <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+                                <h4 class="text-sm font-black text-slate-900 uppercase tracking-widest">Notifikasi</h4>
+                                <span class="bg-[#da291c]/10 text-[#da291c] text-[10px] font-black px-2.5 py-1 rounded-full uppercase">2 Baru</span>
+                            </div>
+
+                            <div class="max-h-[400px] overflow-y-auto">
+                                <!-- New E-book Notification -->
+                                <a href="/penulis/ebook" class="flex items-start gap-4 p-5 hover:bg-slate-50 transition-all border-b border-slate-50 group">
+                                    <div class="w-10 h-10 bg-indigo-50 text-indigo-500 rounded-xl flex items-center justify-center shrink-0 border border-indigo-100">
+                                        <i data-lucide="book-open" class="w-5 h-5"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs font-extrabold text-slate-900 mb-1">Materi E-Book Baru</p>
+                                        <p class="text-[11px] font-medium text-slate-500 leading-relaxed">Admin baru saja mengunggah panduan terbaru untuk materi Batch 15.</p>
+                                        <span class="text-[9px] font-bold text-slate-400 uppercase mt-2 block">1 Jam Lalu</span>
+                                    </div>
+                                </a>
+
+                                <!-- System Update -->
+                                <div class="flex items-start gap-4 p-5 hover:bg-slate-50 transition-all">
+                                    <div class="w-10 h-10 bg-emerald-50 text-emerald-500 rounded-xl flex items-center justify-center shrink-0 border border-emerald-100">
+                                        <i data-lucide="shield-check" class="w-5 h-5"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs font-extrabold text-slate-900 mb-1">Keamanan Dashboard</p>
+                                        <p class="text-[11px] font-medium text-slate-500 leading-relaxed">Fitur multi-guard telah aktif untuk menjamin privasi data penulis.</p>
+                                        <span class="text-[9px] font-bold text-slate-400 uppercase mt-2 block">3 Jam Lalu</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <a href="#" class="block p-4 text-center text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] hover:bg-slate-50 hover:text-[#da291c] transition-all bg-slate-50/30">
+                                Bersihkan Notifikasi
+                            </a>
+                        </div>
+                    </div>
+
                     <div class="relative hidden md:block" x-data="{ open: false }">
                         <button @click="open = !open" class="flex items-center gap-3 hover:opacity-80 transition-all focus:outline-none">
                             <div class="text-right hidden sm:block">

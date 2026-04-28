@@ -230,10 +230,68 @@
                         <input type="text" placeholder="Cari..." class="pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-[#da291c] w-64 transition-all">
                     </div>
                     
-                    <button class="relative p-2 text-slate-400 hover:text-[#da291c] transition-colors">
-                        <i data-lucide="bell"></i>
-                        <span class="absolute top-1 right-1 w-2 h-2 bg-[#da291c] rounded-full border-2 border-white"></span>
-                    </button>
+                    <!-- Notification Dropdown -->
+                    <div class="relative" x-data="{ openNotify: false }">
+                        <button @click="openNotify = !openNotify" class="relative p-2 text-slate-400 hover:text-[#da291c] transition-colors focus:outline-none group">
+                            <i data-lucide="bell"></i>
+                            <span class="absolute top-1 right-1 w-2.5 h-2.5 bg-[#da291c] rounded-full border-2 border-white animate-pulse"></span>
+                        </button>
+
+                        <div x-show="openNotify" 
+                             @click.away="openNotify = false"
+                             x-transition:enter="transition ease-out duration-200"
+                             x-transition:enter-start="opacity-0 translate-y-4"
+                             x-transition:enter-end="opacity-100 translate-y-0"
+                             class="absolute right-0 top-full mt-4 w-80 bg-white rounded-3xl border border-slate-100 shadow-2xl z-50 overflow-hidden">
+                            
+                            <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+                                <h4 class="text-sm font-black text-slate-900 uppercase tracking-widest">Notifikasi</h4>
+                                <span class="bg-[#da291c]/10 text-[#da291c] text-[10px] font-black px-2.5 py-1 rounded-full uppercase">3 Baru</span>
+                            </div>
+
+                            <div class="max-h-[400px] overflow-y-auto">
+                                <!-- Pending User Notification -->
+                                <a href="/admin/users" class="flex items-start gap-4 p-5 hover:bg-slate-50 transition-all border-b border-slate-50 group">
+                                    <div class="w-10 h-10 bg-amber-50 text-amber-500 rounded-xl flex items-center justify-center shrink-0 border border-amber-100">
+                                        <i data-lucide="user-plus" class="w-5 h-5"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs font-extrabold text-slate-900 mb-1">Persetujuan User Baru</p>
+                                        <p class="text-[11px] font-medium text-slate-500 leading-relaxed">Ada 3 pendaftaran member baru yang menunggu validasi Anda.</p>
+                                        <span class="text-[9px] font-bold text-slate-400 uppercase mt-2 block">10 Menit Lalu</span>
+                                    </div>
+                                </a>
+
+                                <!-- New Message Notification -->
+                                <a href="/admin/komunikasi" class="flex items-start gap-4 p-5 hover:bg-slate-50 transition-all border-b border-slate-50">
+                                    <div class="w-10 h-10 bg-blue-50 text-blue-500 rounded-xl flex items-center justify-center shrink-0 border border-blue-100">
+                                        <i data-lucide="mail" class="w-5 h-5"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs font-extrabold text-slate-900 mb-1">Pesan Kontak Baru</p>
+                                        <p class="text-[11px] font-medium text-slate-500 leading-relaxed">Pertanyaan masuk dari portal kontak mengenai pendaftaran batch 15.</p>
+                                        <span class="text-[9px] font-bold text-slate-400 uppercase mt-2 block">2 Jam Lalu</span>
+                                    </div>
+                                </a>
+
+                                <!-- System Health -->
+                                <div class="flex items-start gap-4 p-5 hover:bg-slate-50 transition-all">
+                                    <div class="w-10 h-10 bg-emerald-50 text-emerald-500 rounded-xl flex items-center justify-center shrink-0 border border-emerald-100">
+                                        <i data-lucide="check-circle" class="w-5 h-5"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs font-extrabold text-slate-900 mb-1">Sistem Teroptimasi</p>
+                                        <p class="text-[11px] font-medium text-slate-500 leading-relaxed">Database dan cache telah dibersihkan secara otomatis malam ini.</p>
+                                        <span class="text-[9px] font-bold text-slate-400 uppercase mt-2 block">Tadi Malam</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <a href="#" class="block p-4 text-center text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] hover:bg-slate-50 hover:text-[#da291c] transition-all bg-slate-50/30">
+                                Lihat Semua Aktivitas
+                            </a>
+                        </div>
+                    </div>
 
                     <div class="flex items-center gap-3 pl-6 border-l border-slate-200 relative" x-data="{ open: false }">
                         <button @click="open = !open" class="flex items-center gap-3 hover:opacity-80 transition-all focus:outline-none">
