@@ -105,11 +105,6 @@ class ArticleController extends Controller
     {
         $article = Article::findOrFail($id);
 
-        // Authorization: Writer can only update their own articles
-        if (Auth::user()->role === 'penulis' && $article->author_id !== Auth::id()) {
-            abort(403, 'Anda tidak memiliki akses untuk mengedit artikel ini.');
-        }
-
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required',
@@ -157,10 +152,6 @@ class ArticleController extends Controller
     {
         $article = Article::findOrFail($id);
 
-        // Authorization: Writer can only delete their own articles
-        if (Auth::user()->role === 'penulis' && $article->author_id !== Auth::id()) {
-            abort(403, 'Anda tidak memiliki akses untuk menghapus artikel ini.');
-        }
         if ($article->featured_image && !str_starts_with($article->featured_image, 'http')) {
             Storage::disk('public')->delete($article->featured_image);
         }
