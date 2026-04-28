@@ -53,6 +53,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/admin/ebook', [App\Http\Controllers\EbookController::class, 'index'])->name('admin.ebook.index');
     Route::post('/admin/ebook', [App\Http\Controllers\EbookController::class, 'store'])->name('admin.ebook.store');
+    Route::put('/admin/ebook/{id}', [App\Http\Controllers\EbookController::class, 'update'])->name('admin.ebook.update');
     Route::delete('/admin/ebook/{id}', [App\Http\Controllers\EbookController::class, 'destroy'])->name('admin.ebook.destroy');
 
     Route::get('/admin/halaman', [App\Http\Controllers\PageController::class, 'index'])->name('admin.halaman.index');

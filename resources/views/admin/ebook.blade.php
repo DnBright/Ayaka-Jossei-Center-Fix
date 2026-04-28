@@ -3,7 +3,11 @@
 @section('page-title', 'Perpustakaan E-Book Materi')
 
 @section('content')
-<div class="ebook-manager-container" x-data="{ openUploadModal: false }">
+<div class="ebook-manager-container" x-data="{ 
+    openUploadModal: false, 
+    openEditModal: false,
+    editData: { id: '', title: '', description: '' }
+}">
     <!-- Header -->
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6">
         <div>
@@ -74,6 +78,7 @@
                 <div class="pt-6 border-t border-slate-50 flex justify-between items-center">
                     <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest italic">PDF Format</span>
                     <div class="flex gap-2">
+                        <button @click="openEditModal = true; editData = { id: '{{ $ebook->id }}', title: '{{ addslashes($ebook->title) }}', description: '{{ addslashes($ebook->description) }}' }" class="text-xs font-black text-slate-600 hover:bg-slate-50 px-3 py-1.5 rounded-lg transition-colors">Edit</button>
                         <form action="{{ route('admin.ebook.destroy', $ebook->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus E-Book ini?')">
                             @csrf
                             @method('DELETE')
@@ -125,6 +130,47 @@
                 <div class="mt-10 flex gap-4">
                     <button type="submit" class="flex-1 bg-[#da291c] text-white py-4 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-red-900/20">Upload & Simpan</button>
                     <button type="button" @click="openUploadModal = false" class="px-8 py-4 bg-slate-100 text-slate-500 rounded-2xl font-black text-sm uppercase tracking-widest">Batal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Edit Modal -->
+    <div x-show="openEditModal" 
+         x-cloak
+         class="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-900/60 backdrop-blur-sm">
+        <div @click.away="openEditModal = false" class="bg-white w-full max-w-2xl rounded-[32px] shadow-2xl overflow-hidden animate-in zoom-in duration-300">
+            <div class="px-10 py-8 border-b border-slate-100 flex justify-between items-center">
+                <h2 class="text-2xl font-black text-slate-900">Edit E-Book</h2>
+                <button @click="openEditModal = false" class="text-slate-400 hover:text-slate-600">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <form :action="'{{ url('admin/ebook') }}/' + editData.id" method="POST" enctype="multipart/form-data" class="p-10">
+                @csrf
+                @method('PUT')
+                <div class="grid grid-cols-1 gap-6">
+                    <div>
+                        <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Judul E-Book</label>
+                        <input type="text" name="title" x-model="editData.title" required class="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-sm focus:outline-none focus:border-[#da291c] transition-all">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Deskripsi Singkat</label>
+                        <textarea name="description" x-model="editData.description" rows="3" required class="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-sm focus:outline-none focus:border-[#da291c] transition-all"></textarea>
+                    </div>
+                    <div class="grid grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Ganti File (Opsional)</label>
+                            <input type="file" name="file" accept=".pdf" class="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-xs">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Ganti Cover (Opsional)</label>
+                            <input type="file" name="cover_image" accept="image/*" class="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-xs">
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-10 flex gap-4">
+                    <button type="submit" class="flex-1 bg-slate-900 text-white py-4 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-slate-900/20">Simpan Perubahan</button>
+                    <button type="button" @click="openEditModal = false" class="px-8 py-4 bg-slate-100 text-slate-500 rounded-2xl font-black text-sm uppercase tracking-widest">Batal</button>
                 </div>
             </form>
         </div>
