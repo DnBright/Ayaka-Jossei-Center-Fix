@@ -24,18 +24,20 @@
     <section class="py-12 bg-slate-50 border-b border-slate-100">
         <div class="container mx-auto px-6">
             <div class="flex flex-col lg:flex-row justify-between items-center gap-8 journal-reveal">
-                <div class="flex-1 w-full relative">
-                    <input type="text" placeholder="Cari artikel..." class="w-full bg-white border border-slate-200 rounded-xl px-12 py-4 font-bold text-slate-900 focus:outline-none focus:border-[#da291c] transition-all text-sm">
-                    <svg class="w-5 h-5 text-[#da291c] absolute left-4 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                </div>
+                <form action="{{ route('blog.index') }}" method="GET" class="flex-1 w-full relative">
+                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari artikel..." class="w-full bg-white border border-slate-200 rounded-xl px-12 py-4 font-bold text-slate-900 focus:outline-none focus:border-[#da291c] transition-all text-sm">
+                    <button type="submit" class="absolute left-4 top-1/2 -translate-y-1/2">
+                        <svg class="w-5 h-5 text-[#da291c]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </button>
+                </form>
                 <div class="flex flex-wrap gap-4 justify-center">
                     @php
                         $categoryFilters = array_merge(['Semua'], $categories ?? []);
                     @endphp
                     @foreach($categoryFilters as $cat)
-                        <button class="px-4 md:px-6 py-2 text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-[#da291c] transition-all {{ $cat == 'Semua' ? 'border-b-4 border-[#da291c] text-[#da291c]' : '' }}">
+                        <a href="{{ route('blog.index', ['category' => $cat]) }}" class="px-4 md:px-6 py-2 text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-[#da291c] transition-all {{ (request('category', 'Semua') == $cat) ? 'border-b-4 border-[#da291c] text-[#da291c]' : '' }}">
                             {{ $cat }}
-                        </button>
+                        </a>
                     @endforeach
                 </div>
             </div>
@@ -56,7 +58,7 @@
                                 : asset('images/hero-bg.png'));
                     @endphp
                     <article class="lg:col-span-2 group journal-reveal">
-                        <a href="#" class="block">
+                        <a href="{{ route('blog.show', $featuredArticle->slug) }}" class="block">
                             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start border-b-4 border-slate-900 pb-12">
                                 <div class="lg:col-span-7 rounded-lg overflow-hidden aspect-[16/10] bg-slate-100">
                                     <img src="{{ $featuredImage }}" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-105" alt="Featured">
@@ -86,7 +88,7 @@
                                 : asset('images/hero-bg.png'));
                     @endphp
                     <article class="group journal-reveal border-b border-slate-100 pb-12 text-center lg:text-left relative">
-                        <a href="{{ ($isMemberOnly && !Auth::check()) ? route('register') : '#' }}" class="block">
+                        <a href="{{ ($isMemberOnly && !Auth::check()) ? route('register') : route('blog.show', $article->slug) }}" class="block">
                             <div class="aspect-video rounded-lg overflow-hidden mb-8 bg-slate-100 relative">
                                 <img src="{{ $articleImage }}" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000" alt="Post">
                                 <span class="absolute top-4 left-4 bg-[#da291c] text-white px-4 py-1 text-[8px] font-black uppercase tracking-widest">{{ $article->category->name ?? 'Kategori' }}</span>
@@ -121,6 +123,11 @@
                 @empty
                     <p class="text-slate-400">Belum ada artikel tersedia.</p>
                 @endforelse
+            </div>
+
+            <!-- Pagination -->
+            <div class="mt-16 flex justify-center">
+                {{ $regularArticles->links() }}
             </div>
         </div>
     </section>
