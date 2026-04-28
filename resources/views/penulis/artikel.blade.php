@@ -9,7 +9,7 @@
             <h1 class="text-3xl font-black text-slate-900 tracking-tight">Artikel Saya</h1>
             <p class="text-slate-500 font-medium mt-1">Kelola tulisan dan publikasi Anda di platform Ayaka.</p>
         </div>
-        <a href="{{ route('admin.artikel.create') }}" class="bg-gradient-to-r from-[#da291c] to-[#b91c1c] text-white px-8 py-4 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-red-900/20 hover:-translate-y-1 transition-all flex items-center gap-3">
+        <a href="{{ route('penulis.artikel.create') }}" class="bg-gradient-to-r from-[#da291c] to-[#b91c1c] text-white px-8 py-4 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-red-900/20 hover:-translate-y-1 transition-all flex items-center gap-3">
             <i data-lucide="plus" class="w-5 h-5"></i>
             Tulis Artikel Baru
         </a>
@@ -53,10 +53,10 @@
                         </td>
                         <td class="px-8 py-6 text-right">
                             <div class="flex justify-end gap-2">
-                                <a href="{{ route('admin.artikel.edit', $art->id) }}" class="w-9 h-9 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all shadow-sm">
+                                <a href="{{ route('penulis.artikel.edit', $art->id) }}" class="w-9 h-9 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all shadow-sm">
                                     <i data-lucide="edit-2" class="w-4 h-4"></i>
                                 </a>
-                                <form action="{{ route('admin.artikel.destroy', $art->id) }}" method="POST" onsubmit="return confirm('Hapus artikel ini?')">
+                                <form action="{{ route('penulis.artikel.destroy', $art->id) }}" method="POST" onsubmit="return confirm('Hapus artikel ini?')">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="w-9 h-9 bg-red-50 text-[#da291c] rounded-lg flex items-center justify-center hover:bg-[#da291c] hover:text-white transition-all shadow-sm">

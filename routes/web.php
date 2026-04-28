@@ -83,6 +83,12 @@ Route::middleware(['auth:admin,penulis', 'role:admin,penulis'])->group(function 
 Route::middleware(['auth:penulis', 'role:penulis'])->group(function () {
     Route::get('/penulis', [App\Http\Controllers\PenulisController::class, 'dashboard'])->name('penulis.dashboard');
     Route::get('/penulis/artikel', [App\Http\Controllers\PenulisController::class, 'artikel'])->name('penulis.artikel.index');
+    Route::get('/penulis/artikel/create', [App\Http\Controllers\ArticleController::class, 'create'])->name('penulis.artikel.create');
+    Route::get('/penulis/artikel/{id}/edit', [App\Http\Controllers\ArticleController::class, 'edit'])->name('penulis.artikel.edit');
+    Route::post('/penulis/artikel', [App\Http\Controllers\ArticleController::class, 'store'])->name('penulis.artikel.store');
+    Route::put('/penulis/artikel/{id}', [App\Http\Controllers\ArticleController::class, 'update'])->name('penulis.artikel.update');
+    Route::delete('/penulis/artikel/{id}', [App\Http\Controllers\ArticleController::class, 'destroy'])->name('penulis.artikel.destroy');
+    
     Route::get('/penulis/ebook', [App\Http\Controllers\PenulisController::class, 'ebook'])->name('penulis.ebook.index');
     Route::get('/penulis/media', [App\Http\Controllers\PenulisController::class, 'media'])->name('penulis.media.index');
     Route::get('/penulis/profile', [App\Http\Controllers\PenulisController::class, 'profile'])->name('penulis.profile');

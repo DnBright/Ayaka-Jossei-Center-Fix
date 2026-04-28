@@ -1,4 +1,4 @@
-@extends(Auth::user()->role === 'admin' ? 'layouts.admin' : 'layouts.penulis')
+@extends($layout ?? 'layouts.admin')
 
 @section('page-title', $article ? 'Edit Post' : 'Add New Post')
 

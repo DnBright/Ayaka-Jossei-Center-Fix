@@ -39,27 +39,37 @@ class ArticleController extends Controller
     public function create()
     {
         $categories = Category::orderBy('name')->get();
-
+        $isPenulis = Auth::user()->role === 'penulis';
+        
         return view('admin.artikel_editor', [
             'article' => null,
             'categories' => $categories,
-            'formAction' => route('admin.artikel.store'),
+            'formAction' => $isPenulis ? route('penulis.artikel.store') : route('admin.artikel.store'),
             'formMethod' => 'POST',
             'initialStatus' => 'draft',
+            'layout' => $isPenulis ? 'layouts.penulis' : 'layouts.admin',
         ]);
     }
 
     public function edit($id)
     {
         $article = Article::findOrFail($id);
+        
+        // Security: Penulis only can edit their own articles
+        if (Auth::user()->role === 'penulis' && $article->author_id !== Auth::id()) {
+            abort(403, 'Anda tidak memiliki akses untuk mengedit artikel ini.');
+        }
+
         $categories = Category::orderBy('name')->get();
+        $isPenulis = Auth::user()->role === 'penulis';
 
         return view('admin.artikel_editor', [
             'article' => $article,
             'categories' => $categories,
-            'formAction' => route('admin.artikel.update', $article->id),
+            'formAction' => $isPenulis ? route('penulis.artikel.update', $article->id) : route('admin.artikel.update', $article->id),
             'formMethod' => 'PUT',
             'initialStatus' => $article->status,
+            'layout' => $isPenulis ? 'layouts.penulis' : 'layouts.admin',
         ]);
     }
 
