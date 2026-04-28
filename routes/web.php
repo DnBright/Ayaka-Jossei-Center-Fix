@@ -86,3 +86,14 @@ Route::middleware(['auth', 'role:penulis'])->group(function () {
     Route::get('/penulis/media', [App\Http\Controllers\PenulisController::class, 'media'])->name('penulis.media.index');
     Route::get('/penulis/profile', [App\Http\Controllers\PenulisController::class, 'profile'])->name('penulis.profile');
 });
+
+// Emergency Migration Route
+Route::get('/run-migrate', function () {
+    try {
+        \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+        return "Database berhasil diperbarui! Silakan coba simpan artikel lagi.";
+    } catch (\Exception $e) {
+        return "Gagal migrasi: " . $e->getMessage();
+    }
+});
+
