@@ -7,6 +7,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Outfit:wght@400;700;800;900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
         :root {
             --admin-bg: #f1f5f9;
@@ -233,13 +234,44 @@
                         <span class="absolute top-1 right-1 w-2 h-2 bg-[#da291c] rounded-full border-2 border-white"></span>
                     </button>
 
-                    <div class="flex items-center gap-3 pl-6 border-l border-slate-200">
-                        <div class="text-right hidden sm:block">
-                            <p class="text-sm font-extrabold text-slate-900 leading-none">Admin User</p>
-                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Super Admin</p>
-                        </div>
-                        <div class="w-10 h-10 bg-red-50 text-[#da291c] rounded-xl flex items-center justify-center font-black border border-red-100">
-                            A
+                    <div class="flex items-center gap-3 pl-6 border-l border-slate-200 relative" x-data="{ open: false }">
+                        <button @click="open = !open" class="flex items-center gap-3 hover:opacity-80 transition-all focus:outline-none">
+                            <div class="text-right hidden sm:block">
+                                <p class="text-sm font-extrabold text-slate-900 leading-none">Admin User</p>
+                                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Super Admin</p>
+                            </div>
+                            <div class="w-10 h-10 bg-red-50 text-[#da291c] rounded-xl flex items-center justify-center font-black border border-red-100 shadow-sm group-hover:scale-105 transition-transform">
+                                A
+                            </div>
+                        </button>
+
+                        <!-- Dropdown Menu -->
+                        <div x-show="open" 
+                             @click.away="open = false"
+                             x-transition:enter="transition ease-out duration-200"
+                             x-transition:enter-start="opacity-0 translate-y-4"
+                             x-transition:enter-end="opacity-100 translate-y-0"
+                             class="absolute right-0 top-full mt-4 w-64 bg-white rounded-3xl border border-slate-100 shadow-2xl z-50 overflow-hidden">
+                            <div class="p-6 bg-slate-50/50 border-b border-slate-100">
+                                <p class="text-sm font-black text-slate-900">Admin Utama</p>
+                                <p class="text-xs font-medium text-slate-400">admin@ayakajosei.com</p>
+                            </div>
+                            <div class="p-3">
+                                <a href="/admin/profile" class="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50 text-slate-600 font-bold text-xs uppercase tracking-widest transition-all">
+                                    <i data-lucide="user" class="w-4 h-4"></i> Edit Profil
+                                </a>
+                                <a href="/admin/pengaturan" class="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50 text-slate-600 font-bold text-xs uppercase tracking-widest transition-all">
+                                    <i data-lucide="settings" class="w-4 h-4"></i> Pengaturan
+                                </a>
+                            </div>
+                            <div class="p-3 border-t border-slate-50 bg-slate-50/20">
+                                <form action="/logout" method="POST">
+                                    @csrf
+                                    <button type="submit" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-red-50 text-red-600 font-bold text-xs uppercase tracking-widest transition-all">
+                                        <i data-lucide="log-out" class="w-4 h-4"></i> Logout Akun
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
