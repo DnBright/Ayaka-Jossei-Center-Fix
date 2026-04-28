@@ -8,6 +8,7 @@ Route::get('/', function () {
 });
 
 // Auth Routes
+Route::get('/login', [AuthController::class, 'showAdminLogin'])->name('login');
 Route::get('/admin/login', [AuthController::class, 'showAdminLogin'])->name('login.admin');
 Route::get('/penulis/login', [AuthController::class, 'showPenulisLogin'])->name('login.penulis');
 Route::post('/login', [AuthController::class, 'login']);
