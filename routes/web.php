@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserContentController;
 
 Route::get('/', function () {
     return view('user.welcome');
@@ -25,13 +26,9 @@ Route::get('/program', function () {
     return view('user.program');
 });
 
-Route::get('/galeri', function () {
-    return view('user.galeri');
-});
+Route::get('/galeri', [UserContentController::class, 'galeri']);
 
-Route::get('/blog', function () {
-    return view('user.blog');
-})->middleware('auth');
+Route::get('/blog', [UserContentController::class, 'blog'])->middleware('auth');
 
 Route::get('/alumni', function () {
     return view('user.alumni');
@@ -41,9 +38,7 @@ Route::get('/kontak', function () {
     return view('user.kontak');
 });
 
-Route::get('/ebook', function () {
-    return view('user.ebook');
-})->middleware('auth');
+Route::get('/ebook', [UserContentController::class, 'ebook'])->middleware('auth');
 
 Route::middleware('auth')->group(function () {
     Route::get('/admin', [App\Http\Controllers\AdminController::class, 'dashboard'])->name('admin.dashboard');

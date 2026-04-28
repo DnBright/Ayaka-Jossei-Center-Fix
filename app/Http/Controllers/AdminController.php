@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Controllers\UserContentController;
 
 class AdminController extends Controller
 {
     public function dashboard()
     {
+        app(UserContentController::class)->syncSharedContent();
+
         $stats = [
             'total_messages' => \App\Models\Message::count(),
             'total_articles' => \App\Models\Article::count(),

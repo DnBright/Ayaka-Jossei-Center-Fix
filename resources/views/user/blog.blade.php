@@ -30,9 +30,9 @@
                 </div>
                 <div class="flex flex-wrap gap-4 justify-center">
                     @php
-                        $categories = ['Semua', 'Karir', 'Budaya', 'Pelatihan', 'Tips'];
+                        $categoryFilters = array_merge(['Semua'], $categories ?? []);
                     @endphp
-                    @foreach($categories as $cat)
+                    @foreach($categoryFilters as $cat)
                         <button class="px-4 md:px-6 py-2 text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-[#da291c] transition-all {{ $cat == 'Semua' ? 'border-b-4 border-[#da291c] text-[#da291c]' : '' }}">
                             {{ $cat }}
                         </button>
@@ -47,35 +47,49 @@
         <div class="container mx-auto px-6">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16">
                 <!-- Featured Article -->
-                <article class="lg:col-span-2 group journal-reveal">
-                    <a href="#" class="block">
-                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start border-b-4 border-slate-900 pb-12">
-                            <div class="lg:col-span-7 rounded-lg overflow-hidden aspect-[16/10] bg-slate-100">
-                                <img src="{{ asset('images/hero-bg.png') }}" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-105" alt="Featured">
-                            </div>
-                            <div class="lg:col-span-5 text-center lg:text-left">
-                                <div class="flex justify-center lg:justify-start gap-4 mb-6 text-[10px] font-black uppercase tracking-widest text-slate-400">
-                                    <span class="flex items-center gap-2"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg> April 28, 2026</span>
-                                    <span class="text-[#da291c]">562 Views</span>
+                @if($featuredArticle)
+                    @php
+                        $featuredImage = str_starts_with($featuredArticle->featured_image ?? '', 'http')
+                            ? $featuredArticle->featured_image
+                            : (str_starts_with($featuredArticle->featured_image ?? '', 'images/')
+                                ? asset($featuredArticle->featured_image)
+                                : asset('images/hero-bg.png'));
+                    @endphp
+                    <article class="lg:col-span-2 group journal-reveal">
+                        <a href="#" class="block">
+                            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start border-b-4 border-slate-900 pb-12">
+                                <div class="lg:col-span-7 rounded-lg overflow-hidden aspect-[16/10] bg-slate-100">
+                                    <img src="{{ $featuredImage }}" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-105" alt="Featured">
                                 </div>
-                                <h2 class="text-3xl md:text-4xl font-black text-slate-900 mb-6 group-hover:text-[#da291c] transition-colors leading-tight tracking-tighter uppercase italic">Strategi Lulus Interview User Jepang Untuk Pemula</h2>
-                                <p class="text-base md:text-lg text-slate-500 leading-relaxed mb-8">Panduan lengkap mengenai tata krama, cara menjawab pertanyaan sulit, hingga tips berpakaian saat wawancara kerja di Jepang.</p>
-                                <span class="text-xs font-black uppercase tracking-widest flex items-center justify-center lg:justify-start gap-3">Baca Artikel <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"></path></svg></span>
+                                <div class="lg:col-span-5 text-center lg:text-left">
+                                    <div class="flex justify-center lg:justify-start gap-4 mb-6 text-[10px] font-black uppercase tracking-widest text-slate-400">
+                                        <span class="flex items-center gap-2"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg> {{ $featuredArticle->created_at->format('M d, Y') }}</span>
+                                        <span class="text-[#da291c]">{{ number_format($featuredArticle->views_count) }} Views</span>
+                                    </div>
+                                    <h2 class="text-3xl md:text-4xl font-black text-slate-900 mb-6 group-hover:text-[#da291c] transition-colors leading-tight tracking-tighter uppercase italic">{{ $featuredArticle->title }}</h2>
+                                    <p class="text-base md:text-lg text-slate-500 leading-relaxed mb-8">{{ \Illuminate\Support\Str::limit(strip_tags($featuredArticle->content), 160) }}</p>
+                                    <span class="text-xs font-black uppercase tracking-widest flex items-center justify-center lg:justify-start gap-3">Baca Artikel <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"></path></svg></span>
+                                </div>
                             </div>
-                        </div>
-                    </a>
-                </article>
+                        </a>
+                    </article>
+                @endif
 
                 <!-- Regular Articles -->
-                @for($i = 1; $i <= 4; $i++)
+                @forelse($regularArticles as $i => $article)
                     @php
-                        $isMemberOnly = $i % 2 == 0; // Simulate some member-only posts
+                        $isMemberOnly = ($i + 1) % 2 == 0;
+                        $articleImage = str_starts_with($article->featured_image ?? '', 'http')
+                            ? $article->featured_image
+                            : (str_starts_with($article->featured_image ?? '', 'images/')
+                                ? asset($article->featured_image)
+                                : asset('images/hero-bg.png'));
                     @endphp
                     <article class="group journal-reveal border-b border-slate-100 pb-12 text-center lg:text-left relative">
                         <a href="{{ ($isMemberOnly && !Auth::check()) ? route('register') : '#' }}" class="block">
                             <div class="aspect-video rounded-lg overflow-hidden mb-8 bg-slate-100 relative">
-                                <img src="{{ asset('images/hero-bg.png') }}" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000" alt="Post">
-                                <span class="absolute top-4 left-4 bg-[#da291c] text-white px-4 py-1 text-[8px] font-black uppercase tracking-widest">Kategori</span>
+                                <img src="{{ $articleImage }}" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000" alt="Post">
+                                <span class="absolute top-4 left-4 bg-[#da291c] text-white px-4 py-1 text-[8px] font-black uppercase tracking-widest">{{ $article->category->name ?? 'Kategori' }}</span>
                                 
                                 @if($isMemberOnly && !Auth::check())
                                     <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm flex flex-col items-center justify-center p-6">
@@ -85,7 +99,7 @@
                                 @endif
                             </div>
                             <div class="flex justify-center lg:justify-start gap-4 mb-4 text-[9px] font-black uppercase tracking-widest text-slate-400">
-                                <span>April {{ 28 - $i }}, 2026</span>
+                                <span>{{ $article->created_at->format('M d, Y') }}</span>
                                 @if($isMemberOnly)
                                     <span class="text-[#da291c] flex items-center gap-1">
                                         <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
@@ -93,18 +107,20 @@
                                     </span>
                                 @endif
                             </div>
-                            <h3 class="text-xl md:text-2xl font-black text-slate-900 mb-4 group-hover:text-[#da291c] transition-colors leading-tight tracking-tighter italic uppercase">Memahami Budaya Kerja 'Kaizen' di Industri Jepang</h3>
+                            <h3 class="text-xl md:text-2xl font-black text-slate-900 mb-4 group-hover:text-[#da291c] transition-colors leading-tight tracking-tighter italic uppercase">{{ $article->title }}</h3>
                             
                             @if($isMemberOnly && !Auth::check())
                                 <p class="text-sm text-slate-400 line-clamp-3 mb-6 leading-relaxed italic">Konten ini hanya tersedia untuk member resmi Ayaka Josei Center.</p>
                                 <span class="text-[10px] font-black uppercase tracking-widest text-[#da291c] flex items-center justify-center lg:justify-start gap-2">Register to Read <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path></svg></span>
                             @else
-                                <p class="text-sm text-slate-500 line-clamp-3 mb-6 leading-relaxed">Filosofi perbaikan terus-menerus yang menjadi kunci kesuksesan perusahaan raksasa di Jepang.</p>
+                                <p class="text-sm text-slate-500 line-clamp-3 mb-6 leading-relaxed">{{ \Illuminate\Support\Str::limit(strip_tags($article->content), 120) }}</p>
                                 <span class="text-[10px] font-black uppercase tracking-widest flex items-center justify-center lg:justify-start gap-2">Read More <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"></path></svg></span>
                             @endif
                         </a>
                     </article>
-                @endfor
+                @empty
+                    <p class="text-slate-400">Belum ada artikel tersedia.</p>
+                @endforelse
             </div>
         </div>
     </section>

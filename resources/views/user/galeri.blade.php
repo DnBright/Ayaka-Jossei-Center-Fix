@@ -56,21 +56,30 @@
     <section class="py-16 md:py-24">
         <div class="container mx-auto px-6">
             <div class="columns-1 sm:columns-2 lg:columns-3 gap-8 md:gap-10 space-y-8 md:space-y-10">
-                @for($i = 1; $i <= 9; $i++)
+                @forelse($galleryItems as $i => $item)
+                    @php
+                        $imageSource = str_starts_with($item->file_path ?? '', 'http')
+                            ? $item->file_path
+                            : (str_starts_with($item->file_path ?? '', 'images/')
+                                ? asset($item->file_path)
+                                : asset('images/hero-bg.png'));
+                    @endphp
                     <div class="break-inside-avoid atelier-reveal group">
                         <div class="relative rounded-[25px] overflow-hidden shadow-xl bg-slate-100 mb-6">
-                            <img src="{{ asset('images/hero-bg.png') }}" class="w-full grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-105" alt="Gallery Image">
+                            <img src="{{ $imageSource }}" class="w-full grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-105" alt="Gallery Image">
                             <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-6 md:p-10 flex flex-col justify-end">
-                                <span class="text-[#da291c] text-[10px] font-black uppercase tracking-widest mb-2">Category Name</span>
-                                <h3 class="text-white text-xl md:text-2xl font-black italic tracking-tighter leading-none uppercase">Momen Pelatihan Batch {{ $i }}</h3>
+                                <span class="text-[#da291c] text-[10px] font-black uppercase tracking-widest mb-2">{{ $item->type ?? 'Gallery' }}</span>
+                                <h3 class="text-white text-xl md:text-2xl font-black italic tracking-tighter leading-none uppercase">{{ $item->title }}</h3>
                             </div>
                         </div>
                         <div class="border-l border-slate-200 pl-6 mt-4">
-                            <span class="text-[10px] font-black opacity-20 block mb-1">0{{ $i }}</span>
-                            <span class="text-xs md:text-sm font-bold text-slate-800 uppercase tracking-tight leading-snug">Judul Dokumentasi Kegiatan</span>
+                            <span class="text-[10px] font-black opacity-20 block mb-1">{{ str_pad((string) ($i + 1), 2, '0', STR_PAD_LEFT) }}</span>
+                            <span class="text-xs md:text-sm font-bold text-slate-800 uppercase tracking-tight leading-snug">{{ $item->title }}</span>
                         </div>
                     </div>
-                @endfor
+                @empty
+                    <p class="text-slate-400">Belum ada data galeri.</p>
+                @endforelse
             </div>
         </div>
     </section>

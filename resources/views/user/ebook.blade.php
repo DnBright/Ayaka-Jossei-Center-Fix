@@ -30,48 +30,7 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                @php
-                    $ebooks = [
-                        [
-                            'title' => 'Panduan Dasar Bahasa Jepang',
-                            'desc' => 'Materi pengenalan Hiragana, Katakana, dan tata bahasa dasar untuk pemula.',
-                            'version' => 'V1.0',
-                            'category' => 'Bahasa'
-                        ],
-                        [
-                            'title' => 'Etika Kerja di Jepang',
-                            'desc' => 'Memahami budaya kerja, sopan santun, dan disiplin tinggi di perusahaan Jepang.',
-                            'version' => 'V2.1',
-                            'category' => 'Budaya'
-                        ],
-                        [
-                            'title' => 'Persiapan Wawancara User',
-                            'desc' => 'Tips dan trik menjawab pertanyaan wawancara langsung dengan perusahaan Jepang.',
-                            'version' => 'V1.5',
-                            'category' => 'Karir'
-                        ],
-                        [
-                            'title' => 'Panduan Hidup di Jepang',
-                            'desc' => 'Informasi praktis tentang transportasi, belanja, dan biaya hidup di Jepang.',
-                            'version' => 'V1.2',
-                            'category' => 'Life'
-                        ],
-                        [
-                            'title' => 'Kamus Istilah Kaigo',
-                            'desc' => 'Kumpulan kosakata teknis yang sering digunakan di bidang perawat lansia.',
-                            'version' => 'V3.0',
-                            'category' => 'Teknis'
-                        ],
-                        [
-                            'title' => 'Panduan Keberangkatan',
-                            'desc' => 'Checklist dokumen dan barang yang wajib dipersiapkan sebelum terbang.',
-                            'version' => 'V1.0',
-                            'category' => 'Logistik'
-                        ]
-                    ];
-                @endphp
-
-                @foreach($ebooks as $idx => $book)
+                @forelse($ebooks as $idx => $book)
                     <div class="bg-white p-8 md:p-10 rounded-[30px] border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-500 reveal-up" style="animation-delay: {{ $idx * 0.1 }}s">
                         <div class="w-14 h-14 bg-[#da291c]/5 text-[#da291c] rounded-2xl flex items-center justify-center mb-8">
                             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -80,12 +39,12 @@
                         </div>
                         
                         <div class="flex items-center justify-between gap-4 mb-4">
-                            <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">{{ $book['version'] }}</span>
-                            <span class="text-[10px] font-black text-[#da291c] uppercase tracking-widest bg-[#da291c]/5 px-2 py-0.5 rounded">{{ $book['category'] }}</span>
+                            <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">V{{ $book->id }}</span>
+                            <span class="text-[10px] font-black text-[#da291c] uppercase tracking-widest bg-[#da291c]/5 px-2 py-0.5 rounded">Materi</span>
                         </div>
 
-                        <h3 class="text-xl md:text-2xl font-black text-slate-900 mb-4 tracking-tight uppercase italic leading-none">{{ $book['title'] }}</h3>
-                        <p class="text-slate-500 text-sm md:text-base leading-relaxed mb-8">{{ $book['desc'] }}</p>
+                        <h3 class="text-xl md:text-2xl font-black text-slate-900 mb-4 tracking-tight uppercase italic leading-none">{{ $book->title }}</h3>
+                        <p class="text-slate-500 text-sm md:text-base leading-relaxed mb-8">{{ $book->description }}</p>
                         
                         <button class="w-full bg-slate-900 text-white py-4 rounded-xl text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-[#da291c] transition-all">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -94,7 +53,9 @@
                             Download E-Book
                         </button>
                     </div>
-                @endforeach
+                @empty
+                    <p class="text-slate-400">Belum ada e-book tersedia.</p>
+                @endforelse
             </div>
         </div>
     </section>
