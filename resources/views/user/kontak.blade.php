@@ -34,7 +34,7 @@
                                 </div>
                                 <div>
                                     <label class="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-2">Alamat Kantor</label>
-                                    <p class="text-base md:text-lg font-semibold text-slate-900 leading-snug">{{ $settings->site_address ?? 'Jl. Raya Sukarno Hatta No. 123, Lowokwaru, Kota Malang, Jawa Timur' }}</p>
+                                    <p class="text-base md:text-lg font-semibold text-slate-900 leading-snug">Remame, Jl. Magelang - Yogyakarta Jl. Remame No.km 19.5, RT.002/RW.13, Kemburan, Jumoyo, Kec. Salam, Kabupaten Magelang, Jawa Tengah 56172</p>
                                 </div>
                             </div>
 
@@ -85,7 +85,7 @@
                     <div class="rounded-[30px] overflow-hidden shadow-2xl border border-slate-100 h-[300px] md:h-[350px] bg-slate-50 relative group">
                         <div class="absolute inset-0 bg-slate-900/5 group-hover:bg-transparent transition-all pointer-events-none z-10"></div>
                         <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126438.2854809817!2d112.56174164670278!3d-7.978639498263722!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd62822063dc2db%3A0x2177f1899178550!2sMalang%2C%20Malang%20City%2C%20East%20Java!5e0!3m2!1sen!2sid!4v1707530000000!5m2!1sen!2sid"
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15816.6579840254!2d110.3015433!3d-7.6005!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7a89668d904791%3A0x6b7b51b75b9f7f4e!2sJumoyo%2C%20Salam%2C%20Magelang%20Regency%2C%20Central%20Java!5e0!3m2!1sen!2sid!4v1714300000000!5m2!1sen!2sid"
                             width="100%"
                             height="100%"
                             style="border:0;"
