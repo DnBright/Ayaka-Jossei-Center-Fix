@@ -19,7 +19,7 @@ jobs:
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         # Disesuaikan dengan folder Addon Domain Anda di cPanel
-        server-dir: public_html/ayaka_men
+        server-dir: public_html/ayaka_men/
         exclude: |
           **/.git*
           **/.git*/**
@@ -27,4 +27,3 @@ jobs:
           **/tests/**
           .env
 
-          
