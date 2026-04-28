@@ -71,11 +71,11 @@ class AuthController extends Controller
             $request->session()->regenerate();
 
             if ($user->role === 'admin') {
-                return redirect()->intended('/admin');
+                return redirect('/admin');
             } elseif ($user->role === 'penulis') {
-                return redirect()->intended('/penulis');
+                return redirect('/penulis');
             } else {
-                return redirect()->intended('/');
+                return redirect('/');
             }
         }
 
