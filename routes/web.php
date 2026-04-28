@@ -46,49 +46,35 @@ Route::get('/ebook', function () {
 })->middleware('auth');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/admin', function () {
-        return view('admin.dashboard');
-    });
+    Route::get('/admin', [App\Http\Controllers\AdminController::class, 'dashboard'])->name('admin.dashboard');
 
-    Route::get('/admin/artikel', function () {
-        return view('admin.artikel');
-    });
+    Route::get('/admin/artikel', [App\Http\Controllers\ArticleController::class, 'index'])->name('admin.artikel.index');
+    Route::post('/admin/artikel', [App\Http\Controllers\ArticleController::class, 'store'])->name('admin.artikel.store');
+    Route::put('/admin/artikel/{id}', [App\Http\Controllers\ArticleController::class, 'update'])->name('admin.artikel.update');
+    Route::delete('/admin/artikel/{id}', [App\Http\Controllers\ArticleController::class, 'destroy'])->name('admin.artikel.destroy');
 
-    Route::get('/admin/ebook', function () {
-        return view('admin.ebook');
-    });
+    Route::get('/admin/ebook', [App\Http\Controllers\EbookController::class, 'index'])->name('admin.ebook.index');
+    Route::post('/admin/ebook', [App\Http\Controllers\EbookController::class, 'store'])->name('admin.ebook.store');
+    Route::delete('/admin/ebook/{id}', [App\Http\Controllers\EbookController::class, 'destroy'])->name('admin.ebook.destroy');
 
-    Route::get('/admin/halaman', function () {
-        return view('admin.halaman');
-    });
+    Route::get('/admin/halaman', [App\Http\Controllers\PageController::class, 'index'])->name('admin.halaman.index');
+    Route::get('/admin/halaman/{slug}', [App\Http\Controllers\PageController::class, 'edit'])->name('admin.halaman.edit');
+    Route::put('/admin/halaman/{slug}', [App\Http\Controllers\PageController::class, 'update'])->name('admin.halaman.update');
 
-    Route::get('/admin/halaman/home', function () {
-        return view('admin.pages.home');
-    });
+    Route::get('/admin/media', [App\Http\Controllers\MediaController::class, 'index'])->name('admin.media.index');
+    Route::post('/admin/media', [App\Http\Controllers\MediaController::class, 'store'])->name('admin.media.store');
+    Route::delete('/admin/media/{id}', [App\Http\Controllers\MediaController::class, 'destroy'])->name('admin.media.destroy');
 
-    Route::get('/admin/halaman/about', function () {
-        return view('admin.pages.about');
-    });
-
-    Route::get('/admin/halaman/program', function () {
-        return view('admin.pages.program');
-    });
-
-    Route::get('/admin/media', function () {
-        return view('admin.media');
-    });
-
-    Route::get('/admin/komunikasi', function () {
-        return view('admin.komunikasi');
-    });
+    Route::get('/admin/komunikasi', [App\Http\Controllers\CommunicationController::class, 'index'])->name('admin.komunikasi.index');
+    Route::post('/admin/komunikasi/{id}/read', [App\Http\Controllers\CommunicationController::class, 'markAsRead'])->name('admin.komunikasi.read');
+    Route::delete('/admin/komunikasi/{id}', [App\Http\Controllers\CommunicationController::class, 'destroy'])->name('admin.komunikasi.destroy');
 
     Route::get('/admin/users', [App\Http\Controllers\AdminController::class, 'users'])->name('admin.users');
     Route::post('/admin/users/{id}/approve', [App\Http\Controllers\AdminController::class, 'approveUser'])->name('admin.users.approve');
     Route::post('/admin/users/{id}/reject', [App\Http\Controllers\AdminController::class, 'rejectUser'])->name('admin.users.reject');
 
-    Route::get('/admin/pengaturan', function () {
-        return view('admin.pengaturan');
-    });
+    Route::get('/admin/pengaturan', [App\Http\Controllers\SettingController::class, 'index'])->name('admin.pengaturan.index');
+    Route::put('/admin/pengaturan', [App\Http\Controllers\SettingController::class, 'update'])->name('admin.pengaturan.update');
 });
 
 // Penulis Routes

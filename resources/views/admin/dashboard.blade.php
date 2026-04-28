@@ -23,32 +23,53 @@
 
     <!-- 2. Stats Grid -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-        @php
-            $stats = [
-                ['label' => 'Total Pesan', 'value' => '128', 'icon' => 'message-square', 'color' => 'blue'],
-                ['label' => 'Pengunjung', 'value' => '2.4k', 'icon' => 'users', 'color' => 'amber'],
-                ['label' => 'View Artikel', 'value' => '15.8k', 'icon' => 'file-text', 'color' => 'emerald'],
-                ['label' => 'View E-Book', 'value' => '3.2k', 'icon' => 'book-open', 'color' => 'violet'],
-            ];
-        @endphp
-
-        @foreach($stats as $stat)
-            <div class="bg-white p-6 rounded-[24px] border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group relative overflow-hidden">
-                <div class="flex flex-col gap-4 relative z-10">
-                    <div class="w-12 h-12 rounded-xl bg-{{ $stat['color'] }}-50 text-{{ $stat['color'] }}-600 flex items-center justify-center group-hover:scale-110 transition-transform">
-                        <i data-lucide="{{ $stat['icon'] }}"></i>
-                    </div>
-                    <div>
-                        <span class="block text-3xl font-black text-slate-900 leading-none mb-2">{{ $stat['value'] }}</span>
-                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">{{ $stat['label'] }}</span>
-                    </div>
+        <div class="bg-white p-6 rounded-[24px] border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group relative overflow-hidden">
+            <div class="flex flex-col gap-4 relative z-10">
+                <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <i data-lucide="message-square"></i>
                 </div>
-                <div class="absolute top-6 right-6 flex items-center gap-1 text-emerald-500 text-[10px] font-black">
-                    <i data-lucide="trending-up" class="w-3 h-3"></i>
-                    ACTIVE
+                <div>
+                    <span class="block text-3xl font-black text-slate-900 leading-none mb-2">{{ $stats['total_messages'] }}</span>
+                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Total Pesan</span>
                 </div>
             </div>
-        @endforeach
+        </div>
+
+        <div class="bg-white p-6 rounded-[24px] border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group relative overflow-hidden">
+            <div class="flex flex-col gap-4 relative z-10">
+                <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <i data-lucide="users"></i>
+                </div>
+                <div>
+                    <span class="block text-3xl font-black text-slate-900 leading-none mb-2">{{ $stats['total_users'] }}</span>
+                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Total Member</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-[24px] border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group relative overflow-hidden">
+            <div class="flex flex-col gap-4 relative z-10">
+                <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <i data-lucide="file-text"></i>
+                </div>
+                <div>
+                    <span class="block text-3xl font-black text-slate-900 leading-none mb-2">{{ number_format($stats['article_views']) }}</span>
+                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">View Artikel</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-[24px] border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group relative overflow-hidden">
+            <div class="flex flex-col gap-4 relative z-10">
+                <div class="w-12 h-12 rounded-xl bg-violet-50 text-violet-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <i data-lucide="book-open"></i>
+                </div>
+                <div>
+                    <span class="block text-3xl font-black text-slate-900 leading-none mb-2">{{ number_format($stats['ebook_downloads']) }}</span>
+                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Download E-Book</span>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- 3. Detailed Analytics -->
@@ -60,7 +81,6 @@
                     <i data-lucide="file-text" class="w-5 h-5 text-[#da291c]"></i>
                     Artikel Terpopuler
                 </h3>
-                <span class="bg-white border border-slate-200 text-slate-500 px-3 py-1 rounded-full text-[10px] font-black">TOP 10</span>
             </div>
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse">
@@ -68,25 +88,22 @@
                         <tr class="bg-slate-50/30">
                             <th class="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-50">Judul</th>
                             <th class="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-50">Views</th>
-                            <th class="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-50">Status</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-50">
-                        @for($i = 1; $i <= 5; $i++)
+                        @forelse($topArticles as $article)
                         <tr class="hover:bg-slate-50/50 transition-colors">
                             <td class="px-8 py-5">
-                                <div class="font-bold text-slate-700 line-clamp-1">Strategi Lulus Interview Batch {{ $i }}</div>
-                                <span class="text-[9px] font-black text-[#da291c] uppercase tracking-widest">Karir</span>
+                                <div class="font-bold text-slate-700 line-clamp-1">{{ $article->title }}</div>
+                                <span class="text-[9px] font-black text-[#da291c] uppercase tracking-widest">{{ $article->category->name ?? 'Uncategorized' }}</span>
                             </td>
-                            <td class="px-8 py-5 font-black text-blue-600">{{ 1200 - ($i * 150) }}</td>
-                            <td class="px-8 py-5">
-                                <div class="flex items-center gap-2">
-                                    <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
-                                    <span class="text-[10px] font-bold text-slate-500">Terbit</span>
-                                </div>
-                            </td>
+                            <td class="px-8 py-5 font-black text-blue-600">{{ number_format($article->views_count) }}</td>
                         </tr>
-                        @endfor
+                        @empty
+                        <tr>
+                            <td colspan="2" class="px-8 py-10 text-center text-slate-400 font-bold text-xs uppercase tracking-widest">Belum ada artikel</td>
+                        </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
@@ -99,33 +116,31 @@
                     <i data-lucide="book-open" class="w-5 h-5 text-violet-500"></i>
                     E-Book Terpopuler
                 </h3>
-                <span class="bg-white border border-slate-200 text-slate-500 px-3 py-1 rounded-full text-[10px] font-black">TOP 10</span>
             </div>
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse">
                     <thead>
                         <tr class="bg-slate-50/30">
                             <th class="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-50">Judul E-Book</th>
-                            <th class="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-50">Views</th>
-                            <th class="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-50">Interest</th>
+                            <th class="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-50">Downloads</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-50">
-                        @for($i = 1; $i <= 5; $i++)
+                        @forelse($topEbooks as $ebook)
                         <tr class="hover:bg-slate-50/50 transition-colors">
-                            <td class="px-8 py-5 font-bold text-slate-700">Materi Bahasa Jepang Level N{{ 6 - $i }}</td>
-                            <td class="px-8 py-5 font-black text-violet-600">{{ 800 - ($i * 100) }}</td>
-                            <td class="px-8 py-5">
-                                <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
-                                    <div class="h-full bg-violet-500" style="width: {{ 100 - ($i * 15) }}%"></div>
-                                </div>
-                            </td>
+                            <td class="px-8 py-5 font-bold text-slate-700">{{ $ebook->title }}</td>
+                            <td class="px-8 py-5 font-black text-violet-600">{{ number_format($ebook->download_count) }}</td>
                         </tr>
-                        @endfor
+                        @empty
+                        <tr>
+                            <td colspan="2" class="px-8 py-10 text-center text-slate-400 font-bold text-xs uppercase tracking-widest">Belum ada e-book</td>
+                        </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
         </div>
+    </div>
     </div>
 </div>
 

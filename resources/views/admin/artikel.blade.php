@@ -3,18 +3,24 @@
 @section('page-title', 'Artikel & Berita')
 
 @section('content')
-<div class="artikel-container">
+<div class="artikel-container" x-data="{ openCreateModal: false }">
     <!-- Header -->
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6">
         <div>
             <h1 class="text-3xl font-black text-slate-900 tracking-tight">Artikel & Media Journal</h1>
             <p class="text-slate-500 font-medium mt-1">Kelola semua publikasi artikel dan konten berita di platform.</p>
         </div>
-        <a href="/admin/artikel/create" class="bg-gradient-to-r from-[#da291c] to-[#b91c1c] text-white px-8 py-4 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-red-900/20 hover:-translate-y-1 transition-all flex items-center gap-3">
+        <button @click="openCreateModal = true" class="bg-gradient-to-r from-[#da291c] to-[#b91c1c] text-white px-8 py-4 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-red-900/20 hover:-translate-y-1 transition-all flex items-center gap-3">
             <i data-lucide="plus" class="w-5 h-5"></i>
             Buat Artikel Baru
-        </a>
+        </button>
     </div>
+
+    @if(session('success'))
+        <div class="mb-8 p-4 bg-emerald-50 text-emerald-700 rounded-2xl font-bold text-sm border border-emerald-100">
+            {{ session('success') }}
+        </div>
+    @endif
 
     <!-- Filters -->
     <div class="flex flex-col lg:flex-row justify-between items-center mb-8 gap-6">
@@ -23,7 +29,7 @@
             <input type="text" placeholder="Cari berdasarkan judul artikel..." class="w-full pl-16 pr-6 py-4 bg-white border border-slate-200 rounded-full text-sm focus:outline-none focus:border-[#da291c] shadow-sm transition-all">
         </div>
         <div class="text-xs font-black text-slate-400 uppercase tracking-[0.2em]">
-            Showing 12 Articles
+            Showing {{ $articles->total() }} Articles
         </div>
     </div>
 
@@ -42,34 +48,28 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-50">
-                    @php
-                        $articles = [
-                            ['title' => 'Panduan Lengkap Visa Tokutei Ginou 2024', 'cat' => 'Karir', 'status' => 'publish', 'views' => 1240, 'date' => '24 Apr 2024'],
-                            ['title' => 'Cara Belajar Kanji dengan Cepat untuk Pemula', 'cat' => 'Edukasi', 'status' => 'publish', 'views' => 890, 'date' => '22 Apr 2024'],
-                            ['title' => 'Mengenal Budaya Omotenashi di Industri Pelayanan Jepang', 'cat' => 'Budaya', 'status' => 'draft', 'views' => 0, 'date' => '20 Apr 2024'],
-                            ['title' => 'Tips Menghadapi Interview User Perusahaan Kaigo', 'cat' => 'Tips', 'status' => 'publish', 'views' => 2100, 'date' => '18 Apr 2024'],
-                            ['title' => 'Cerita Sukses Alumni Batch 5 di Yokohama', 'cat' => 'Alumni', 'status' => 'publish', 'views' => 560, 'date' => '15 Apr 2024'],
-                        ];
-                    @endphp
-
-                    @foreach($articles as $art)
+                    @forelse($articles as $art)
                     <tr class="hover:bg-slate-50/50 transition-colors group">
                         <td class="px-8 py-6">
                             <div class="flex items-center gap-4">
-                                <div class="w-10 h-10 bg-slate-100 rounded-xl flex items-center justify-center text-slate-400 group-hover:bg-red-50 group-hover:text-[#da291c] transition-colors">
-                                    <i data-lucide="file-text" class="w-5 h-5"></i>
+                                <div class="w-10 h-10 bg-slate-100 rounded-xl flex items-center justify-center text-slate-400 group-hover:bg-red-50 group-hover:text-[#da291c] transition-colors overflow-hidden">
+                                    @if($art->featured_image)
+                                        <img src="{{ Storage::url($art->featured_image) }}" class="w-full h-full object-cover">
+                                    @else
+                                        <i data-lucide="file-text" class="w-5 h-5"></i>
+                                    @endif
                                 </div>
                                 <div>
-                                    <div class="font-bold text-slate-900 group-hover:text-[#da291c] transition-colors line-clamp-1">{{ $art['title'] }}</div>
-                                    <div class="text-[10px] text-slate-400 font-medium">/{{ Str::slug($art['title']) }}</div>
+                                    <div class="font-bold text-slate-900 group-hover:text-[#da291c] transition-colors line-clamp-1">{{ $art->title }}</div>
+                                    <div class="text-[10px] text-slate-400 font-medium">/{{ $art->slug }}</div>
                                 </div>
                             </div>
                         </td>
                         <td class="px-8 py-6">
-                            <span class="bg-blue-50 text-blue-600 px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider">{{ $art['cat'] }}</span>
+                            <span class="bg-blue-50 text-blue-600 px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider">{{ $art->category->name ?? 'Uncategorized' }}</span>
                         </td>
                         <td class="px-8 py-6">
-                            @if($art['status'] == 'publish')
+                            @if($art->status == 'published')
                                 <span class="bg-emerald-50 text-emerald-600 px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider">Published</span>
                             @else
                                 <span class="bg-slate-100 text-slate-500 px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider">Draft</span>
@@ -78,24 +78,88 @@
                         <td class="px-8 py-6">
                             <div class="flex items-center gap-2 text-blue-600 font-black">
                                 <i data-lucide="eye" class="w-3 h-3"></i>
-                                {{ number_format($art['views']) }}
+                                {{ number_format($art->views_count) }}
                             </div>
                         </td>
-                        <td class="px-8 py-6 text-sm font-bold text-slate-500">{{ $art['date'] }}</td>
+                        <td class="px-8 py-6 text-sm font-bold text-slate-500">{{ $art->created_at->format('d M Y') }}</td>
                         <td class="px-8 py-6 text-right">
                             <div class="flex justify-end gap-2">
                                 <button class="w-9 h-9 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all shadow-sm">
                                     <i data-lucide="edit-2" class="w-4 h-4"></i>
                                 </button>
-                                <button class="w-9 h-9 bg-red-50 text-[#da291c] rounded-lg flex items-center justify-center hover:bg-[#da291c] hover:text-white transition-all shadow-sm">
-                                    <i data-lucide="trash-2" class="w-4 h-4"></i>
-                                </button>
+                                <form action="{{ route('admin.artikel.destroy', $art->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus artikel ini?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="w-9 h-9 bg-red-50 text-[#da291c] rounded-lg flex items-center justify-center hover:bg-[#da291c] hover:text-white transition-all shadow-sm">
+                                        <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                    </button>
+                                </form>
                             </div>
                         </td>
                     </tr>
-                    @endforeach
+                    @empty
+                    <tr>
+                        <td colspan="6" class="px-8 py-20 text-center text-slate-400 font-bold text-xs uppercase tracking-widest">Belum ada artikel dipublikasikan</td>
+                    </tr>
+                    @endforelse
                 </tbody>
             </table>
+        </div>
+        <div class="px-8 py-4 border-t border-slate-50">
+            {{ $articles->links() }}
+        </div>
+    </div>
+
+    <!-- Create Modal -->
+    <div x-show="openCreateModal" 
+         x-cloak
+         class="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-900/60 backdrop-blur-sm">
+        <div @click.away="openCreateModal = false" class="bg-white w-full max-w-2xl rounded-[32px] shadow-2xl overflow-hidden animate-in zoom-in duration-300">
+            <div class="px-10 py-8 border-b border-slate-100 flex justify-between items-center">
+                <h2 class="text-2xl font-black text-slate-900">Buat Artikel Baru</h2>
+                <button @click="openCreateModal = false" class="text-slate-400 hover:text-slate-600">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <form action="{{ route('admin.artikel.store') }}" method="POST" enctype="multipart/form-data" class="p-10">
+                @csrf
+                <div class="grid grid-cols-1 gap-6">
+                    <div>
+                        <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Judul Artikel</label>
+                        <input type="text" name="title" required class="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-sm focus:outline-none focus:border-[#da291c] transition-all">
+                    </div>
+                    <div class="grid grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Kategori</label>
+                            <select name="category_id" required class="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-sm focus:outline-none focus:border-[#da291c] transition-all">
+                                <option value="">Pilih Kategori</option>
+                                @foreach(\App\Models\Category::all() as $cat)
+                                    <option value="{{ $cat->id }}">{{ $cat->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Status</label>
+                            <select name="status" class="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-sm focus:outline-none focus:border-[#da291c] transition-all">
+                                <option value="draft">Draft (Simpan Saja)</option>
+                                <option value="published">Publish (Langsung Terbit)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Gambar Utama (Featured Image)</label>
+                        <input type="file" name="featured_image" class="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Konten Artikel</label>
+                        <textarea name="content" rows="6" required class="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-sm focus:outline-none focus:border-[#da291c] transition-all"></textarea>
+                    </div>
+                </div>
+                <div class="mt-10 flex gap-4">
+                    <button type="submit" class="flex-1 bg-[#da291c] text-white py-4 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-red-900/20">Simpan & Terbitkan</button>
+                    <button type="button" @click="openCreateModal = false" class="px-8 py-4 bg-slate-100 text-slate-500 rounded-2xl font-black text-sm uppercase tracking-widest">Batal</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
