@@ -18,7 +18,8 @@ class WriterUserSeeder extends Seeder
             [
                 'name' => 'penulis_ayaka',
                 'password' => Hash::make('Ayaka@Penulis2026'),
-                'role' => 'penulis', // Sesuaikan dengan sistem role Anda
+                'role' => 'penulis',
+                'is_approved' => true, // Tambahkan ini agar akun langsung aktif
             ]
         );
     }
