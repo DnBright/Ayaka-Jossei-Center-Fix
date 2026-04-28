@@ -82,9 +82,9 @@ Route::middleware('auth')->group(function () {
         return view('admin.komunikasi');
     });
 
-    Route::get('/admin/users', function () {
-        return view('admin.users');
-    });
+    Route::get('/admin/users', [App\Http\Controllers\AdminController::class, 'users'])->name('admin.users');
+    Route::post('/admin/users/{id}/approve', [App\Http\Controllers\AdminController::class, 'approveUser'])->name('admin.users.approve');
+    Route::post('/admin/users/{id}/reject', [App\Http\Controllers\AdminController::class, 'rejectUser'])->name('admin.users.reject');
 
     Route::get('/admin/pengaturan', function () {
         return view('admin.pengaturan');
