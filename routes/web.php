@@ -3,29 +3,41 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('user.welcome');
 });
 
 Route::get('/profil', function () {
-    return view('profil');
+    return view('user.profil');
 });
 
 Route::get('/program', function () {
-    return view('program');
+    return view('user.program');
 });
 
 Route::get('/galeri', function () {
-    return view('galeri');
+    return view('user.galeri');
 });
 
 Route::get('/blog', function () {
-    return view('blog');
+    return view('user.blog');
 });
 
 Route::get('/alumni', function () {
-    return view('alumni');
+    return view('user.alumni');
 });
 
 Route::get('/kontak', function () {
-    return view('kontak');
+    return view('user.kontak');
+});
+
+Route::get('/admin', function () {
+    return view('admin.dashboard');
+});
+
+Route::get('/admin/artikel', function () {
+    return view('admin.artikel');
+});
+
+Route::get('/admin/users', function () {
+    return view('admin.users');
 });
