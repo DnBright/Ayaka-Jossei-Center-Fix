@@ -38,6 +38,38 @@ Route::get('/admin/artikel', function () {
     return view('admin.artikel');
 });
 
+Route::get('/admin/ebook', function () {
+    return view('admin.ebook');
+});
+
+Route::get('/admin/halaman', function () {
+    return view('admin.halaman');
+});
+
+Route::get('/admin/halaman/home', function () {
+    return view('admin.pages.home');
+});
+
+Route::get('/admin/halaman/about', function () {
+    return view('admin.pages.about');
+});
+
+Route::get('/admin/halaman/program', function () {
+    return view('admin.pages.program');
+});
+
+Route::get('/admin/media', function () {
+    return view('admin.media');
+});
+
+Route::get('/admin/komunikasi', function () {
+    return view('admin.komunikasi');
+});
+
 Route::get('/admin/users', function () {
     return view('admin.users');
+});
+
+Route::get('/admin/pengaturan', function () {
+    return view('admin.pengaturan');
 });
