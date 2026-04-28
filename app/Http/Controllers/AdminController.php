@@ -33,6 +33,26 @@ class AdminController extends Controller
         return view('admin.users', compact('internalTeam', 'pendingUsers', 'activeMembers'));
     }
 
+    public function createUser(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8',
+            'role' => 'required|in:admin,penulis',
+        ]);
+
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => \Hash::make($request->password),
+            'role' => $request->role,
+            'is_approved' => true,
+        ]);
+
+        return back()->with('success', 'Anggota tim baru berhasil ditambahkan.');
+    }
+
     public function approveUser($id)
     {
         $user = User::findOrFail($id);
