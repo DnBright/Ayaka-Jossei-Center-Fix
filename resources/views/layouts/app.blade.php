@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('title', 'Ayaka Josei Center')</title>
+    <title>@yield('title', $settings->site_name ?? 'Ayaka Josei Center')</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;900&family=Cormorant+Garamond:ital,wght@1,700&display=swap" rel="stylesheet">
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -17,7 +17,7 @@
         <div class="flex items-center justify-between lg:justify-start lg:gap-8">
             <!-- Logo -->
             <a href="/" class="flex items-center h-8 hover:opacity-80 transition-opacity">
-                <img src="{{ asset('images/logo ayakan.png') }}" alt="Ayaka Logo" class="h-6 md:h-8 w-auto object-contain">
+                <img src="{{ asset('images/logo ayakan.png') }}" alt="{{ $settings->site_name ?? 'Ayaka Logo' }}" class="h-6 md:h-8 w-auto object-contain">
             </a>
 
             <!-- Mobile Menu Toggle -->
@@ -151,8 +151,8 @@
                     <a href="/" class="inline-block h-16 mb-8 hover:opacity-80 transition-opacity">
                         <img src="{{ asset('images/logo ayakan.png') }}" alt="Logo" class="h-full object-contain">
                     </a>
-                    <h3 class="text-3xl font-black italic tracking-tighter mb-4">Ayaka Josei Center</h3>
-                    <p class="text-slate-500 max-w-md leading-relaxed">Membuka gerbang karir profesional di Jepang untuk perempuan Indonesia melalui pelatihan yang berkualitas dan sistem pemberangkatan yang transparan.</p>
+                    <h3 class="text-3xl font-black italic tracking-tighter mb-4">{{ $settings->site_name ?? 'Ayaka Josei Center' }}</h3>
+                    <p class="text-slate-500 max-w-md leading-relaxed">{{ $settings->site_description ?? 'Membuka gerbang karir profesional di Jepang untuk perempuan Indonesia melalui pelatihan yang berkualitas dan sistem pemberangkatan yang transparan.' }}</p>
                 </div>
                 <div>
                     <h4 class="text-xs font-black uppercase tracking-widest mb-8 text-white">Navigasi</h4>
@@ -175,7 +175,7 @@
                 </div>
             </div>
             <div class="text-center pt-12 border-t border-white/5 text-slate-600 text-[10px] font-black uppercase tracking-[0.3em]">
-                &copy; {{ date('Y') }} Ayaka Josei Center. All Rights Reserved.
+                &copy; {{ date('Y') }} {{ $settings->site_name ?? 'Ayaka Josei Center' }}. All Rights Reserved.
             </div>
         </div>
     </footer>
