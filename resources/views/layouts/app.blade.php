@@ -24,9 +24,9 @@
                         ['name' => 'Profil', 'href' => '/profil'],
                         ['name' => 'Program', 'href' => '/program'],
                         ['name' => 'Galeri', 'href' => '/galeri'],
-                        ['name' => 'Blog', 'href' => '#'],
-                        ['name' => 'Alumni', 'href' => '#'],
-                        ['name' => 'Kontak', 'href' => '#'],
+                        ['name' => 'Blog', 'href' => '/blog'],
+                        ['name' => 'Alumni', 'href' => '/alumni'],
+                        ['name' => 'Kontak', 'href' => '/kontak'],
                     ];
                 @endphp
                 @foreach($navItems as $item)
@@ -66,6 +66,9 @@
                         <li><a href="/profil" class="hover:text-[#da291c] transition-colors">Profil</a></li>
                         <li><a href="/program" class="hover:text-[#da291c] transition-colors">Program</a></li>
                         <li><a href="/galeri" class="hover:text-[#da291c] transition-colors">Galeri</a></li>
+                        <li><a href="/blog" class="hover:text-[#da291c] transition-colors">Blog</a></li>
+                        <li><a href="/alumni" class="hover:text-[#da291c] transition-colors">Alumni</a></li>
+                        <li><a href="/kontak" class="hover:text-[#da291c] transition-colors">Kontak</a></li>
                     </ul>
                 </div>
                 <div>
