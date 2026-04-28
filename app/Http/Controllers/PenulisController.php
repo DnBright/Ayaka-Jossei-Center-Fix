@@ -12,22 +12,23 @@ class PenulisController extends Controller
 {
     public function dashboard()
     {
-        $user = Auth::user();
-        
-        // Ambil statistik asli milik penulis
+        // Ambil statistik GLOBAL (sama dengan Admin)
         $stats = [
-            'total_artikel' => Article::where('author_id', $user->id)->count(),
-            'total_views' => Article::where('author_id', $user->id)->sum('views_count'),
-            'total_ebook' => Ebook::count(), // E-book saat ini masih global
+            'total_messages' => \App\Models\Message::count(),
+            'total_articles' => \App\Models\Article::count(),
+            'total_ebooks' => \App\Models\Ebook::count(),
+            'total_users' => \App\Models\User::count(),
+            'article_views' => \App\Models\Article::sum('views_count'),
+            'ebook_downloads' => \App\Models\Ebook::sum('download_count'),
         ];
 
-        // Ambil 5 artikel terakhir milik penulis
-        $recent_articles = Article::where('author_id', $user->id)
-            ->latest()
+        // Ambil 5 artikel terpopuler secara global
+        $topArticles = Article::with(['category', 'author'])
+            ->orderBy('views_count', 'desc')
             ->take(5)
             ->get();
 
-        return view('penulis.dashboard', compact('stats', 'recent_articles'));
+        return view('penulis.dashboard', compact('stats', 'topArticles'));
     }
 
     public function artikel()

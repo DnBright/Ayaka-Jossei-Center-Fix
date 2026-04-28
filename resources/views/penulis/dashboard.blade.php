@@ -29,8 +29,8 @@
                     <i data-lucide="file-text"></i>
                 </div>
                 <div>
-                    <span class="block text-3xl font-black text-slate-900 leading-none mb-2">{{ $stats['total_artikel'] }}</span>
-                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Artikel Saya</span>
+                    <span class="block text-3xl font-black text-slate-900 leading-none mb-2">{{ $stats['total_articles'] }}</span>
+                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Total Artikel</span>
                 </div>
             </div>
         </div>
@@ -40,8 +40,8 @@
                     <i data-lucide="eye"></i>
                 </div>
                 <div>
-                    <span class="block text-3xl font-black text-slate-900 leading-none mb-2">{{ number_format($stats['total_views']) }}</span>
-                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Total Pembaca</span>
+                    <span class="block text-3xl font-black text-slate-900 leading-none mb-2">{{ number_format($stats['article_views']) }}</span>
+                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Total Pembaca Artikel</span>
                 </div>
             </div>
         </div>
@@ -51,44 +51,79 @@
                     <i data-lucide="book-open"></i>
                 </div>
                 <div>
-                    <span class="block text-3xl font-black text-slate-900 leading-none mb-2">{{ $stats['total_ebook'] }}</span>
-                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">E-Book Materi</span>
+                    <span class="block text-3xl font-black text-slate-900 leading-none mb-2">{{ $stats['total_ebooks'] }}</span>
+                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Total E-Book</span>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white p-6 rounded-[24px] border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group overflow-hidden relative">
+            <div class="flex flex-col gap-4 relative z-10">
+                <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <i data-lucide="download"></i>
+                </div>
+                <div>
+                    <span class="block text-3xl font-black text-slate-900 leading-none mb-2">{{ number_format($stats['ebook_downloads']) }}</span>
+                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Total Download E-Book</span>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white p-6 rounded-[24px] border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group overflow-hidden relative">
+            <div class="flex flex-col gap-4 relative z-10">
+                <div class="w-12 h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <i data-lucide="users"></i>
+                </div>
+                <div>
+                    <span class="block text-3xl font-black text-slate-900 leading-none mb-2">{{ $stats['total_users'] }}</span>
+                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Total Pengguna</span>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white p-6 rounded-[24px] border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group overflow-hidden relative">
+            <div class="flex flex-col gap-4 relative z-10">
+                <div class="w-12 h-12 rounded-xl bg-slate-50 text-slate-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <i data-lucide="message-square"></i>
+                </div>
+                <div>
+                    <span class="block text-3xl font-black text-slate-900 leading-none mb-2">{{ $stats['total_messages'] }}</span>
+                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Total Pesan</span>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Recent Activity -->
+    <!-- Top Performing Content -->
     <div class="bg-white rounded-[32px] border border-slate-100 shadow-sm overflow-hidden flex flex-col">
         <div class="px-8 py-6 border-b border-slate-50 flex justify-between items-center bg-slate-50/50">
             <h3 class="font-black text-slate-900 flex items-center gap-3">
-                <i data-lucide="clock" class="w-5 h-5 text-[#da291c]"></i>
-                Aktivitas Artikel Terakhir
+                <i data-lucide="trending-up" class="w-5 h-5 text-[#da291c]"></i>
+                Artikel Terpopuler (Global)
             </h3>
         </div>
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
                 <thead>
                     <tr class="bg-slate-50/30">
-                        <th class="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-50">Judul</th>
-                        <th class="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-50">Status</th>
+                        <th class="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-50">Judul Artikel</th>
+                        <th class="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-50">Penulis</th>
+                        <th class="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-50">Kategori</th>
                         <th class="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-50">Views</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-50">
-                    @forelse($recent_articles as $art)
+                    @forelse($topArticles as $art)
                     <tr class="hover:bg-slate-50/50 transition-colors">
                         <td class="px-8 py-5 font-bold text-slate-700">{{ $art->title }}</td>
+                        <td class="px-8 py-5 text-xs font-bold text-slate-500 uppercase tracking-wider">{{ $art->author->name ?? 'System' }}</td>
                         <td class="px-8 py-5">
-                            <span class="text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest {{ $art->status == 'published' ? 'bg-emerald-50 text-emerald-600' : 'bg-amber-50 text-amber-600' }}">
-                                {{ $art->status }}
+                            <span class="text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-widest bg-slate-100 text-slate-600">
+                                {{ $art->category->name ?? 'Uncategorized' }}
                             </span>
                         </td>
-                        <td class="px-8 py-5 font-black text-blue-600">{{ $art->views_count }}</td>
+                        <td class="px-8 py-5 font-black text-blue-600">{{ number_format($art->views_count) }}</td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="3" class="px-8 py-10 text-center text-slate-400 text-xs font-bold uppercase tracking-widest">Belum ada artikel yang Anda buat</td>
+                        <td colspan="4" class="px-8 py-10 text-center text-slate-400 text-xs font-bold uppercase tracking-widest">Belum ada data artikel tersedia</td>
                     </tr>
                     @endforelse
                 </tbody>
