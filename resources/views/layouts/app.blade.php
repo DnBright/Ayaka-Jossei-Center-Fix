@@ -92,7 +92,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-4 gap-16 mb-20">
                 <div class="lg:col-span-2">
                     <a href="/" class="inline-block h-16 mb-8 hover:opacity-80 transition-opacity">
-                        <img src="{{ asset('images/logo ayakan.png') }}" alt="Logo" class="h-full brightness-0 invert">
+                        <img src="{{ asset('images/logo ayakan.png') }}" alt="Logo" class="h-full object-contain">
                     </a>
                     <h3 class="text-3xl font-black italic tracking-tighter mb-4">Ayaka Josei Center</h3>
                     <p class="text-slate-500 max-w-md leading-relaxed">Membuka gerbang karir profesional di Jepang untuk perempuan Indonesia melalui pelatihan yang berkualitas dan sistem pemberangkatan yang transparan.</p>
