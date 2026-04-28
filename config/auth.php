@@ -42,6 +42,16 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+
+        'penulis' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
     ],
 
     /*

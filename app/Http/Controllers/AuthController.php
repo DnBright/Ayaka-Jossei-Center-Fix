@@ -58,19 +58,23 @@ class AuthController extends Controller
             'password' => ['required'],
         ]);
 
-        if (Auth::attempt($credentials)) {
-            $user = Auth::user();
+        // Tentukan guard berdasarkan role di form
+        $role = $request->role ?? 'user';
+        $guard = ($role === 'admin' || $role === 'penulis') ? $role : 'web';
+
+        if (Auth::guard($guard)->attempt($credentials)) {
+            $user = Auth::guard($guard)->user();
 
             // CEK VALIDASI PINTU: Role harus cocok dengan Form Login
-            if ($request->has('role') && $user->role !== $request->role) {
-                Auth::logout();
+            if ($user->role !== $role) {
+                Auth::guard($guard)->logout();
                 return back()->withErrors([
-                    'email' => 'Akun Anda tidak terdaftar sebagai ' . ucfirst($request->role) . '.',
+                    'email' => 'Akun Anda tidak terdaftar sebagai ' . ucfirst($role) . '.',
                 ])->onlyInput('email');
             }
 
             if (!$user->is_approved && $user->role !== 'admin' && $user->role !== 'penulis') {
-                Auth::logout();
+                Auth::guard($guard)->logout();
                 $request->session()->invalidate();
                 $request->session()->regenerateToken();
                 return redirect()->route('pending-approval')->with('status', 'Akun Anda sedang dalam proses validasi oleh admin.');
@@ -94,9 +98,14 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        Auth::logout();
+        // Logout dari semua guard yang mungkin aktif
+        Auth::guard('admin')->logout();
+        Auth::guard('penulis')->logout();
+        Auth::guard('web')->logout();
+
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+        
         return redirect('/');
     }
 }

@@ -41,7 +41,7 @@ Route::post('/kontak', [App\Http\Controllers\CommunicationController::class, 'st
 Route::get('/ebook', [UserContentController::class, 'ebook'])->name('ebook.index');
 Route::get('/ebook/download/{id}', [UserContentController::class, 'downloadEbook'])->middleware('auth')->name('ebook.download');
 
-Route::middleware(['auth', 'role:admin,penulis'])->group(function () {
+Route::middleware(['auth:admin,penulis', 'role:admin,penulis'])->group(function () {
     Route::get('/admin', [App\Http\Controllers\AdminController::class, 'dashboard'])->name('admin.dashboard');
 
     // Artikel Management (Shared for Admin & Penulis)
@@ -80,7 +80,7 @@ Route::middleware(['auth', 'role:admin,penulis'])->group(function () {
 });
 
 // Penulis Routes
-Route::middleware(['auth', 'role:penulis'])->group(function () {
+Route::middleware(['auth:penulis', 'role:penulis'])->group(function () {
     Route::get('/penulis', [App\Http\Controllers\PenulisController::class, 'dashboard'])->name('penulis.dashboard');
     Route::get('/penulis/artikel', [App\Http\Controllers\PenulisController::class, 'artikel'])->name('penulis.artikel.index');
     Route::get('/penulis/ebook', [App\Http\Controllers\PenulisController::class, 'ebook'])->name('penulis.ebook.index');

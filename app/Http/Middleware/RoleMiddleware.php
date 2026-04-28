@@ -16,15 +16,24 @@ class RoleMiddleware
      */
     public function handle(Request $request, Closure $next, ...$roles): Response
     {
-        if (!Auth::check()) {
-            return redirect('/login');
+        $user = null;
+        
+        // Cari user di guard yang sesuai
+        foreach ($roles as $role) {
+            $guard = ($role === 'admin' || $role === 'penulis') ? $role : 'web';
+            if (Auth::guard($guard)->check()) {
+                $user = Auth::guard($guard)->user();
+                break;
+            }
         }
 
-        $user = Auth::user();
+        if (!$user) {
+            return redirect('/login');
+        }
         
         // Cek apakah akun sudah disetujui (khusus member/user biasa)
         if ($user->role === 'user' && !$user->is_approved) {
-            Auth::logout();
+            Auth::guard('web')->logout();
             return redirect()->route('login')->withErrors(['email' => 'Akun Anda sedang menunggu persetujuan Admin.']);
         }
 
