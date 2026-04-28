@@ -130,9 +130,9 @@
                 <div class="relative z-10">
                     <h2 class="text-4xl md:text-7xl font-black tracking-tighter mb-10 italic uppercase leading-none">Siap Menjadi Bagian <br /> Dari Kesuksesan Kami?</h2>
                     <p class="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto mb-16">Pendaftaran batch baru telah dibuka. Hubungi kami untuk konsultasi gratis mengenai karirmu di Jepang.</p>
-                    <div class="flex flex-col sm:flex-row justify-center gap-6">
+                    <div class="flex flex-col sm:flex-row justify-center gap-4">
+                        <a href="/login" class="bg-white text-slate-950 px-12 py-5 rounded-full text-xs font-black uppercase tracking-widest hover:bg-[#da291c] hover:text-white transition-all shadow-2xl">Masuk Akun</a>
                         <a href="/register" class="bg-[#da291c] text-white px-12 py-5 rounded-full text-xs font-black uppercase tracking-widest hover:bg-white hover:text-slate-900 transition-all shadow-2xl">Daftar Sekarang</a>
-                        <a href="/kontak" class="bg-white/10 text-white border border-white/20 px-12 py-5 rounded-full text-xs font-black uppercase tracking-widest hover:bg-white/20 transition-all">Konsultasi Gratis</a>
                     </div>
                 </div>
             </div>
