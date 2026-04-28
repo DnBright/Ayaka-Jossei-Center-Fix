@@ -9,7 +9,8 @@ class SettingController extends Controller
 {
     public function index()
     {
-        $settings = Setting::pluck('value', 'key')->toArray();
+        $setting = Setting::first();
+        $settings = $setting ? $setting->toArray() : [];
         return view('admin.pengaturan', compact('settings'));
     }
 
@@ -20,12 +21,7 @@ class SettingController extends Controller
             'instagram_url', 'facebook_url',
         ]);
 
-        foreach ($data as $key => $value) {
-            Setting::updateOrCreate(
-                ['key' => $key],
-                ['value' => $value]
-            );
-        }
+        Setting::updateOrCreate(['id' => 1], $data);
 
         return back()->with('success', 'Pengaturan website berhasil disimpan.');
     }
