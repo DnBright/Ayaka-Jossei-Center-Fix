@@ -8,6 +8,7 @@ use App\Models\Ebook;
 use App\Models\Media;
 use App\Models\User;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 
 class UserContentController extends Controller
 {
@@ -43,7 +44,7 @@ class UserContentController extends Controller
             return;
         }
 
-        $authorId = User::query()->value('id');
+        $authorId = User::query()->where('role', 'admin')->value('id') ?? User::query()->value('id');
         if (!$authorId) {
             return;
         }
@@ -119,7 +120,7 @@ class UserContentController extends Controller
                 'file_size' => 160000,
                 'title' => 'Momen Pelatihan Batch ' . $i,
                 'type' => 'gallery',
-                'uploaded_by' => User::query()->value('id'),
+                'uploaded_by' => User::query()->where('role', 'admin')->value('id') ?? User::query()->value('id'),
             ]);
         }
     }
@@ -148,7 +149,7 @@ class UserContentController extends Controller
         }
     }
 
-    public function blog(\Illuminate\Http\Request $request)
+    public function blog(Request $request)
     {
         $this->syncSharedContent();
 
@@ -167,7 +168,6 @@ class UserContentController extends Controller
                 });
             });
 
-        // Get Featured Article (only on first page without filters)
         $featuredArticle = null;
         if (!$search && (!$categoryName || $categoryName === 'Semua') && $request->input('page', 1) == 1) {
             $featuredArticle = (clone $query)->latest()->first();
@@ -203,9 +203,8 @@ class UserContentController extends Controller
         return view('user.artikel-detail', compact('article', 'relatedArticles'));
     }
 
-    public function ebook(\Illuminate\Http\Request $request)
+    public function ebook(Request $request)
     {
-        // Proteksi Halaman: Wajib Login
         if (!auth()->check()) {
             return redirect()->route('login')->with('info', 'Silakan mendaftar atau login terlebih dahulu untuk mengakses koleksi E-Book materi eksklusif Ayaka Josei Center.');
         }
@@ -229,10 +228,8 @@ class UserContentController extends Controller
     public function downloadEbook($id)
     {
         $ebook = Ebook::where('is_active', true)->findOrFail($id);
-
         $ebook->increment('download_count');
 
-        // Serve file if it exists, otherwise redirect back with info
         $filePath = storage_path('app/public/' . $ebook->file_path);
         if (file_exists($filePath)) {
             return response()->download($filePath, $ebook->title . '.pdf');
@@ -241,7 +238,7 @@ class UserContentController extends Controller
         return back()->with('info', 'File e-book sedang dipersiapkan.');
     }
 
-    public function galeri(\Illuminate\Http\Request $request)
+    public function galeri(Request $request)
     {
         $this->syncSharedContent();
 
@@ -249,9 +246,7 @@ class UserContentController extends Controller
 
         $galleryItems = Media::where('type', 'gallery')
             ->when($type && $type !== 'all', function ($q) use ($type) {
-                // Assuming we use titles or some other field for categories if needed, 
-                // but let's just stick to the basic functional structure for now.
-                // In a real scenario, we might have a 'category' column in media.
+                // Filter logic can be added here
             })
             ->latest()
             ->paginate(12)
@@ -263,9 +258,7 @@ class UserContentController extends Controller
     public function alumni()
     {
         $this->syncSharedContent();
-        
         $alumni = \App\Models\Alumni::where('is_featured', true)->latest()->get();
-        
         return view('user.alumni', compact('alumni'));
     }
 }
