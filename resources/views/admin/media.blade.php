@@ -40,19 +40,28 @@
         @forelse($media as $item)
             <div class="bg-white rounded-3xl border border-slate-100 overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all group relative">
                 <div class="aspect-square bg-slate-50 relative overflow-hidden">
-                    <img src="{{ Storage::url($item->file_path) }}" alt="{{ $item->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    @php
+                        $imageSource = str_starts_with($item->file_path, 'http')
+                            ? $item->file_path
+                            : (str_starts_with($item->file_path, 'images/')
+                                ? asset($item->file_path)
+                                : Storage::url($item->file_path));
+                    @endphp
+                    <img src="{{ $imageSource }}" alt="{{ $item->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                     <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
-                        <form action="{{ route('admin.media.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus media ini?')">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="w-10 h-10 bg-red-600 text-white rounded-xl flex items-center justify-center hover:bg-red-700 transition-all shadow-lg shadow-red-900/20"><i data-lucide="trash-2" class="w-5 h-5"></i></button>
-                        </form>
+                        @if(!($item->is_dummy ?? false) && $item->id)
+                            <form action="{{ route('admin.media.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus media ini?')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="w-10 h-10 bg-red-600 text-white rounded-xl flex items-center justify-center hover:bg-red-700 transition-all shadow-lg shadow-red-900/20"><i data-lucide="trash-2" class="w-5 h-5"></i></button>
+                            </form>
+                        @endif
                     </div>
                 </div>
                 <div class="p-4">
                     <h5 class="text-[11px] font-black text-slate-900 truncate mb-1" title="{{ $item->title }}">{{ $item->title }}</h5>
                     <div class="flex items-center justify-between text-[9px] font-bold text-slate-400 uppercase tracking-widest">
-                        <span>{{ round($item->file_size / 1024, 2) }} KB</span>
+                        <span>{{ round(($item->file_size ?? 0) / 1024, 2) }} KB</span>
                         <span class="w-1 h-1 bg-slate-200 rounded-full"></span>
                         <span>{{ $item->created_at->format('d/m/y') }}</span>
                     </div>

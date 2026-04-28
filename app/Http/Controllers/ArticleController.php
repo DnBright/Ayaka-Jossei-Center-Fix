@@ -11,6 +11,25 @@ use Illuminate\Support\Facades\Auth;
 
 class ArticleController extends Controller
 {
+    private function resolveCategoryId(Request $request): ?int
+    {
+        if ($request->filled('category_id')) {
+            return (int) $request->category_id;
+        }
+
+        if ($request->filled('new_category')) {
+            $name = trim($request->new_category);
+            $category = Category::firstOrCreate(
+                ['slug' => Str::slug($name)],
+                ['name' => $name]
+            );
+
+            return (int) $category->id;
+        }
+
+        return null;
+    }
+
     public function index()
     {
         $articles = Article::with(['category', 'author'])->latest()->paginate(10);
@@ -49,12 +68,21 @@ class ArticleController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required',
-            'category_id' => 'required|exists:categories,id',
+            'category_id' => 'nullable|exists:categories,id',
+            'new_category' => 'nullable|string|max:255',
             'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'featured_image_url' => 'nullable|url|max:2048',
             'status' => 'required|in:draft,published',
         ]);
 
-        $imagePath = null;
+        $categoryId = $this->resolveCategoryId($request);
+        if (!$categoryId) {
+            return back()->withInput()->withErrors([
+                'category_id' => 'Pilih kategori atau buat kategori baru terlebih dahulu.',
+            ]);
+        }
+
+        $imagePath = $request->filled('featured_image_url') ? $request->featured_image_url : null;
         if ($request->hasFile('featured_image')) {
             $imagePath = $request->file('featured_image')->store('articles', 'public');
         }
@@ -65,7 +93,7 @@ class ArticleController extends Controller
             'content' => $request->content,
             'featured_image' => $imagePath,
             'author_id' => Auth::id(),
-            'category_id' => $request->category_id,
+            'category_id' => $categoryId,
             'status' => $request->status,
         ]);
 
@@ -79,13 +107,29 @@ class ArticleController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required',
-            'category_id' => 'required|exists:categories,id',
+            'category_id' => 'nullable|exists:categories,id',
+            'new_category' => 'nullable|string|max:255',
             'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'featured_image_url' => 'nullable|url|max:2048',
             'status' => 'required|in:draft,published',
         ]);
 
+        $categoryId = $this->resolveCategoryId($request);
+        if (!$categoryId) {
+            return back()->withInput()->withErrors([
+                'category_id' => 'Pilih kategori atau buat kategori baru terlebih dahulu.',
+            ]);
+        }
+
+        if ($request->filled('featured_image_url')) {
+            if ($article->featured_image && !str_starts_with($article->featured_image, 'http')) {
+                Storage::disk('public')->delete($article->featured_image);
+            }
+            $article->featured_image = $request->featured_image_url;
+        }
+
         if ($request->hasFile('featured_image')) {
-            if ($article->featured_image) {
+            if ($article->featured_image && !str_starts_with($article->featured_image, 'http')) {
                 Storage::disk('public')->delete($article->featured_image);
             }
             $article->featured_image = $request->file('featured_image')->store('articles', 'public');
@@ -95,7 +139,7 @@ class ArticleController extends Controller
             'title' => $request->title,
             'slug' => Str::slug($request->title) . '-' . time(),
             'content' => $request->content,
-            'category_id' => $request->category_id,
+            'category_id' => $categoryId,
             'status' => $request->status,
         ]);
 
@@ -105,7 +149,7 @@ class ArticleController extends Controller
     public function destroy($id)
     {
         $article = Article::findOrFail($id);
-        if ($article->featured_image) {
+        if ($article->featured_image && !str_starts_with($article->featured_image, 'http')) {
             Storage::disk('public')->delete($article->featured_image);
         }
         $article->delete();

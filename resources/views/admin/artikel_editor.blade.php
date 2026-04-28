@@ -107,7 +107,7 @@
                         <div class="px-4 py-2 border-b border-[#dcdcde] text-sm font-semibold text-slate-700">Categories</div>
                         <div class="p-4">
                             <div class="max-h-60 overflow-y-auto border border-slate-200 bg-slate-50 rounded p-3 space-y-2">
-                                @foreach($categories as $cat)
+                                @forelse($categories as $cat)
                                     <label class="flex items-center gap-3 text-sm font-semibold text-slate-600 hover:text-red-600 cursor-pointer">
                                         <input
                                             type="radio"
@@ -115,11 +115,23 @@
                                             value="{{ $cat->id }}"
                                             class="accent-red-600 w-4 h-4"
                                             {{ (string)old('category_id', $article?->category_id) === (string)$cat->id ? 'checked' : '' }}
-                                            required
                                         >
                                         {{ $cat->name }}
                                     </label>
-                                @endforeach
+                                @empty
+                                    <p class="text-xs text-slate-500">Belum ada kategori. Tambahkan kategori baru di bawah ini.</p>
+                                @endforelse
+                            </div>
+                            <div class="mt-3">
+                                <label class="block text-[11px] font-semibold text-slate-500 mb-1">Add New Category</label>
+                                <input
+                                    type="text"
+                                    name="new_category"
+                                    value="{{ old('new_category') }}"
+                                    placeholder="Contoh: Jurnal Internal"
+                                    class="w-full border border-slate-300 text-xs px-2 py-1.5 focus:outline-none focus:border-[#8c8f94]"
+                                >
+                                <p class="text-[11px] text-slate-500 mt-1">Isi ini jika kategori belum tersedia.</p>
                             </div>
                         </div>
                     </div>
@@ -129,13 +141,26 @@
                         <div class="p-4">
                             <div class="bg-slate-100 h-32 border border-dashed border-slate-300 flex items-center justify-center text-xs text-slate-400 mb-3 overflow-hidden">
                                 @if($article?->featured_image)
-                                    <img src="{{ Storage::url($article->featured_image) }}" class="w-full h-full object-cover" alt="Featured">
+                                    @if(str_starts_with($article->featured_image, 'http'))
+                                        <img src="{{ $article->featured_image }}" class="w-full h-full object-cover" alt="Featured">
+                                    @else
+                                        <img src="{{ Storage::url($article->featured_image) }}" class="w-full h-full object-cover" alt="Featured">
+                                    @endif
                                 @else
                                     No image selected
                                 @endif
                             </div>
+                            <label class="block text-[11px] font-semibold text-slate-500 mb-1">Paste Image URL</label>
+                            <input
+                                type="url"
+                                name="featured_image_url"
+                                placeholder="https://example.com/your-image.jpg"
+                                value="{{ old('featured_image_url', $article && str_starts_with($article->featured_image ?? '', 'http') ? $article->featured_image : '') }}"
+                                class="w-full border border-slate-300 text-xs px-2 py-1.5 mb-3 focus:outline-none focus:border-[#8c8f94]"
+                            >
+                            <p class="text-[11px] text-slate-500 mb-3">Gunakan URL gambar jika ingin tanpa upload file.</p>
                             <input type="file" name="featured_image" accept="image/*" class="w-full border border-slate-300 text-xs px-2 py-1.5 mb-2">
-                            <p class="text-xs text-[#2271b1] underline font-semibold">Set featured image</p>
+                            <p class="text-xs text-[#2271b1] underline font-semibold">Set featured image (upload)</p>
                         </div>
                     </div>
                 </div>

@@ -54,7 +54,11 @@
                             <div class="flex items-center gap-4">
                                 <div class="w-10 h-10 bg-slate-100 rounded-xl flex items-center justify-center text-slate-400 group-hover:bg-red-50 group-hover:text-[#da291c] transition-colors overflow-hidden">
                                     @if($art->featured_image)
-                                        <img src="{{ Storage::url($art->featured_image) }}" class="w-full h-full object-cover">
+                                        @if(str_starts_with($art->featured_image, 'http'))
+                                            <img src="{{ $art->featured_image }}" class="w-full h-full object-cover">
+                                        @else
+                                            <img src="{{ Storage::url($art->featured_image) }}" class="w-full h-full object-cover">
+                                        @endif
                                     @else
                                         <i data-lucide="file-text" class="w-5 h-5"></i>
                                     @endif
