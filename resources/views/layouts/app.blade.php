@@ -280,6 +280,28 @@
             location.reload();
         }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        // Global Error Notifications
+        @if($errors->any())
+            Swal.fire({
+                icon: 'error',
+                title: 'Opps...',
+                text: '{{ $errors->first() }}',
+                confirmButtonColor: '#da291c'
+            });
+        @endif
+
+        // Global Success/Status Notifications
+        @if(session('success') || session('status'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil',
+                text: '{{ session('success') ?? session('status') }}',
+                confirmButtonColor: '#da291c'
+            });
+        @endif
+    </script>
     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 </html>

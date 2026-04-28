@@ -182,8 +182,20 @@
         <a href="/" class="back-link">Return to Main Website</a>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         lucide.createIcons();
+
+        @if($errors->any())
+            Swal.fire({
+                icon: 'error',
+                title: 'Opps...',
+                text: '{{ $errors->first() }}',
+                background: '#0f172a',
+                color: '#ffffff',
+                confirmButtonColor: '#da291c'
+            });
+        @endif
     </script>
 </body>
 </html>

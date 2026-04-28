@@ -191,8 +191,35 @@
         <a href="/" class="back-link">← Back to Portal</a>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         lucide.createIcons();
+
+        // Notifikasi Error Login
+        @if($errors->any())
+            Swal.fire({
+                icon: 'error',
+                title: 'Akses Ditolak',
+                text: '{{ $errors->first() }}',
+                background: '#ffffff',
+                confirmButtonColor: '#da291c',
+                borderRadius: '24px',
+                customClass: {
+                    popup: 'rounded-[32px]',
+                    confirmButton: 'rounded-xl font-bold uppercase tracking-widest text-xs px-8 py-4'
+                }
+            });
+        @endif
+
+        // Notifikasi Pesan Status (misal: akun belum disetujui)
+        @if(session('status'))
+            Swal.fire({
+                icon: 'info',
+                title: 'Informasi',
+                text: '{{ session('status') }}',
+                confirmButtonColor: '#0f172a'
+            });
+        @endif
     </script>
 </body>
 </html>
