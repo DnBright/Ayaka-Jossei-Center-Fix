@@ -12,19 +12,19 @@ class UserSeeder extends Seeder
     {
         // Admin
         User::updateOrCreate(
-            ['email' => 'admin@ayakajosei.com'],
+            ['email' => 'admin@gmail.com'],
             [
-                'name' => 'Admin Ayaka',
+                'name' => 'Administrator Ayaka',
                 'password' => Hash::make('password'),
             ]
         );
 
         // Penulis
         User::updateOrCreate(
-            ['email' => 'penulis@ayakajosei.com'],
+            ['email' => 'penulis_ayaka'],
             [
                 'name' => 'Penulis Ayaka',
-                'password' => Hash::make('password'),
+                'password' => Hash::make('Ayaka@Penulis2026'),
             ]
         );
     }
