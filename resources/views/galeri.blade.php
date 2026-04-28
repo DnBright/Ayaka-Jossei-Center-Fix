@@ -1,0 +1,131 @@
+@extends('layouts.app')
+
+@section('title', 'Galeri - Ayaka Josei Center')
+
+@section('content')
+<div class="atelier-wrapper">
+    <!-- 1. ATELIER HERO -->
+    <header class="atelier-hero py-32 bg-white relative">
+        <div class="container mx-auto px-6">
+            <div class="grid lg:grid-cols-2 gap-24 items-end relative z-10">
+                <div class="hero-meta atelier-reveal">
+                    <span class="text-[#da291c] font-black tracking-[0.4em] text-[10px] mb-8 block uppercase">Captured Moments</span>
+                    <h1 class="text-7xl lg:text-[100px] leading-[0.85] font-black text-slate-900 tracking-tighter uppercase">
+                        Galeri <br /> <span class="font-['Cormorant_Garamond'] italic text-[#da291c] normal-case">Kegiatan</span>
+                    </h1>
+                </div>
+                <div class="hero-intro-box atelier-reveal">
+                    <div class="w-16 h-1 bg-[#da291c] mb-8"></div>
+                    <h2 class="text-4xl font-black text-slate-900 mb-6 tracking-tight">Dokumentasi Jejak Karir & Pelatihan</h2>
+                    <p class="text-xl text-slate-500 leading-relaxed max-w-md">Kumpulan momen inspiratif dari proses pelatihan, keberangkatan, hingga keseharian alumni kami di Jepang.</p>
+                </div>
+            </div>
+        </div>
+        <div class="absolute top-0 right-0 w-[40%] h-full bg-slate-50 -z-0 hidden lg:block"></div>
+    </header>
+
+    <!-- 2. FILTER & CATEGORIES -->
+    <nav class="sticky top-20 z-40 bg-white/80 backdrop-blur-2xl border-y border-slate-100 py-6">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="flex items-center gap-4 text-xs font-black uppercase tracking-widest text-slate-900">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path></svg>
+                    Filter Galeri
+                </div>
+                <div class="flex flex-wrap gap-3 justify-center">
+                    @php
+                        $categories = [
+                            ['id' => 'all', 'label' => 'Semua'],
+                            ['id' => 'pelatihan', 'label' => 'Pelatihan'],
+                            ['id' => 'interview', 'label' => 'Wawancara'],
+                            ['id' => 'keberangkatan', 'label' => 'Keberangkatan'],
+                            ['id' => 'alumni', 'label' => 'Alumni di Jepang']
+                        ];
+                    @endphp
+                    @foreach($categories as $cat)
+                        <button class="px-6 py-2 rounded-full border border-slate-200 text-xs font-black uppercase tracking-widest hover:border-[#da291c] hover:text-[#da291c] transition-all {{ $cat['id'] == 'all' ? 'bg-slate-900 text-white border-slate-900' : '' }}">
+                            {{ $cat['label'] }}
+                        </button>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 3. PHOTO GRID - MASONRY STYLE -->
+    <section class="py-24">
+        <div class="container mx-auto px-6">
+            <div class="columns-1 md:columns-2 lg:columns-3 gap-10 space-y-10">
+                @for($i = 1; $i <= 9; $i++)
+                    <div class="break-inside-avoid atelier-reveal group">
+                        <div class="relative rounded-2xl overflow-hidden shadow-xl bg-slate-100 mb-6">
+                            <img src="{{ asset('images/hero-bg.png') }}" class="w-full grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-105" alt="Gallery Image">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-10 flex flex-col justify-end">
+                                <span class="text-[#da291c] text-[10px] font-black uppercase tracking-widest mb-2">Category Name</span>
+                                <h3 class="text-white text-2xl font-black italic tracking-tighter">Momen Pelatihan Batch {{ $i }}</h3>
+                            </div>
+                        </div>
+                        <div class="border-l border-slate-200 pl-6 mt-4">
+                            <span class="text-[10px] font-black opacity-20 block mb-1">0{{ $i }}</span>
+                            <span class="text-sm font-bold text-slate-800 uppercase tracking-tight">Judul Dokumentasi Kegiatan</span>
+                        </div>
+                    </div>
+                @endfor
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. VIDEO SHOWCASE -->
+    <section class="py-32 bg-slate-950 text-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-24 atelier-reveal">
+                <span class="text-[#da291c] font-black tracking-[0.4em] text-[10px] mb-6 block uppercase">Video Showcase</span>
+                <h2 class="text-5xl lg:text-7xl font-black tracking-tighter uppercase italic">Dokumentasi Visual</h2>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-16">
+                @for($i = 1; $i <= 2; $i++)
+                    <div class="atelier-reveal flex flex-col gap-10 group">
+                        <div class="aspect-video bg-slate-900 rounded-[30px] relative overflow-hidden cursor-pointer">
+                            <div class="absolute inset-0 bg-cover bg-center grayscale opacity-40 group-hover:scale-110 transition-transform duration-1000" style="background-image: url('{{ asset('images/hero-bg.png') }}')"></div>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center text-slate-950 shadow-2xl group-hover:bg-[#da291c] group-hover:text-white transition-all transform group-hover:scale-110">
+                                    <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-3xl font-black mb-4 tracking-tighter italic">Vlog Keberangkatan Alumni</h3>
+                            <p class="text-slate-500 text-lg leading-relaxed mb-8">Mengikuti perjalanan peserta dari asrama pelatihan hingga menginjakkan kaki pertama kali di Narita Airport.</p>
+                            <button class="text-[#da291c] font-black uppercase tracking-widest text-[10px] flex items-center gap-4 hover:gap-6 transition-all">
+                                Watch Full Film <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+                @endfor
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. PENUTUP -->
+    <footer class="py-32 text-center">
+        <div class="container mx-auto px-6 flex flex-col items-center">
+            <div class="w-20 h-20 bg-slate-900 text-white rounded-full flex items-center justify-center text-4xl font-black mb-12 atelier-reveal">A</div>
+            <p class="text-2xl text-slate-500 italic max-w-xl mb-12 atelier-reveal">"Setiap foto bercerita tentang kerja keras, harapan, dan masa depan yang lebih baik."</p>
+            <div class="w-px h-24 bg-slate-100 mb-12"></div>
+            <span class="text-[10px] font-black uppercase tracking-[0.4em] text-slate-200">Archive Date: April 2026</span>
+        </div>
+    </footer>
+</div>
+
+<style>
+    .atelier-reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        animation: reveal 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes reveal {
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+@endsection
