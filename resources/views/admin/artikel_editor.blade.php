@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends(Auth::user()->role === 'admin' ? 'layouts.admin' : 'layouts.penulis')
 
 @section('page-title', $article ? 'Edit Post' : 'Add New Post')
 
@@ -7,7 +7,7 @@
     <div class="max-w-7xl mx-auto">
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-2xl font-normal text-slate-800">{{ $article ? 'Edit Post' : 'Add New Post' }}</h1>
-            <a href="{{ route('admin.artikel.index') }}" class="text-slate-600 hover:text-slate-800 bg-white border border-slate-300 rounded px-3 py-2 text-sm">
+            <a href="{{ Auth::user()->role === 'admin' ? route('admin.artikel.index') : route('penulis.artikel.index') }}" class="text-slate-600 hover:text-slate-800 bg-white border border-slate-300 rounded px-3 py-2 text-sm">
                 Kembali
             </a>
         </div>
@@ -93,9 +93,15 @@
                             </div>
 
                             <div class="flex justify-between items-center">
-                                <a href="{{ route('admin.artikel.index') }}" class="text-xs text-[#b32d2e] underline">
-                                    Move to Trash
-                                </a>
+                                @if($article)
+                                <form action="{{ route('admin.artikel.destroy', $article->id) }}" method="POST" onsubmit="return confirm('Hapus artikel ini?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-xs text-[#b32d2e] underline bg-transparent border-none p-0 cursor-pointer">
+                                        Move to Trash
+                                    </button>
+                                </form>
+                                @endif
                                 <button type="submit" @click="publishStatus = 'published'" class="border border-[#2271b1] bg-[#2271b1] text-white px-4 py-1.5 rounded text-xs font-semibold hover:bg-[#135e96]">
                                     {{ $article ? 'Update' : 'Publish' }}
                                 </button>
