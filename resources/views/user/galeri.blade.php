@@ -25,7 +25,7 @@
     </header>
 
     <!-- 2. FILTER & CATEGORIES -->
-    <nav class="sticky top-16 md:top-20 z-40 bg-white/80 backdrop-blur-2xl border-y border-slate-100 py-4 md:py-6">
+    <nav class="bg-white border-y border-slate-100 py-4 md:py-6">
         <div class="container mx-auto px-6">
             <div class="flex flex-col lg:flex-row items-center justify-between gap-6">
                 <div class="flex items-center gap-4 text-[10px] font-black uppercase tracking-widest text-slate-900">
