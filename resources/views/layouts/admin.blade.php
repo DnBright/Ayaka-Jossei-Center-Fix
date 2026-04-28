@@ -156,15 +156,21 @@
         }
 
         @media (max-width: 1024px) {
-            .admin-sidebar { transform: translateX(-100%); }
             .admin-main { margin-left: 0; width: 100%; }
         }
     </style>
 </head>
 <body class="antialiased">
-    <div class="admin-layout">
+    <div class="admin-layout" x-data="{ sidebarOpen: false }">
+        <!-- Sidebar Backdrop (Mobile) -->
+        <div x-show="sidebarOpen" 
+             x-transition.opacity.duration.300ms
+             class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-40 lg:hidden"
+             @click="sidebarOpen = false"></div>
+
         <!-- Sidebar -->
-        <aside class="admin-sidebar">
+        <aside class="admin-sidebar transform transition-transform duration-300 lg:translate-x-0 z-50"
+               :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'">
             <div class="sidebar-header">
                 <div class="logo-section">
                     <span class="text-[#da291c]">Ayaka</span> Josei
@@ -218,7 +224,7 @@
         <div class="admin-main">
             <header class="admin-header">
                 <div class="flex items-center gap-4">
-                    <button class="lg:hidden p-2 bg-slate-100 rounded-lg">
+                    <button @click="sidebarOpen = true" class="lg:hidden p-2 bg-slate-100 rounded-lg focus:outline-none hover:bg-slate-200 transition-colors">
                         <i data-lucide="menu"></i>
                     </button>
                     <h2 class="text-xl font-extrabold text-slate-900 tracking-tight">@yield('page-title', 'Dashboard Overview')</h2>
