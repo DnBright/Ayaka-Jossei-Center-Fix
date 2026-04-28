@@ -11,7 +11,15 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        $middleware->redirectGuestsTo(function (Request $request) {
+            if ($request->is('admin') || $request->is('admin/*')) {
+                return route('login.admin');
+            }
+            if ($request->is('penulis') || $request->is('penulis/*')) {
+                return route('login.penulis');
+            }
+            return route('login.admin'); // Default
+        });
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

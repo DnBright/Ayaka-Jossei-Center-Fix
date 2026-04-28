@@ -1,10 +1,17 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 
 Route::get('/', function () {
     return view('user.welcome');
 });
+
+// Auth Routes
+Route::get('/admin/login', [AuthController::class, 'showAdminLogin'])->name('login.admin');
+Route::get('/penulis/login', [AuthController::class, 'showPenulisLogin'])->name('login.penulis');
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/profil', function () {
     return view('user.profil');
@@ -30,67 +37,71 @@ Route::get('/kontak', function () {
     return view('user.kontak');
 });
 
-Route::get('/admin', function () {
-    return view('admin.dashboard');
-});
+Route::middleware('auth')->group(function () {
+    Route::get('/admin', function () {
+        return view('admin.dashboard');
+    });
 
-Route::get('/admin/artikel', function () {
-    return view('admin.artikel');
-});
+    Route::get('/admin/artikel', function () {
+        return view('admin.artikel');
+    });
 
-Route::get('/admin/ebook', function () {
-    return view('admin.ebook');
-});
+    Route::get('/admin/ebook', function () {
+        return view('admin.ebook');
+    });
 
-Route::get('/admin/halaman', function () {
-    return view('admin.halaman');
-});
+    Route::get('/admin/halaman', function () {
+        return view('admin.halaman');
+    });
 
-Route::get('/admin/halaman/home', function () {
-    return view('admin.pages.home');
-});
+    Route::get('/admin/halaman/home', function () {
+        return view('admin.pages.home');
+    });
 
-Route::get('/admin/halaman/about', function () {
-    return view('admin.pages.about');
-});
+    Route::get('/admin/halaman/about', function () {
+        return view('admin.pages.about');
+    });
 
-Route::get('/admin/halaman/program', function () {
-    return view('admin.pages.program');
-});
+    Route::get('/admin/halaman/program', function () {
+        return view('admin.pages.program');
+    });
 
-Route::get('/admin/media', function () {
-    return view('admin.media');
-});
+    Route::get('/admin/media', function () {
+        return view('admin.media');
+    });
 
-Route::get('/admin/komunikasi', function () {
-    return view('admin.komunikasi');
-});
+    Route::get('/admin/komunikasi', function () {
+        return view('admin.komunikasi');
+    });
 
-Route::get('/admin/users', function () {
-    return view('admin.users');
-});
+    Route::get('/admin/users', function () {
+        return view('admin.users');
+    });
 
-Route::get('/admin/pengaturan', function () {
-    return view('admin.pengaturan');
+    Route::get('/admin/pengaturan', function () {
+        return view('admin.pengaturan');
+    });
 });
 
 // Penulis Routes
-Route::get('/penulis', function () {
-    return view('penulis.dashboard');
-});
+Route::middleware('auth')->group(function () {
+    Route::get('/penulis', function () {
+        return view('penulis.dashboard');
+    });
 
-Route::get('/penulis/artikel', function () {
-    return view('penulis.artikel');
-});
+    Route::get('/penulis/artikel', function () {
+        return view('penulis.artikel');
+    });
 
-Route::get('/penulis/ebook', function () {
-    return view('penulis.ebook');
-});
+    Route::get('/penulis/ebook', function () {
+        return view('penulis.ebook');
+    });
 
-Route::get('/penulis/media', function () {
-    return view('penulis.media');
-});
+    Route::get('/penulis/media', function () {
+        return view('penulis.media');
+    });
 
-Route::get('/penulis/profile', function () {
-    return view('penulis.profile');
+    Route::get('/penulis/profile', function () {
+        return view('penulis.profile');
+    });
 });
