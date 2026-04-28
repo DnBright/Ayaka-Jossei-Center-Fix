@@ -22,6 +22,7 @@ class UserContentController extends Controller
         $this->ensureArticles();
         $this->ensureEbooks();
         $this->ensureGalleryMedia();
+        $this->ensureAlumni();
     }
 
     private function ensureCategories(): void

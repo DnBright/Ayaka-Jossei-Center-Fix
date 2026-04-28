@@ -31,9 +31,7 @@ Route::get('/galeri', [UserContentController::class, 'galeri'])->name('galeri.in
 Route::get('/blog', [UserContentController::class, 'blog'])->name('blog.index');
 Route::get('/blog/{slug}', [UserContentController::class, 'showArticle'])->name('blog.show');
 
-Route::get('/alumni', function () {
-    return view('user.alumni');
-});
+Route::get('/alumni', [UserContentController::class, 'alumni'])->name('alumni.index');
 
 Route::get('/kontak', function () {
     return view('user.kontak');
