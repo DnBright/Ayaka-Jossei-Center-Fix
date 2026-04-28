@@ -35,6 +35,7 @@
                         ['name' => 'Program', 'href' => '/program'],
                         ['name' => 'Galeri', 'href' => '/galeri'],
                         ['name' => 'Blog', 'href' => '/blog'],
+                        ['name' => 'E-Book', 'href' => '/ebook'],
                         ['name' => 'Alumni', 'href' => '/alumni'],
                         ['name' => 'Kontak', 'href' => '/kontak'],
                     ];

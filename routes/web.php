@@ -38,6 +38,10 @@ Route::get('/kontak', function () {
     return view('user.kontak');
 });
 
+Route::get('/ebook', function () {
+    return view('user.ebook');
+});
+
 Route::middleware('auth')->group(function () {
     Route::get('/admin', function () {
         return view('admin.dashboard');
