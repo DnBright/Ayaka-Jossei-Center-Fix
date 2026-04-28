@@ -78,7 +78,18 @@
                             </div>
                         </button>
                         
-                        <!-- Logout Button Directly -->
+                        <!-- Dashboard Links based on Role -->
+                        @if(Auth::user()->role === 'admin')
+                            <a href="{{ route('admin.dashboard') }}" class="hidden sm:flex bg-slate-900 text-white px-4 py-2 rounded-full text-[9px] font-black uppercase tracking-widest hover:bg-[#da291c] transition-all items-center gap-2">
+                                <i data-lucide="layout-dashboard" class="w-3 h-3"></i> Admin Panel
+                            </a>
+                        @elseif(Auth::user()->role === 'penulis')
+                            <a href="{{ route('penulis.dashboard') }}" class="hidden sm:flex bg-slate-900 text-white px-4 py-2 rounded-full text-[9px] font-black uppercase tracking-widest hover:bg-[#da291c] transition-all items-center gap-2">
+                                <i data-lucide="pen-tool" class="w-3 h-3"></i> Dashboard Penulis
+                            </a>
+                        @endif
+
+                        <!-- Logout Button -->
                         <form method="POST" action="{{ route('logout') }}" class="hidden sm:block">
                             @csrf
                             <button type="submit" class="bg-red-50 text-[#da291c] px-4 py-2 rounded-full text-[9px] font-black uppercase tracking-widest hover:bg-[#da291c] hover:text-white transition-all">
@@ -86,7 +97,7 @@
                             </button>
                         </form>
 
-                        <!-- Dropdown for Admin/Profile -->
+                        <!-- Dropdown Mobile/Extra -->
                         <div x-show="open" 
                              @click.away="open = false"
                              x-transition:enter="transition ease-out duration-200"
@@ -96,8 +107,11 @@
                             
                             @if(Auth::user()->role === 'admin')
                                 <a href="/admin" class="flex items-center gap-3 px-5 py-3 text-[10px] font-black uppercase tracking-widest text-slate-600 hover:bg-slate-50 hover:text-[#da291c]">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
-                                    Admin Panel
+                                    <i data-lucide="layout-dashboard" class="w-4 h-4"></i> Admin Panel
+                                </a>
+                            @elseif(Auth::user()->role === 'penulis')
+                                <a href="/penulis" class="flex items-center gap-3 px-5 py-3 text-[10px] font-black uppercase tracking-widest text-slate-600 hover:bg-slate-50 hover:text-[#da291c]">
+                                    <i data-lucide="pen-tool" class="w-4 h-4"></i> Writer Dashboard
                                 </a>
                             @endif
 
@@ -138,10 +152,24 @@
                     @else
                         <div class="bg-slate-50 p-6 rounded-3xl border border-slate-100">
                             <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-2">Selamat Datang,</p>
-                            <p class="text-lg font-black text-slate-900 leading-tight mb-6">{{ Auth::user()->name }}</p>
+                            <p class="text-lg font-black text-slate-900 leading-tight mb-2">{{ Auth::user()->name }}</p>
+                            <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-6">{{ Auth::user()->role }} Account</p>
+                            
+                            <div class="flex flex-col gap-3 mb-6">
+                                @if(Auth::user()->role === 'admin')
+                                    <a href="{{ route('admin.dashboard') }}" class="w-full bg-slate-900 text-white py-4 px-6 rounded-2xl text-center text-xs font-black uppercase tracking-widest transition-all flex items-center justify-center gap-3">
+                                        <i data-lucide="layout-dashboard" class="w-4 h-4"></i> Admin Panel
+                                    </a>
+                                @elseif(Auth::user()->role === 'penulis')
+                                    <a href="{{ route('penulis.dashboard') }}" class="w-full bg-slate-900 text-white py-4 px-6 rounded-2xl text-center text-xs font-black uppercase tracking-widest transition-all flex items-center justify-center gap-3">
+                                        <i data-lucide="pen-tool" class="w-4 h-4"></i> Dashboard Penulis
+                                    </a>
+                                @endif
+                            </div>
+
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
-                                <button type="submit" class="w-full bg-slate-900 text-white py-4 px-6 rounded-2xl text-center text-xs font-black uppercase tracking-widest transition-all">Logout Sekarang</button>
+                                <button type="submit" class="w-full border border-slate-200 text-slate-400 py-4 px-6 rounded-2xl text-center text-xs font-black uppercase tracking-widest transition-all hover:bg-red-50 hover:text-red-600 hover:border-red-100">Logout Sekarang</button>
                             </form>
                         </div>
                     @endguest
