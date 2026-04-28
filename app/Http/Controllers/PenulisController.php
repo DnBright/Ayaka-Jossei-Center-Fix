@@ -33,7 +33,8 @@ class PenulisController extends Controller
 
     public function artikel()
     {
-        $articles = Article::where('author_id', Auth::id())->latest()->paginate(10);
+        // Tampilkan SEMUA artikel (sama seperti Admin)
+        $articles = Article::with(['category', 'author'])->latest()->paginate(10);
         return view('penulis.artikel', compact('articles'));
     }
 

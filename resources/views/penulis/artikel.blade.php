@@ -36,7 +36,7 @@
                                 </div>
                                 <div>
                                     <div class="font-bold text-slate-900 group-hover:text-[#da291c] transition-colors line-clamp-1">{{ $art->title }}</div>
-                                    <div class="text-[10px] text-slate-400 font-medium uppercase tracking-widest">Update: {{ $art->updated_at->diffForHumans() }}</div>
+                                    <div class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Oleh: {{ $art->author->name ?? 'System' }}</div>
                                 </div>
                             </div>
                         </td>
