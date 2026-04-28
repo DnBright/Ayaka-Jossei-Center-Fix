@@ -89,7 +89,7 @@ class ArticleController extends Controller
 
         Article::create([
             'title' => $request->title,
-            'slug' => Str::slug($request->title) . '-' . time(),
+            'slug' => Str::slug($request->title) . '-' . uniqid(),
             'content' => $request->content,
             'featured_image' => $imagePath,
             'author_id' => Auth::id(),
@@ -138,7 +138,6 @@ class ArticleController extends Controller
 
         $article->update([
             'title' => $request->title,
-            'slug' => Str::slug($request->title) . '-' . time(),
             'content' => $request->content,
             'category_id' => $categoryId,
             'status' => $request->status,

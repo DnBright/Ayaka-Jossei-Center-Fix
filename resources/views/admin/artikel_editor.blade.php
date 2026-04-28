@@ -94,13 +94,9 @@
 
                             <div class="flex justify-between items-center">
                                 @if($article)
-                                <form action="{{ route('admin.artikel.destroy', $article->id) }}" method="POST" onsubmit="return confirm('Hapus artikel ini?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="text-xs text-[#b32d2e] underline bg-transparent border-none p-0 cursor-pointer">
-                                        Move to Trash
-                                    </button>
-                                </form>
+                                <button type="button" onclick="document.getElementById('delete-form').submit();" class="text-xs text-[#b32d2e] underline bg-transparent border-none p-0 cursor-pointer">
+                                    Move to Trash
+                                </button>
                                 @endif
                                 <button type="submit" @click="publishStatus = 'published'" class="border border-[#2271b1] bg-[#2271b1] text-white px-4 py-1.5 rounded text-xs font-semibold hover:bg-[#135e96]">
                                     {{ $article ? 'Update' : 'Publish' }}
@@ -172,6 +168,13 @@
                 </div>
             </div>
         </form>
+
+        @if($article)
+        <form id="delete-form" action="{{ route('admin.artikel.destroy', $article->id) }}" method="POST" class="hidden">
+            @csrf
+            @method('DELETE')
+        </form>
+        @endif
     </div>
 </div>
 @endsection
