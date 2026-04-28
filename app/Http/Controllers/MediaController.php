@@ -11,31 +11,21 @@ use Illuminate\Support\Collection;
 
 class MediaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $media = Media::latest()->paginate(20);
+        $search = $request->input('search');
+        $type = $request->input('type');
 
-        if ($media->total() === 0) {
-            $dummyGallery = Collection::times(9, function ($index) {
-                return (object) [
-                    'id' => null,
-                    'title' => 'Momen Pelatihan Batch ' . $index,
-                    'file_path' => 'images/hero-bg.png',
-                    'file_size' => 0,
-                    'type' => 'gallery',
-                    'created_at' => now()->subDays(10 - $index),
-                    'is_dummy' => true,
-                ];
-            });
-
-            $media = new LengthAwarePaginator(
-                $dummyGallery,
-                $dummyGallery->count(),
-                20,
-                1,
-                ['path' => request()->url(), 'query' => request()->query()]
-            );
-        }
+        $media = Media::latest()
+            ->when($search, function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                  ->orWhere('original_name', 'like', "%{$search}%");
+            })
+            ->when($type && $type !== 'all', function ($q) use ($type) {
+                $q->where('type', $type);
+            })
+            ->paginate(18)
+            ->withQueryString();
 
         return view('admin.media', compact('media'));
     }

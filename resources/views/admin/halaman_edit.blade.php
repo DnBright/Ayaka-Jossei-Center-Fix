@@ -35,7 +35,11 @@
             @method('PUT')
             
             <div class="grid grid-cols-1 gap-10">
-                @foreach($page->content as $key => $value)
+                @php
+                    $pageContent = is_array($page->content) ? $page->content : json_decode($page->content, true);
+                    $pageContent = $pageContent ?? [];
+                @endphp
+                @foreach($pageContent as $key => $value)
                     <div class="group">
                         <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 group-focus-within:text-[#da291c] transition-colors">
                             {{ str_replace('_', ' ', strtoupper($key)) }}
