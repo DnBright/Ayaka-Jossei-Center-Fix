@@ -165,12 +165,7 @@ class UserContentController extends Controller
             ->where('status', 'published')
             ->firstOrFail();
 
-        // Increment real-time view count — one per session per article
-        $sessionKey = 'viewed_article_' . $article->id;
-        if (!session()->has($sessionKey)) {
-            $article->increment('views_count');
-            session()->put($sessionKey, true);
-        }
+        $article->increment('views_count');
 
         $relatedArticles = Article::with('category')
             ->where('status', 'published')
@@ -205,12 +200,7 @@ class UserContentController extends Controller
     {
         $ebook = Ebook::where('is_active', true)->findOrFail($id);
 
-        // Increment real-time download count — one per session per ebook
-        $sessionKey = 'downloaded_ebook_' . $ebook->id;
-        if (!session()->has($sessionKey)) {
-            $ebook->increment('download_count');
-            session()->put($sessionKey, true);
-        }
+        $ebook->increment('download_count');
 
         // Serve file if it exists, otherwise redirect back with info
         $filePath = storage_path('app/public/' . $ebook->file_path);
