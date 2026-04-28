@@ -53,7 +53,17 @@ class PageController extends Controller
                 'slug' => 'program',
                 'content' => [
                     'hero_title' => 'Program Pelatihan Unggulan',
-                    'hero_subtitle' => 'Persiapkan diri Anda dengan keterampilan teknis dan bahasa terbaik.',
+                    'hero_subtitle' => 'Kurikulum intensif yang dirancang untuk memenuhi standar kompetensi kerja di Jepang.',
+                    'pengantar_title' => 'Membangun Keterampilan Yang Relevan Dengan Industri Jepang',
+                    'pengantar_subtitle' => 'Setiap program di AJC didukung oleh instruktur berpengalaman dan kurikulum yang diperbarui secara berkala sesuai regulasi ketenagakerjaan Jepang.',
+                    'card_1_title' => 'Pelatihan Bahasa Jepang Intensif',
+                    'card_1_desc' => 'Program persiapan N5-N3 dengan metode pembelajaran interaktif dan berbasis simulasi percakapan nyata.',
+                    'card_2_title' => 'Pelatihan Teknis Kejuruan',
+                    'card_2_desc' => 'Pembekalan keterampilan teknis sesuai dengan sektor industri yang diminati agar siap pakai di perusahaan Jepang.',
+                    'card_3_title' => 'Manajemen Mental & Budaya',
+                    'card_3_desc' => 'Adaptasi budaya kerja Jepang (Etika Bisnis, Kedisiplinan) untuk membangun etos kerja yang kuat dan berkelanjutan.',
+                    'cta_title' => 'Siap Memulai Karirmu?',
+                    'cta_description' => 'Dapatkan bimbingan langsung dari konsultan kami mengenai alur pendaftaran dan biaya pelatihan.',
                 ],
             ],
         ];

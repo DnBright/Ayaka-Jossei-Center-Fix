@@ -57,13 +57,18 @@
         <h2 class="text-4xl md:text-5xl font-black text-center mb-16 md:mb-20 tracking-tighter italic uppercase">Suara <span class="text-[#da291c]">Alumni</span> Kami</h2>
         
         <div class="marquee-track flex gap-8 animate-[marquee_60s_linear_infinite] w-fit mb-12">
-            @for($i = 1; $i <= 10; $i++)
+            @forelse($alumni as $person)
                 <div class="min-w-[300px] md:min-w-[450px] bg-white/5 border border-white/10 p-8 md:p-12 rounded-[30px] md:rounded-[40px]">
                     <svg class="w-8 h-8 md:w-10 md:h-10 text-[#da291c] mb-6 md:mb-8" fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19.017V14C19.017 11.7909 17.2261 10 15.017 10H14.017V7H15.017C18.883 7 22.017 10.134 22.017 14V21H14.017ZM2.017 21L2.017 18C2.017 16.8954 2.91243 16 4.017 16H7.017V14C7.017 11.7909 5.22612 10 3.017 10H2.017V7H3.017C6.88297 7 10.017 10.134 10.017 14V21H2.017Z"></path></svg>
-                    <p class="text-lg md:text-xl italic font-medium opacity-80 leading-relaxed mb-8 md:mb-10">"Sistem pelatihan di AJC sangat disiplin namun tetap mengutamakan kekeluargaan. Saya merasa sangat siap saat bekerja di panti lansia Tokyo."</p>
-                    <div><strong class="block text-base md:text-lg font-black">Alumni Batch {{ $i }}</strong><span class="text-[10px] font-black text-[#da291c] uppercase tracking-widest">Program Kaigo</span></div>
+                    <p class="text-lg md:text-xl italic font-medium opacity-80 leading-relaxed mb-8 md:mb-10">"{{ $person->testimonial }}"</p>
+                    <div>
+                        <strong class="block text-base md:text-lg font-black">{{ $person->name }}</strong>
+                        <span class="text-[10px] font-black text-[#da291c] uppercase tracking-widest">{{ $person->batch }} • {{ $person->working_at }}</span>
+                    </div>
                 </div>
-            @endfor
+            @empty
+                <p class="text-white/20">Belum ada testimoni alumni.</p>
+            @endforelse
         </div>
     </section>
 
@@ -110,22 +115,33 @@
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 md:gap-12">
-                @for($i = 1; $i <= 8; $i++)
+                @forelse($alumni as $person)
+                    @php
+                        $alumniImg = str_starts_with($person->image_url ?? '', 'http')
+                            ? $person->image_url
+                            : (str_starts_with($person->image_url ?? '', 'images/')
+                                ? asset($person->image_url)
+                                : (str_starts_with($person->image_url ?? '', 'alumni/')
+                                    ? Storage::url($person->image_url)
+                                    : asset('images/hero-bg.png')));
+                    @endphp
                     <div class="circle-reveal group text-center md:text-left">
-                        <div class="aspect-square bg-slate-200 rounded-3xl overflow-hidden mb-6 md:mb-8 relative">
-                            <img src="{{ asset('images/hero-bg.png') }}" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" alt="Alumni">
+                        <div class="aspect-square bg-slate-200 rounded-3xl overflow-hidden mb-6 md:mb-8 relative shadow-lg">
+                            <img src="{{ $alumniImg }}" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" alt="{{ $person->name }}">
                             <div class="absolute inset-0 bg-[#da291c]/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                                 <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
                             </div>
                         </div>
                         <div class="flex justify-between mb-2">
                             <span class="bg-green-100 text-green-800 text-[8px] font-black uppercase px-2 py-1 rounded">ALUMNI</span>
-                            <span class="text-slate-300 font-black text-xs">'24</span>
+                            <span class="text-slate-300 font-black text-xs">{{ $person->batch }}</span>
                         </div>
-                        <h3 class="text-xl font-black text-slate-900 mb-1">Rizky Amanda</h3>
-                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center justify-center md:justify-start gap-2"><svg class="w-3 h-3 text-[#da291c]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg> TOKYO, JAPAN</p>
+                        <h3 class="text-xl font-black text-slate-900 mb-1">{{ $person->name }}</h3>
+                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center justify-center md:justify-start gap-2"><svg class="w-3 h-3 text-[#da291c]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg> {{ $person->working_at }}</p>
                     </div>
-                @endfor
+                @empty
+                    <p class="text-slate-400">Belum ada data direktori alumni.</p>
+                @endforelse
             </div>
         </div>
     </section>

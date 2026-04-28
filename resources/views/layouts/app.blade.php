@@ -189,14 +189,14 @@
     </footer>
 
     <!-- Custom Translator UI -->
-    <div x-data="{ open: false, currentLang: 'Indonesia' }" class="fixed bottom-8 left-8 z-[100]">
+    <div x-data="translatorData()" class="fixed bottom-8 left-8 z-[100]">
         <!-- Floating Button -->
         <button @click="open = !open" class="w-14 h-14 bg-white rounded-full flex items-center justify-center shadow-2xl border border-slate-100 hover:scale-110 transition-transform group relative">
             <svg class="w-6 h-6 text-slate-900 group-hover:text-[#da291c] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path></svg>
-            <span class="absolute -top-1 -right-1 w-4 h-4 bg-[#da291c] rounded-full border-2 border-white"></span>
+            <span x-show="currentLangCode !== 'id'" x-cloak class="absolute -top-1 -right-1 w-4 h-4 bg-[#da291c] rounded-full border-2 border-white"></span>
         </button>
 
-        <!-- Language Menu (Matching Image Design) -->
+        <!-- Language Menu -->
         <div x-show="open" 
              x-transition:enter="transition ease-out duration-300"
              x-transition:enter-start="opacity-0 translate-y-10 scale-95"
@@ -223,9 +223,9 @@
                 @endphp
 
                 @foreach($langs as $l)
-                    <button @click="changeLanguage('{{ $l[0] }}'); currentLang = '{{ $l[1] }}'; open = false" 
+                    <button @click="changeLanguage('{{ $l[0] }}')" 
                             class="w-full flex items-center gap-4 px-6 py-4 rounded-2xl transition-all group text-left"
-                            :class="currentLang === '{{ $l[1] }}' ? 'bg-[#da291c] text-white shadow-lg shadow-red-900/20' : 'text-slate-600 hover:bg-slate-50'">
+                            :class="currentLangCode === '{{ $l[0] }}' ? 'bg-[#da291c] text-white shadow-lg shadow-red-900/20' : 'text-slate-600 hover:bg-slate-50'">
                         <span class="text-xl">{{ $l[2] }}</span>
                         <span class="font-bold text-sm tracking-tight">{{ $l[1] }}</span>
                     </button>
@@ -247,6 +247,20 @@
     <!-- Google Translate Engine (Hidden) -->
     <div id="google_translate_element"></div>
     <script type="text/javascript">
+        function translatorData() {
+            return {
+                open: false,
+                currentLangCode: 'id',
+                init() {
+                    const cookieValue = document.cookie.split('; ').find(row => row.startsWith('googtrans='));
+                    if (cookieValue) {
+                        const parts = cookieValue.split('/');
+                        this.currentLangCode = parts[parts.length - 1] || 'id';
+                    }
+                }
+            }
+        }
+
         function googleTranslateElementInit() {
             new google.translate.TranslateElement({
                 pageLanguage: 'id',
@@ -257,11 +271,12 @@
         }
 
         function changeLanguage(langCode) {
-            var select = document.querySelector('select.goog-te-combo');
-            if (select) {
-                select.value = langCode;
-                select.dispatchEvent(new Event('change'));
-            }
+            // Set Cookie
+            document.cookie = "googtrans=/id/" + langCode + "; path=/; domain=" + window.location.hostname;
+            document.cookie = "googtrans=/id/" + langCode + "; path=/";
+            
+            // Reload to apply
+            location.reload();
         }
     </script>
     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
