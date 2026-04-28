@@ -18,7 +18,6 @@ jobs:
         server: ${{ secrets.FTP_SERVER }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
-        # Memastikan ke folder yang tepat untuk domain ayakajosseicenter.com
         server-dir: public_html/ayaka_men/
         exclude: |
           **/.git*
@@ -26,4 +25,5 @@ jobs:
           **/node_modules/**
           **/vendor/**
           **/tests/**
+          **/bootstrap/cache/*.php
           .env
