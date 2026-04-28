@@ -17,6 +17,12 @@
                     Akun Sedang <span class="text-[#da291c]">Divalidasi</span>
                 </h1>
 
+                @if(session('status'))
+                    <div class="mb-8 p-4 bg-amber-50 text-amber-700 rounded-2xl font-bold text-sm border border-amber-100">
+                        {{ session('status') }}
+                    </div>
+                @endif
+
                 <p class="text-lg text-slate-500 font-medium leading-relaxed mb-10 max-w-md mx-auto">
                     Terima kasih telah mendaftar. Untuk menjaga keamanan komunitas Ayaka, admin kami akan meninjau akun Anda terlebih dahulu. 
                 </p>
