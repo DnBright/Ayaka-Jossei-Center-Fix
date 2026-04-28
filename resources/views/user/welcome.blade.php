@@ -5,11 +5,11 @@
 @section('content')
 <main class="font-['Outfit']">
     <!-- Hero Section -->
-    <section class="relative min-h-[90vh] flex items-center pt-20 overflow-hidden bg-slate-900">
+    <section class="relative min-h-screen flex items-center overflow-hidden bg-slate-900">
         <!-- Hero Background -->
         <div class="absolute inset-0 z-0">
-            <img src="{{ asset('images/hero-bg.png') }}" class="w-full h-full object-cover opacity-40 grayscale" alt="Ayaka Hero">
-            <div class="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-transparent"></div>
+            <img src="{{ asset('images/hero-bg.png') }}" class="w-full h-full object-cover" alt="Ayaka Hero">
+            <div class="absolute inset-0 bg-black/40"></div>
         </div>
 
         <div class="container mx-auto px-6 relative z-10">

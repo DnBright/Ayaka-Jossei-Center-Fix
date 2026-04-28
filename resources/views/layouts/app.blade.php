@@ -11,7 +11,7 @@
         [x-cloak] { display: none !important; }
     </style>
 </head>
-<body class="antialiased font-sans text-[#0f172a] bg-white overflow-x-hidden pt-16" x-data="{ mobileMenuOpen: false }">
+<body class="antialiased font-sans text-[#0f172a] bg-white overflow-x-hidden m-0 p-0" x-data="{ mobileMenuOpen: false }">
     <!-- Navbar -->
     <nav id="navbar" class="fixed top-6 left-1/2 -translate-x-1/2 w-[90%] lg:w-fit z-50 bg-white/80 backdrop-blur-xl border border-slate-200/60 py-2.5 px-6 rounded-full shadow-2xl transition-all duration-500">
         <div class="flex items-center justify-between lg:justify-start lg:gap-8">
