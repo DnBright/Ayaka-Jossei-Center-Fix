@@ -52,10 +52,55 @@
 
             <!-- Auth Buttons (Desktop) -->
             <div class="hidden lg:flex items-center space-x-2 border-l border-slate-200 pl-8 ml-2">
-                @if (Route::has('login'))
-                    <a href="{{ route('login') }}" class="px-5 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest text-slate-600 border border-slate-200 hover:bg-slate-50 transition-all">Login</a>
-                @endif
-                <a href="/register" class="bg-slate-900 text-white px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-[#da291c] transition-all">Join AJC</a>
+                @guest
+                    @if (Route::has('login'))
+                        <a href="{{ route('login') }}" class="px-5 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest text-slate-600 border border-slate-200 hover:bg-slate-50 transition-all">Login</a>
+                    @endif
+                    <a href="/register" class="bg-slate-900 text-white px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-[#da291c] transition-all">Join AJC</a>
+                @else
+                    <div class="relative flex items-center gap-4" x-data="{ open: false }">
+                        <button @click="open = !open" class="flex items-center gap-3 px-4 py-2 rounded-full bg-slate-50 border border-slate-200 hover:border-[#da291c]/30 transition-all group">
+                            <div class="text-right hidden sm:block">
+                                <p class="text-[10px] font-black text-slate-900 uppercase tracking-widest leading-none">{{ Auth::user()->name }}</p>
+                                <p class="text-[8px] font-bold text-slate-400 uppercase tracking-tighter mt-1">{{ Auth::user()->role }}</p>
+                            </div>
+                            <div class="w-8 h-8 bg-slate-900 text-white rounded-full flex items-center justify-center font-black text-[10px] group-hover:bg-[#da291c] transition-colors">
+                                {{ substr(Auth::user()->name, 0, 1) }}
+                            </div>
+                        </button>
+                        
+                        <!-- Logout Button Directly -->
+                        <form method="POST" action="{{ route('logout') }}" class="hidden sm:block">
+                            @csrf
+                            <button type="submit" class="bg-red-50 text-[#da291c] px-4 py-2 rounded-full text-[9px] font-black uppercase tracking-widest hover:bg-[#da291c] hover:text-white transition-all">
+                                Logout
+                            </button>
+                        </form>
+
+                        <!-- Dropdown for Admin/Profile -->
+                        <div x-show="open" 
+                             @click.away="open = false"
+                             x-transition:enter="transition ease-out duration-200"
+                             x-transition:enter-start="opacity-0 translate-y-4"
+                             x-transition:enter-end="opacity-100 translate-y-0"
+                             class="absolute right-0 top-full mt-3 w-48 bg-white rounded-2xl shadow-2xl border border-slate-100 py-2 z-[100]">
+                            
+                            @if(Auth::user()->role === 'admin')
+                                <a href="/admin" class="flex items-center gap-3 px-5 py-3 text-[10px] font-black uppercase tracking-widest text-slate-600 hover:bg-slate-50 hover:text-[#da291c]">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+                                    Admin Panel
+                                </a>
+                            @endif
+
+                            <form method="POST" action="{{ route('logout') }}" class="sm:hidden">
+                                @csrf
+                                <button type="submit" class="w-full flex items-center gap-3 px-5 py-3 text-[10px] font-black uppercase tracking-widest text-red-600 hover:bg-red-50 transition-colors">
+                                    Logout
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                @endguest
             </div>
         </div>
 
@@ -78,8 +123,19 @@
                 @endforeach
                 <hr class="border-slate-100">
                 <div class="flex flex-col gap-4 pt-2">
-                    <a href="/login" class="border border-slate-200 text-slate-900 py-4 px-6 rounded-2xl text-center text-xs font-black uppercase tracking-widest hover:bg-slate-50 transition-all">Masuk Akun</a>
-                    <a href="/register" class="bg-[#da291c] text-white py-4 px-6 rounded-2xl text-center text-xs font-black uppercase tracking-widest shadow-xl shadow-red-500/20">Daftar Sekarang</a>
+                    @guest
+                        <a href="/login" class="border border-slate-200 text-slate-900 py-4 px-6 rounded-2xl text-center text-xs font-black uppercase tracking-widest hover:bg-slate-50 transition-all">Masuk Akun</a>
+                        <a href="/register" class="bg-[#da291c] text-white py-4 px-6 rounded-2xl text-center text-xs font-black uppercase tracking-widest shadow-xl shadow-red-500/20">Daftar Sekarang</a>
+                    @else
+                        <div class="bg-slate-50 p-6 rounded-3xl border border-slate-100">
+                            <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-2">Selamat Datang,</p>
+                            <p class="text-lg font-black text-slate-900 leading-tight mb-6">{{ Auth::user()->name }}</p>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" class="w-full bg-slate-900 text-white py-4 px-6 rounded-2xl text-center text-xs font-black uppercase tracking-widest transition-all">Logout Sekarang</button>
+                            </form>
+                        </div>
+                    @endguest
                 </div>
             </div>
         </div>
