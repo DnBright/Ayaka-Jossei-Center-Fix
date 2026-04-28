@@ -10,6 +10,7 @@ Route::get('/', function () {
 // Auth Routes
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
+Route::get('/pending-approval', [AuthController::class, 'showPending'])->name('pending-approval');
 Route::post('/register', [AuthController::class, 'register']);
 Route::get('/admin/login', [AuthController::class, 'showAdminLogin'])->name('login.admin');
 Route::get('/penulis/login', [AuthController::class, 'showPenulisLogin'])->name('login.penulis');

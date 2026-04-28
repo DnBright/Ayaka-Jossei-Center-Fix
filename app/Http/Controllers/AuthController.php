@@ -27,6 +27,11 @@ class AuthController extends Controller
         return view('auth.register');
     }
 
+    public function showPending()
+    {
+        return view('auth.pending');
+    }
+
     public function register(Request $request)
     {
         $request->validate([
@@ -40,11 +45,10 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => \Illuminate\Support\Facades\Hash::make($request->password),
             'role' => 'user',
+            'is_approved' => false,
         ]);
 
-        Auth::login($user);
-
-        return redirect('/');
+        return redirect()->route('pending-approval');
     }
 
     public function login(Request $request)
@@ -55,8 +59,16 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
             $user = Auth::user();
+
+            if (!$user->is_approved && $user->role !== 'admin') {
+                Auth::logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+                return redirect()->route('pending-approval')->with('status', 'Akun Anda sedang dalam proses validasi oleh admin.');
+            }
+
+            $request->session()->regenerate();
 
             if ($user->role === 'admin') {
                 return redirect()->intended('/admin');
