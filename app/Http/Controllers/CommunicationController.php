@@ -13,6 +13,26 @@ class CommunicationController extends Controller
         return view('admin.komunikasi', compact('messages'));
     }
 
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'subject' => 'required|string|max:255',
+            'message' => 'required|string',
+        ]);
+
+        Message::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'subject' => $request->subject,
+            'message' => $request->message,
+            'is_read' => false,
+        ]);
+
+        return back()->with('success', 'Pesan Anda telah berhasil dikirim. Kami akan segera menghubungi Anda.');
+    }
+
     public function markAsRead($id)
     {
         $message = Message::findOrFail($id);
