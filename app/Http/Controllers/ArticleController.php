@@ -97,12 +97,18 @@ class ArticleController extends Controller
             'status' => $request->status,
         ]);
 
-        return redirect()->route('admin.artikel.index')->with('success', 'Artikel berhasil ditambahkan.');
+        $redirectRoute = Auth::user()->role === 'admin' ? 'admin.artikel.index' : 'penulis.artikel.index';
+        return redirect()->route($redirectRoute)->with('success', 'Artikel berhasil ditambahkan.');
     }
 
     public function update(Request $request, $id)
     {
         $article = Article::findOrFail($id);
+
+        // Authorization: Writer can only update their own articles
+        if (Auth::user()->role === 'penulis' && $article->author_id !== Auth::id()) {
+            abort(403, 'Anda tidak memiliki akses untuk mengedit artikel ini.');
+        }
 
         $request->validate([
             'title' => 'required|string|max:255',
@@ -143,12 +149,18 @@ class ArticleController extends Controller
             'status' => $request->status,
         ]);
 
-        return redirect()->route('admin.artikel.index')->with('success', 'Artikel berhasil diperbarui.');
+        $redirectRoute = Auth::user()->role === 'admin' ? 'admin.artikel.index' : 'penulis.artikel.index';
+        return redirect()->route($redirectRoute)->with('success', 'Artikel berhasil diperbarui.');
     }
 
     public function destroy($id)
     {
         $article = Article::findOrFail($id);
+
+        // Authorization: Writer can only delete their own articles
+        if (Auth::user()->role === 'penulis' && $article->author_id !== Auth::id()) {
+            abort(403, 'Anda tidak memiliki akses untuk menghapus artikel ini.');
+        }
         if ($article->featured_image && !str_starts_with($article->featured_image, 'http')) {
             Storage::disk('public')->delete($article->featured_image);
         }

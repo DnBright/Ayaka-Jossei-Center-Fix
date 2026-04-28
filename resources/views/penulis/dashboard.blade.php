@@ -11,7 +11,7 @@
                 P
             </div>
             <div>
-                <h1 class="text-3xl font-black text-slate-900 tracking-tight">Selamat Datang, Penulis</h1>
+                <h1 class="text-3xl font-black text-slate-900 tracking-tight">Selamat Datang, {{ Auth::user()->name }}</h1>
                 <p class="text-slate-500 font-medium mt-1">Pantau performa artikel dan materi yang Anda publikasikan.</p>
             </div>
         </div>
@@ -29,7 +29,7 @@
                     <i data-lucide="file-text"></i>
                 </div>
                 <div>
-                    <span class="block text-3xl font-black text-slate-900 leading-none mb-2">12</span>
+                    <span class="block text-3xl font-black text-slate-900 leading-none mb-2">{{ $stats['total_artikel'] }}</span>
                     <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Artikel Saya</span>
                 </div>
             </div>
@@ -40,7 +40,7 @@
                     <i data-lucide="eye"></i>
                 </div>
                 <div>
-                    <span class="block text-3xl font-black text-slate-900 leading-none mb-2">4.5k</span>
+                    <span class="block text-3xl font-black text-slate-900 leading-none mb-2">{{ number_format($stats['total_views']) }}</span>
                     <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Total Pembaca</span>
                 </div>
             </div>
@@ -51,7 +51,7 @@
                     <i data-lucide="book-open"></i>
                 </div>
                 <div>
-                    <span class="block text-3xl font-black text-slate-900 leading-none mb-2">8</span>
+                    <span class="block text-3xl font-black text-slate-900 leading-none mb-2">{{ $stats['total_ebook'] }}</span>
                     <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">E-Book Materi</span>
                 </div>
             </div>
@@ -76,24 +76,21 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-50">
-                    @php
-                        $articles = [
-                            ['title' => 'Panduan Hidup Hemat di Tokyo', 'status' => 'Published', 'views' => 1200],
-                            ['title' => 'Cara Membuat Resume Bahasa Jepang (Rirekisho)', 'status' => 'Pending', 'views' => 0],
-                            ['title' => 'Budaya Kerja di Perusahaan Kaigo Jepang', 'status' => 'Published', 'views' => 850],
-                        ];
-                    @endphp
-                    @foreach($articles as $art)
+                    @forelse($recent_articles as $art)
                     <tr class="hover:bg-slate-50/50 transition-colors">
-                        <td class="px-8 py-5 font-bold text-slate-700">{{ $art['title'] }}</td>
+                        <td class="px-8 py-5 font-bold text-slate-700">{{ $art->title }}</td>
                         <td class="px-8 py-5">
-                            <span class="text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest {{ $art['status'] == 'Published' ? 'bg-emerald-50 text-emerald-600' : 'bg-amber-50 text-amber-600' }}">
-                                {{ $art['status'] }}
+                            <span class="text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest {{ $art->status == 'published' ? 'bg-emerald-50 text-emerald-600' : 'bg-amber-50 text-amber-600' }}">
+                                {{ $art->status }}
                             </span>
                         </td>
-                        <td class="px-8 py-5 font-black text-blue-600">{{ $art['views'] }}</td>
+                        <td class="px-8 py-5 font-black text-blue-600">{{ $art->views_count }}</td>
                     </tr>
-                    @endforeach
+                    @empty
+                    <tr>
+                        <td colspan="3" class="px-8 py-10 text-center text-slate-400 text-xs font-bold uppercase tracking-widest">Belum ada artikel yang Anda buat</td>
+                    </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>

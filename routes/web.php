@@ -79,23 +79,9 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
 // Penulis Routes
 Route::middleware(['auth', 'role:penulis'])->group(function () {
-    Route::get('/penulis', function () {
-        return view('penulis.dashboard');
-    });
-
-    Route::get('/penulis/artikel', function () {
-        return view('penulis.artikel');
-    });
-
-    Route::get('/penulis/ebook', function () {
-        return view('penulis.ebook');
-    });
-
-    Route::get('/penulis/media', function () {
-        return view('penulis.media');
-    });
-
-    Route::get('/penulis/profile', function () {
-        return view('penulis.profile');
-    });
+    Route::get('/penulis', [App\Http\Controllers\PenulisController::class, 'dashboard'])->name('penulis.dashboard');
+    Route::get('/penulis/artikel', [App\Http\Controllers\PenulisController::class, 'artikel'])->name('penulis.artikel.index');
+    Route::get('/penulis/ebook', [App\Http\Controllers\PenulisController::class, 'ebook'])->name('penulis.ebook.index');
+    Route::get('/penulis/media', [App\Http\Controllers\PenulisController::class, 'media'])->name('penulis.media.index');
+    Route::get('/penulis/profile', [App\Http\Controllers\PenulisController::class, 'profile'])->name('penulis.profile');
 });
