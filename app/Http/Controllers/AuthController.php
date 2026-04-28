@@ -17,6 +17,31 @@ class AuthController extends Controller
         return view('auth.penulis-login');
     }
 
+    public function showRegister()
+    {
+        return view('auth.register');
+    }
+
+    public function register(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $user = \App\Models\User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => \Illuminate\Support\Facades\Hash::make($request->password),
+            'role' => 'user',
+        ]);
+
+        Auth::login($user);
+
+        return redirect('/');
+    }
+
     public function login(Request $request)
     {
         $credentials = $request->validate([
@@ -26,12 +51,14 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
+            $user = Auth::user();
 
-            // Check role from request to decide redirect
-            if ($request->role === 'admin') {
+            if ($user->role === 'admin') {
                 return redirect()->intended('/admin');
-            } else {
+            } elseif ($user->role === 'penulis') {
                 return redirect()->intended('/penulis');
+            } else {
+                return redirect()->intended('/');
             }
         }
 
