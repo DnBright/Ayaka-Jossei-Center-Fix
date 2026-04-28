@@ -257,9 +257,6 @@
                                 <p class="text-xs font-medium text-slate-400">admin@ayakajosei.com</p>
                             </div>
                             <div class="p-3">
-                                <a href="/admin/profile" class="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50 text-slate-600 font-bold text-xs uppercase tracking-widest transition-all">
-                                    <i data-lucide="user" class="w-4 h-4"></i> Edit Profil
-                                </a>
                                 <a href="/admin/pengaturan" class="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50 text-slate-600 font-bold text-xs uppercase tracking-widest transition-all">
                                     <i data-lucide="settings" class="w-4 h-4"></i> Pengaturan
                                 </a>

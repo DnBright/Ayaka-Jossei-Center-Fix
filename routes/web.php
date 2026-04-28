@@ -49,6 +49,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin', [App\Http\Controllers\AdminController::class, 'dashboard'])->name('admin.dashboard');
 
     Route::get('/admin/artikel', [App\Http\Controllers\ArticleController::class, 'index'])->name('admin.artikel.index');
+    Route::get('/admin/artikel/create', [App\Http\Controllers\ArticleController::class, 'create'])->name('admin.artikel.create');
+    Route::get('/admin/artikel/{id}/edit', [App\Http\Controllers\ArticleController::class, 'edit'])->name('admin.artikel.edit');
     Route::post('/admin/artikel', [App\Http\Controllers\ArticleController::class, 'store'])->name('admin.artikel.store');
     Route::put('/admin/artikel/{id}', [App\Http\Controllers\ArticleController::class, 'update'])->name('admin.artikel.update');
     Route::delete('/admin/artikel/{id}', [App\Http\Controllers\ArticleController::class, 'destroy'])->name('admin.artikel.destroy');

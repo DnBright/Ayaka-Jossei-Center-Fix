@@ -68,7 +68,7 @@
             </div>
             <div class="flex-1 overflow-y-auto custom-scrollbar">
                 @forelse($messages as $msg)
-                    <div @click="selectMessage({{ $msg }})" 
+                    <div @click='selectMessage(@json($msg))' 
                          :class="selectedMessage && selectedMessage.id === {{ $msg->id }} ? 'bg-slate-50' : ''"
                          class="p-6 border-b border-slate-50 hover:bg-slate-50/50 cursor-pointer transition-colors relative group">
                         <div class="flex gap-4 items-center mb-2">

@@ -3,7 +3,7 @@
 @section('page-title', 'Artikel & Berita')
 
 @section('content')
-<div class="artikel-container" x-data="{ openCreateModal: false }">
+<div class="artikel-container" x-data="{ openCreateModal: false, publishStatus: 'draft' }">
     <!-- Header -->
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6">
         <div>
@@ -113,53 +113,125 @@
     <!-- Create Modal -->
     <div x-show="openCreateModal" 
          x-cloak
-         class="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-900/60 backdrop-blur-sm">
-        <div @click.away="openCreateModal = false" class="bg-white w-full max-w-2xl rounded-[32px] shadow-2xl overflow-hidden animate-in zoom-in duration-300">
-            <div class="px-10 py-8 border-b border-slate-100 flex justify-between items-center">
-                <h2 class="text-2xl font-black text-slate-900">Buat Artikel Baru</h2>
-                <button @click="openCreateModal = false" class="text-slate-400 hover:text-slate-600">
-                    <i data-lucide="x" class="w-6 h-6"></i>
-                </button>
+         class="fixed inset-0 z-[100] overflow-y-auto bg-slate-900/60 backdrop-blur-sm">
+        <div class="min-h-full p-4 lg:p-8">
+            <div class="max-w-7xl mx-auto bg-[#f0f0f1] rounded-[24px] border border-slate-200 shadow-2xl p-6 lg:p-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-normal text-slate-800">Add New Post</h2>
+                    <button @click="openCreateModal = false" class="text-slate-500 hover:text-slate-700 bg-white border border-slate-200 rounded-lg p-2">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+
+                <form action="{{ route('admin.artikel.store') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <input type="hidden" name="status" :value="publishStatus">
+
+                    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                        <div class="lg:col-span-3">
+                            <input
+                                type="text"
+                                name="title"
+                                required
+                                placeholder="Enter title here"
+                                class="w-full text-2xl border border-slate-300 px-4 py-3 bg-white shadow-sm focus:outline-none focus:border-slate-500 focus:ring-1 focus:ring-slate-500 mb-5"
+                            >
+
+                            <button type="button" class="inline-flex items-center gap-2 border border-slate-300 bg-slate-100 text-[#2271b1] px-3 py-1.5 text-sm rounded mb-4 hover:bg-slate-200">
+                                <i data-lucide="image" class="w-4 h-4"></i>
+                                Add Media
+                            </button>
+
+                            <div class="bg-white border border-slate-300">
+                                <textarea
+                                    name="content"
+                                    rows="16"
+                                    required
+                                    placeholder="Start writing..."
+                                    class="w-full px-4 py-4 text-sm text-slate-700 focus:outline-none"
+                                ></textarea>
+                            </div>
+
+                            <div class="bg-white border border-slate-300 mt-6">
+                                <div class="px-4 py-2 border-b border-slate-200 text-sm font-semibold text-slate-700">Excerpt</div>
+                                <div class="p-4">
+                                    <textarea
+                                        rows="3"
+                                        placeholder="Write a short summary..."
+                                        class="w-full border border-slate-300 px-3 py-2 text-sm text-slate-600 focus:outline-none focus:border-slate-500"
+                                    ></textarea>
+                                    <p class="text-xs text-slate-500 mt-2">Excerpts are optional hand-crafted summaries of your content.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-5">
+                            <div class="bg-white border border-slate-300 shadow-sm">
+                                <div class="px-4 py-2 border-b border-slate-200 text-sm font-semibold text-slate-700">Publish</div>
+                                <div class="p-4 text-sm space-y-4">
+                                    <div class="flex justify-between">
+                                        <button type="submit" @click="publishStatus = 'draft'" class="border border-slate-300 bg-slate-100 text-[#2271b1] px-3 py-1.5 rounded text-xs font-semibold hover:bg-slate-200">
+                                            Save Draft
+                                        </button>
+                                        <button type="button" class="border border-slate-300 bg-slate-100 text-[#2271b1] px-3 py-1.5 rounded text-xs font-semibold hover:bg-slate-200">
+                                            Preview
+                                        </button>
+                                    </div>
+
+                                    <div class="py-3 border-y border-slate-100 space-y-2 text-slate-600">
+                                        <div class="flex items-center gap-2">
+                                            <i data-lucide="lock" class="w-4 h-4"></i>
+                                            Status: <span class="font-bold" x-text="publishStatus"></span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <i data-lucide="globe" class="w-4 h-4"></i>
+                                            Visibility: <span class="font-bold text-[#2271b1]">Public</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <i data-lucide="calendar" class="w-4 h-4"></i>
+                                            Publish: <span class="font-bold">Immediately</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex justify-between items-center">
+                                        <button type="button" @click="openCreateModal = false" class="text-xs text-red-700 underline">
+                                            Move to Trash
+                                        </button>
+                                        <button type="submit" @click="publishStatus = 'published'" class="border border-[#2271b1] bg-[#2271b1] text-white px-4 py-1.5 rounded text-xs font-semibold hover:bg-[#135e96]">
+                                            Publish
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white border border-slate-300 shadow-sm">
+                                <div class="px-4 py-2 border-b border-slate-200 text-sm font-semibold text-slate-700">Categories</div>
+                                <div class="p-4">
+                                    <div class="max-h-60 overflow-y-auto border border-slate-200 bg-slate-50 rounded p-3 space-y-2">
+                                        @foreach(\App\Models\Category::all() as $cat)
+                                            <label class="flex items-center gap-3 text-sm font-semibold text-slate-600 hover:text-red-600 cursor-pointer">
+                                                <input type="radio" name="category_id" value="{{ $cat->id }}" class="accent-red-600 w-4 h-4" required>
+                                                {{ $cat->name }}
+                                            </label>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white border border-slate-300 shadow-sm">
+                                <div class="px-4 py-2 border-b border-slate-200 text-sm font-semibold text-slate-700">Featured Image</div>
+                                <div class="p-4">
+                                    <div class="bg-slate-100 h-32 border border-dashed border-slate-300 flex items-center justify-center text-xs text-slate-400 mb-3">
+                                        No image selected
+                                    </div>
+                                    <input type="file" name="featured_image" accept="image/*" class="w-full border border-slate-300 text-xs px-2 py-1.5 mb-2">
+                                    <p class="text-xs text-[#2271b1] underline font-semibold">Set featured image</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
-            <form action="{{ route('admin.artikel.store') }}" method="POST" enctype="multipart/form-data" class="p-10">
-                @csrf
-                <div class="grid grid-cols-1 gap-6">
-                    <div>
-                        <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Judul Artikel</label>
-                        <input type="text" name="title" required class="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-sm focus:outline-none focus:border-[#da291c] transition-all">
-                    </div>
-                    <div class="grid grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Kategori</label>
-                            <select name="category_id" required class="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-sm focus:outline-none focus:border-[#da291c] transition-all">
-                                <option value="">Pilih Kategori</option>
-                                @foreach(\App\Models\Category::all() as $cat)
-                                    <option value="{{ $cat->id }}">{{ $cat->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Status</label>
-                            <select name="status" class="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-sm focus:outline-none focus:border-[#da291c] transition-all">
-                                <option value="draft">Draft (Simpan Saja)</option>
-                                <option value="published">Publish (Langsung Terbit)</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Gambar Utama (Featured Image)</label>
-                        <input type="file" name="featured_image" class="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-sm">
-                    </div>
-                    <div>
-                        <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Konten Artikel</label>
-                        <textarea name="content" rows="6" required class="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-sm focus:outline-none focus:border-[#da291c] transition-all"></textarea>
-                    </div>
-                </div>
-                <div class="mt-10 flex gap-4">
-                    <button type="submit" class="flex-1 bg-[#da291c] text-white py-4 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-red-900/20">Simpan & Terbitkan</button>
-                    <button type="button" @click="openCreateModal = false" class="px-8 py-4 bg-slate-100 text-slate-500 rounded-2xl font-black text-sm uppercase tracking-widest">Batal</button>
-                </div>
-            </form>
         </div>
     </div>
 </div>

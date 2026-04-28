@@ -17,6 +17,33 @@ class ArticleController extends Controller
         return view('admin.artikel', compact('articles'));
     }
 
+    public function create()
+    {
+        $categories = Category::orderBy('name')->get();
+
+        return view('admin.artikel_editor', [
+            'article' => null,
+            'categories' => $categories,
+            'formAction' => route('admin.artikel.store'),
+            'formMethod' => 'POST',
+            'initialStatus' => 'draft',
+        ]);
+    }
+
+    public function edit($id)
+    {
+        $article = Article::findOrFail($id);
+        $categories = Category::orderBy('name')->get();
+
+        return view('admin.artikel_editor', [
+            'article' => $article,
+            'categories' => $categories,
+            'formAction' => route('admin.artikel.update', $article->id),
+            'formMethod' => 'PUT',
+            'initialStatus' => $article->status,
+        ]);
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -42,7 +69,7 @@ class ArticleController extends Controller
             'status' => $request->status,
         ]);
 
-        return back()->with('success', 'Artikel berhasil ditambahkan.');
+        return redirect()->route('admin.artikel.index')->with('success', 'Artikel berhasil ditambahkan.');
     }
 
     public function update(Request $request, $id)
@@ -72,7 +99,7 @@ class ArticleController extends Controller
             'status' => $request->status,
         ]);
 
-        return back()->with('success', 'Artikel berhasil diperbarui.');
+        return redirect()->route('admin.artikel.index')->with('success', 'Artikel berhasil diperbarui.');
     }
 
     public function destroy($id)

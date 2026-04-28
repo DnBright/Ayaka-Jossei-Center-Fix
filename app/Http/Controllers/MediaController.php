@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Media;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class MediaController extends Controller
@@ -22,15 +23,18 @@ class MediaController extends Controller
             'type' => 'required|in:gallery,banner,content',
         ]);
 
-        $path = $request->file('file')->store('media', 'public');
+        $uploadedFile = $request->file('file');
+        $path = $uploadedFile->store('media', 'public');
 
         Media::create([
-            'file_name' => $request->file('file')->getClientOriginalName(),
+            'filename' => pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME),
+            'original_name' => $uploadedFile->getClientOriginalName(),
             'file_path' => $path,
-            'file_type' => $request->file('file')->getMimeType(),
-            'file_size' => $request->file('file')->getSize(),
-            'title' => $request->title ?? $request->file('file')->getClientOriginalName(),
+            'mime_type' => $uploadedFile->getMimeType(),
+            'file_size' => $uploadedFile->getSize(),
+            'title' => $request->title ?? $uploadedFile->getClientOriginalName(),
             'type' => $request->type,
+            'uploaded_by' => Auth::id(),
         ]);
 
         return back()->with('success', 'Media berhasil diunggah.');
