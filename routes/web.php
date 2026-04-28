@@ -90,10 +90,11 @@ Route::middleware(['auth', 'role:penulis'])->group(function () {
 // Emergency Migration Route
 Route::get('/run-migrate', function () {
     try {
-        \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
-        return "Database berhasil diperbarui! Silakan coba simpan artikel lagi.";
+        // Gunakan Raw SQL untuk memastikan perubahan terjadi
+        \Illuminate\Support\Facades\DB::statement('ALTER TABLE articles MODIFY featured_image TEXT');
+        return "Database dipaksa diperbarui menggunakan RAW SQL! Silakan coba simpan artikel lagi.";
     } catch (\Exception $e) {
-        return "Gagal migrasi: " . $e->getMessage();
+        return "Gagal migrasi paksa: " . $e->getMessage();
     }
 });
 
