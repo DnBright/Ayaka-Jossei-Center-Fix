@@ -15,6 +15,7 @@ class PageController extends Controller
                 'title' => 'Home',
                 'slug' => 'home',
                 'content' => [
+                    'hero_bg' => 'images/hero-bg.png',
                     'hero_title' => 'Ayaka Josei Center',
                     'hero_subtitle' => 'Lembaga Pelatihan Kerja (LPK) Khusus Putri untuk Karir Profesional di Jepang.',
                     'stats_1_value' => '500+',
