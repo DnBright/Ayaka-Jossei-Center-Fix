@@ -3,7 +3,7 @@
 @section('page-title', 'Media Library Ayaka')
 
 @section('content')
-<div class="media-manager-container" x-data="{ openUploadModal: false }">
+<div class="media-manager-container" x-data="{ openUploadModal: false, openEditModal: false, editData: { id: null, title: '', type: 'gallery' } }">
     <!-- Header -->
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6">
         <div>
@@ -54,13 +54,16 @@
                             : asset($item->file_path);
                     @endphp
                     <img src="{{ $imageSource }}" alt="{{ $item->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                    <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
+                    <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-3">
                         @if(!($item->is_dummy ?? false) && $item->id)
-                            <form action="{{ route('admin.media.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus media ini?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="w-10 h-10 bg-red-600 text-white rounded-xl flex items-center justify-center hover:bg-red-700 transition-all shadow-lg shadow-red-900/20"><i data-lucide="trash-2" class="w-5 h-5"></i></button>
-                            </form>
+                            <div class="flex gap-3">
+                                <button @click="editData = { id: {{ $item->id }}, title: '{{ addslashes($item->title) }}', type: '{{ $item->type }}' }; openEditModal = true" class="w-10 h-10 bg-blue-600 text-white rounded-xl flex items-center justify-center hover:bg-blue-700 transition-all shadow-lg shadow-blue-900/20" title="Edit Media"><i data-lucide="edit" class="w-5 h-5"></i></button>
+                                <form action="{{ route('admin.media.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus media ini?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="w-10 h-10 bg-red-600 text-white rounded-xl flex items-center justify-center hover:bg-red-700 transition-all shadow-lg shadow-red-900/20" title="Hapus Media"><i data-lucide="trash-2" class="w-5 h-5"></i></button>
+                                </form>
+                            </div>
                         @endif
                     </div>
                 </div>
@@ -118,6 +121,42 @@
                 <div class="mt-10 flex gap-4">
                     <button type="submit" class="flex-1 bg-[#da291c] text-white py-4 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-red-900/20">Upload & Publish</button>
                     <button type="button" @click="openUploadModal = false" class="px-8 py-4 bg-slate-100 text-slate-500 rounded-2xl font-black text-sm uppercase tracking-widest">Batal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div x-show="openEditModal" 
+         x-cloak
+         class="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-900/60 backdrop-blur-sm">
+        <div @click.away="openEditModal = false" class="bg-white w-full max-w-lg rounded-[32px] shadow-2xl overflow-hidden animate-in zoom-in duration-300">
+            <div class="px-10 py-8 border-b border-slate-100 flex justify-between items-center">
+                <h2 class="text-2xl font-black text-slate-900">Edit Media</h2>
+                <button @click="openEditModal = false" class="text-slate-400 hover:text-slate-600">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <form :action="'{{ url('admin/media') }}/' + editData.id" method="POST" class="p-10">
+                @csrf
+                @method('PUT')
+                <div class="grid grid-cols-1 gap-6">
+                    <div>
+                        <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Judul Media</label>
+                        <input type="text" name="title" x-model="editData.title" class="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-sm focus:outline-none focus:border-[#da291c] transition-all">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Kategori Media</label>
+                        <select name="type" x-model="editData.type" required class="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-sm focus:outline-none focus:border-[#da291c] transition-all">
+                            <option value="gallery">Galeri Kegiatan</option>
+                            <option value="banner">Banner / Slider</option>
+                            <option value="content">Konten Umum</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mt-10 flex gap-4">
+                    <button type="submit" class="flex-1 bg-blue-600 text-white py-4 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-blue-900/20 hover:bg-blue-700 transition-all">Simpan Perubahan</button>
+                    <button type="button" @click="openEditModal = false" class="px-8 py-4 bg-slate-100 text-slate-500 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-slate-200 transition-all">Batal</button>
                 </div>
             </form>
         </div>

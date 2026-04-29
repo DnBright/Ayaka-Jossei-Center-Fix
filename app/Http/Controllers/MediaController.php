@@ -57,6 +57,23 @@ class MediaController extends Controller
         return back()->with('success', 'Media berhasil diunggah.');
     }
 
+    public function update(Request $request, $id)
+    {
+        $media = Media::findOrFail($id);
+
+        $request->validate([
+            'title' => 'nullable|string|max:255',
+            'type' => 'required|in:gallery,banner,content',
+        ]);
+
+        $media->update([
+            'title' => $request->title ?? $media->original_name,
+            'type' => $request->type,
+        ]);
+
+        return back()->with('success', 'Informasi media berhasil diperbarui.');
+    }
+
     public function destroy($id)
     {
         $media = Media::findOrFail($id);

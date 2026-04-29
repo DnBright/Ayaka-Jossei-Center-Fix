@@ -64,6 +64,7 @@ Route::middleware(['auth:admin,penulis', 'role:admin,penulis'])->group(function 
 
     Route::get('/admin/media', [App\Http\Controllers\MediaController::class, 'index'])->name('admin.media.index');
     Route::post('/admin/media', [App\Http\Controllers\MediaController::class, 'store'])->name('admin.media.store');
+    Route::put('/admin/media/{id}', [App\Http\Controllers\MediaController::class, 'update'])->name('admin.media.update');
     Route::delete('/admin/media/{id}', [App\Http\Controllers\MediaController::class, 'destroy'])->name('admin.media.destroy');
 
     Route::get('/admin/komunikasi', [App\Http\Controllers\CommunicationController::class, 'index'])->name('admin.komunikasi.index');
@@ -92,6 +93,7 @@ Route::middleware(['auth:penulis', 'role:penulis'])->group(function () {
     Route::get('/penulis/ebook', [App\Http\Controllers\PenulisController::class, 'ebook'])->name('penulis.ebook.index');
     Route::get('/penulis/media', [App\Http\Controllers\PenulisController::class, 'media'])->name('penulis.media.index');
     Route::post('/penulis/media', [App\Http\Controllers\MediaController::class, 'store'])->name('penulis.media.store');
+    Route::put('/penulis/media/{id}', [App\Http\Controllers\MediaController::class, 'update'])->name('penulis.media.update');
     Route::delete('/penulis/media/{id}', [App\Http\Controllers\MediaController::class, 'destroy'])->name('penulis.media.destroy');
     Route::get('/penulis/profile', [App\Http\Controllers\PenulisController::class, 'profile'])->name('penulis.profile');
 });
