@@ -26,6 +26,16 @@
         </div>
     @endif
 
+    @if($errors->any())
+        <div class="mb-8 p-4 bg-red-50 text-red-700 rounded-2xl font-bold text-sm border border-red-100">
+            <ul class="list-disc pl-5">
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <!-- Stats -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
         <div class="bg-white p-6 rounded-3xl border border-slate-100 flex items-center gap-5 shadow-sm">

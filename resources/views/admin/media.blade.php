@@ -22,6 +22,16 @@
         </div>
     @endif
 
+    @if($errors->any())
+        <div class="mb-8 p-4 bg-red-50 text-red-700 rounded-2xl font-bold text-sm border border-red-100">
+            <ul class="list-disc pl-5">
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <!-- Toolbar -->
     <div class="bg-white rounded-[24px] p-4 border border-slate-100 shadow-sm mb-10">
         <form action="{{ route('admin.media.index') }}" method="GET" class="flex flex-col lg:flex-row justify-between items-center gap-6">
