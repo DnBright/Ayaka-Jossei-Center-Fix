@@ -67,6 +67,11 @@ Route::middleware(['auth:admin,penulis', 'role:admin,penulis'])->group(function 
     Route::put('/admin/media/{id}', [App\Http\Controllers\MediaController::class, 'update'])->name('admin.media.update');
     Route::delete('/admin/media/{id}', [App\Http\Controllers\MediaController::class, 'destroy'])->name('admin.media.destroy');
 
+    Route::get('/admin/alumni', [App\Http\Controllers\AlumniController::class, 'index'])->name('admin.alumni.index');
+    Route::post('/admin/alumni', [App\Http\Controllers\AlumniController::class, 'store'])->name('admin.alumni.store');
+    Route::put('/admin/alumni/{id}', [App\Http\Controllers\AlumniController::class, 'update'])->name('admin.alumni.update');
+    Route::delete('/admin/alumni/{id}', [App\Http\Controllers\AlumniController::class, 'destroy'])->name('admin.alumni.destroy');
+
     Route::get('/admin/komunikasi', [App\Http\Controllers\CommunicationController::class, 'index'])->name('admin.komunikasi.index');
     Route::post('/admin/komunikasi/{id}/read', [App\Http\Controllers\CommunicationController::class, 'markAsRead'])->name('admin.komunikasi.read');
     Route::delete('/admin/komunikasi/{id}', [App\Http\Controllers\CommunicationController::class, 'destroy'])->name('admin.komunikasi.destroy');

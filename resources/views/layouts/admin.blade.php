@@ -193,6 +193,10 @@
                     <i data-lucide="layout"></i>
                     <span>Halaman & Konten</span>
                 </a>
+                <a href="/admin/alumni" class="nav-item {{ request()->is('admin/alumni*') ? 'active' : '' }}">
+                    <i data-lucide="graduation-cap"></i>
+                    <span>Data Alumni</span>
+                </a>
                 <a href="/admin/media" class="nav-item {{ request()->is('admin/media*') ? 'active' : '' }}">
                     <i data-lucide="image"></i>
                     <span>Media & Galeri</span>
