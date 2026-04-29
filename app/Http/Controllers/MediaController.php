@@ -64,12 +64,32 @@ class MediaController extends Controller
         $request->validate([
             'title' => 'nullable|string|max:255',
             'type' => 'required|in:gallery,banner,content',
+            'file' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
         ]);
 
-        $media->update([
+        $updateData = [
             'title' => $request->title ?? $media->original_name,
             'type' => $request->type,
-        ]);
+        ];
+
+        if ($request->hasFile('file')) {
+            // Hapus file lama jika ada
+            if ($media->file_path && !str_starts_with($media->file_path, 'http') && file_exists(public_path($media->file_path))) {
+                unlink(public_path($media->file_path));
+            }
+
+            $uploadedFile = $request->file('file');
+            $filename = time() . '_' . \Illuminate\Support\Str::slug(pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $uploadedFile->getClientOriginalExtension();
+            $uploadedFile->move(public_path('uploads/media'), $filename);
+            
+            $updateData['file_path'] = 'uploads/media/' . $filename;
+            $updateData['filename'] = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
+            $updateData['original_name'] = $uploadedFile->getClientOriginalName();
+            $updateData['mime_type'] = $uploadedFile->getMimeType();
+            $updateData['file_size'] = $uploadedFile->getSize();
+        }
+
+        $media->update($updateData);
 
         return back()->with('success', 'Informasi media berhasil diperbarui.');
     }

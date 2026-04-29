@@ -135,10 +135,15 @@
                     <i data-lucide="x" class="w-6 h-6"></i>
                 </button>
             </div>
-            <form :action="'{{ url('penulis/media') }}/' + editData.id" method="POST" class="p-10">
+            <form :action="'{{ url('penulis/media') }}/' + editData.id" method="POST" enctype="multipart/form-data" class="p-10">
                 @csrf
                 @method('PUT')
                 <div class="grid grid-cols-1 gap-6">
+                    <div>
+                        <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Ganti Gambar (Opsional)</label>
+                        <input type="file" name="file" accept="image/*" class="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-xs">
+                        <span class="text-[9px] text-slate-400 mt-1 block">Biarkan kosong jika tidak ingin mengganti gambar.</span>
+                    </div>
                     <div>
                         <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Judul Media</label>
                         <input type="text" name="title" x-model="editData.title" class="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-sm focus:outline-none focus:border-[#da291c] transition-all">
