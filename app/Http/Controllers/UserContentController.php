@@ -187,8 +187,14 @@ class UserContentController extends Controller
     {
         $article = Article::with('category', 'author')
             ->where('slug', $slug)
-            ->where('status', 'published')
             ->firstOrFail();
+
+        // Pengecekan Akses Preview Draft
+        if ($article->status !== 'published') {
+            if (!auth()->check() || (auth()->user()->role !== 'admin' && (auth()->user()->role !== 'penulis' || auth()->id() !== $article->author_id))) {
+                abort(404);
+            }
+        }
 
         // Proteksi Konten: Wajib Login jika is_member_only = true
         if ($article->is_member_only && !auth()->check()) {

@@ -72,9 +72,15 @@
                                 <button type="submit" @click="publishStatus = 'draft'" class="border border-[#dcdcde] bg-[#f6f7f7] text-[#2271b1] px-3 py-1.5 rounded text-xs font-semibold hover:bg-[#f0f0f1]">
                                     Save Draft
                                 </button>
-                                <button type="button" class="border border-[#dcdcde] bg-[#f6f7f7] text-[#2271b1] px-3 py-1.5 rounded text-xs font-semibold hover:bg-[#f0f0f1]">
-                                    Preview
-                                </button>
+                                @if($article)
+                                    <a href="{{ route('blog.show', $article->slug) }}" target="_blank" class="border border-[#dcdcde] bg-[#f6f7f7] text-[#2271b1] px-3 py-1.5 rounded text-xs font-semibold hover:bg-[#f0f0f1] inline-block text-center no-underline">
+                                        Preview
+                                    </a>
+                                @else
+                                    <button type="button" onclick="alert('Silakan tekan tombol \'Save Draft\' terlebih dahulu agar sistem dapat membuatkan pratinjau untuk artikel baru ini.')" class="border border-[#dcdcde] bg-[#f6f7f7] text-[#2271b1] px-3 py-1.5 rounded text-xs font-semibold hover:bg-[#f0f0f1]">
+                                        Preview
+                                    </button>
+                                @endif
                             </div>
 
                             <div class="py-3 border-y border-slate-100 space-y-3 text-slate-600">
