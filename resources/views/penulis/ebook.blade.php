@@ -58,7 +58,7 @@
                 <div class="flex gap-6 items-start mb-6">
                     <div class="w-24 h-32 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-300 group-hover:bg-red-50 group-hover:text-[#da291c] transition-all relative shrink-0 border border-slate-100 shadow-inner overflow-hidden">
                         @if($ebook->cover_image)
-                            <img src="{{ Storage::url($ebook->cover_image) }}" class="w-full h-full object-cover">
+                            <img src="{{ str_starts_with($ebook->cover_image, 'http') ? $ebook->cover_image : asset($ebook->cover_image) }}" class="w-full h-full object-cover">
                         @else
                             <i data-lucide="book" class="w-10 h-10"></i>
                         @endif

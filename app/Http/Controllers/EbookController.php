@@ -24,10 +24,17 @@ class EbookController extends Controller
             'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
 
-        $filePath = $request->file('file')->store('ebooks/files', 'public');
+        $file = $request->file('file');
+        $fileFilename = time() . '_' . \Illuminate\Support\Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $file->getClientOriginalExtension();
+        $file->move(public_path('uploads/ebooks/files'), $fileFilename);
+        $filePath = 'uploads/ebooks/files/' . $fileFilename;
+
         $coverPath = null;
         if ($request->hasFile('cover_image')) {
-            $coverPath = $request->file('cover_image')->store('ebooks/covers', 'public');
+            $coverFile = $request->file('cover_image');
+            $coverFilename = time() . '_' . \Illuminate\Support\Str::slug(pathinfo($coverFile->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $coverFile->getClientOriginalExtension();
+            $coverFile->move(public_path('uploads/ebooks/covers'), $coverFilename);
+            $coverPath = 'uploads/ebooks/covers/' . $coverFilename;
         }
 
         Ebook::create([
@@ -60,15 +67,23 @@ class EbookController extends Controller
         ];
 
         if ($request->hasFile('file')) {
-            Storage::disk('public')->delete($ebook->file_path);
-            $data['file_path'] = $request->file('file')->store('ebooks/files', 'public');
+            if ($ebook->file_path && file_exists(public_path($ebook->file_path))) {
+                unlink(public_path($ebook->file_path));
+            }
+            $file = $request->file('file');
+            $fileFilename = time() . '_' . \Illuminate\Support\Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/ebooks/files'), $fileFilename);
+            $data['file_path'] = 'uploads/ebooks/files/' . $fileFilename;
         }
 
         if ($request->hasFile('cover_image')) {
-            if ($ebook->cover_image) {
-                Storage::disk('public')->delete($ebook->cover_image);
+            if ($ebook->cover_image && !str_starts_with($ebook->cover_image, 'http') && file_exists(public_path($ebook->cover_image))) {
+                unlink(public_path($ebook->cover_image));
             }
-            $data['cover_image'] = $request->file('cover_image')->store('ebooks/covers', 'public');
+            $coverFile = $request->file('cover_image');
+            $coverFilename = time() . '_' . \Illuminate\Support\Str::slug(pathinfo($coverFile->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $coverFile->getClientOriginalExtension();
+            $coverFile->move(public_path('uploads/ebooks/covers'), $coverFilename);
+            $data['cover_image'] = 'uploads/ebooks/covers/' . $coverFilename;
         }
 
         $ebook->update($data);
@@ -79,11 +94,11 @@ class EbookController extends Controller
     public function destroy($id)
     {
         $ebook = Ebook::findOrFail($id);
-        if ($ebook->file_path) {
-            Storage::disk('public')->delete($ebook->file_path);
+        if ($ebook->file_path && file_exists(public_path($ebook->file_path))) {
+            unlink(public_path($ebook->file_path));
         }
-        if ($ebook->cover_image) {
-            Storage::disk('public')->delete($ebook->cover_image);
+        if ($ebook->cover_image && !str_starts_with($ebook->cover_image, 'http') && file_exists(public_path($ebook->cover_image))) {
+            unlink(public_path($ebook->cover_image));
         }
         $ebook->delete();
 

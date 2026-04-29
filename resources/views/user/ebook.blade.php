@@ -41,11 +41,7 @@
                     @php
                         $coverImage = str_starts_with($book->cover_image ?? '', 'http')
                             ? $book->cover_image
-                            : (str_starts_with($book->cover_image ?? '', 'images/')
-                                ? asset($book->cover_image)
-                                : (str_starts_with($book->cover_image ?? '', 'ebooks/covers/')
-                                    ? Storage::url($book->cover_image)
-                                    : asset('images/hero-bg.png')));
+                            : ($book->cover_image ? asset($book->cover_image) : asset('images/hero-bg.png'));
                     @endphp
                     <div class="bg-white rounded-[40px] border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-3 transition-all duration-500 reveal-up overflow-hidden group" style="animation-delay: {{ $idx * 0.1 }}s">
                         <!-- Cover Image -->
