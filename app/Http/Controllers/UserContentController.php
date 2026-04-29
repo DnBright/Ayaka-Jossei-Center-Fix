@@ -127,9 +127,12 @@ class UserContentController extends Controller
 
     private function ensureAlumni(): void
     {
-        if (\App\Models\Alumni::count() > 0) {
+        if (\App\Models\Alumni::count() >= 12) {
             return;
         }
+
+        // Hapus data lama yang kurang dari 12 agar terganti dengan data baru yang lengkap
+        \App\Models\Alumni::truncate();
 
         $samples = [
             [
@@ -191,6 +194,18 @@ class UserContentController extends Controller
                 'Batch 12', 
                 'Fukuoka Nursing Home', 
                 'Dari nol hingga bisa mengantongi sertifikat N3 dan persiapan N2, AJC memfasilitasi semuanya. Tidak hanya itu, pendampingan khusus saat interview dengan user Jepang benar-benar meningkatkan kepercayaan diri saya.'
+            ],
+            [
+                'Bagas Dwi Syahputra', 
+                'Batch 16', 
+                'Kyoto General Hospital', 
+                'Berbekal sertifikat N3 dan ilmu Kaigo dari Ayaka, saya berhasil memenangkan hati user di Kyoto saat wawancara. Persiapan mental adalah yang terbaik di sini.'
+            ],
+            [
+                'Aulia Rahma', 
+                'Batch 13', 
+                'Tokyo Medika Care', 
+                'Lingkungan belajar yang kompetitif namun suportif di AJC sangat membantu saya mengejar mimpi bekerja di Tokyo. Sangat direkomendasikan untuk siapa saja yang bermimpi ke Jepang!'
             ],
         ];
 
