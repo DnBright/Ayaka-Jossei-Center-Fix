@@ -54,11 +54,6 @@ class ArticleController extends Controller
     public function edit($id)
     {
         $article = Article::findOrFail($id);
-        
-        // Security: Penulis only can edit their own articles
-        if (Auth::user()->role === 'penulis' && $article->author_id != Auth::user()->id) {
-            abort(403, 'Anda tidak memiliki akses untuk mengedit artikel ini.');
-        }
 
         $categories = Category::orderBy('name')->get();
         $isPenulis = Auth::user()->role === 'penulis';
