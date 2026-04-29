@@ -89,7 +89,7 @@
                     <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest italic">PDF Format</span>
                     <div class="flex gap-2">
                         <button @click="openEditModal = true; editData = { id: '{{ $ebook->id }}', title: '{{ addslashes($ebook->title) }}', description: '{{ addslashes($ebook->description) }}' }" class="text-xs font-black text-slate-600 hover:bg-slate-50 px-3 py-1.5 rounded-lg transition-colors">Edit</button>
-                        <form action="{{ route('admin.ebook.destroy', $ebook->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus E-Book ini?')">
+                        <form action="{{ route('penulis.ebook.destroy', $ebook->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus E-Book ini?')">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="text-xs font-black text-red-600 hover:bg-red-50 px-3 py-1.5 rounded-lg transition-colors">Delete</button>
@@ -115,7 +115,7 @@
                     <i data-lucide="x" class="w-6 h-6"></i>
                 </button>
             </div>
-            <form action="{{ route('admin.ebook.store') }}" method="POST" enctype="multipart/form-data" class="p-10">
+            <form action="{{ route('penulis.ebook.store') }}" method="POST" enctype="multipart/form-data" class="p-10">
                 @csrf
                 <div class="grid grid-cols-1 gap-6">
                     <div>
@@ -156,7 +156,7 @@
                     <i data-lucide="x" class="w-6 h-6"></i>
                 </button>
             </div>
-            <form :action="'{{ url('admin/ebook') }}/' + editData.id" method="POST" enctype="multipart/form-data" class="p-10">
+            <form :action="'{{ url('penulis/ebook') }}/' + editData.id" method="POST" enctype="multipart/form-data" class="p-10">
                 @csrf
                 @method('PUT')
                 <div class="grid grid-cols-1 gap-6">
