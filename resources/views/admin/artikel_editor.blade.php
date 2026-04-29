@@ -23,7 +23,6 @@
             @if($formMethod === 'PUT')
                 @method('PUT')
             @endif
-            <input type="hidden" name="status" :value="publishStatus">
 
             <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
                 <div class="lg:col-span-3">
@@ -69,7 +68,7 @@
                         <div class="px-4 py-2 border-b border-[#dcdcde] text-sm font-semibold text-slate-700">Publish</div>
                         <div class="p-4 text-sm space-y-4">
                             <div class="flex justify-between">
-                                <button type="submit" @click="publishStatus = 'draft'" class="border border-[#dcdcde] bg-[#f6f7f7] text-[#2271b1] px-3 py-1.5 rounded text-xs font-semibold hover:bg-[#f0f0f1]">
+                                <button type="submit" name="status" value="draft" @click="publishStatus = 'draft'" class="border border-[#dcdcde] bg-[#f6f7f7] text-[#2271b1] px-3 py-1.5 rounded text-xs font-semibold hover:bg-[#f0f0f1]">
                                     Save Draft
                                 </button>
                                 @if($article)
@@ -112,7 +111,7 @@
                                     Move to Trash
                                 </button>
                                 @endif
-                                <button type="submit" @click="publishStatus = 'published'" class="border border-[#2271b1] bg-[#2271b1] text-white px-4 py-1.5 rounded text-xs font-semibold hover:bg-[#135e96]">
+                                <button type="submit" name="status" value="published" @click="publishStatus = 'published'" class="border border-[#2271b1] bg-[#2271b1] text-white px-4 py-1.5 rounded text-xs font-semibold hover:bg-[#135e96]">
                                     {{ $article ? 'Update' : 'Publish' }}
                                 </button>
                             </div>
