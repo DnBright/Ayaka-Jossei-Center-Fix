@@ -60,9 +60,7 @@
                     @php
                         $imageSource = str_starts_with($item->file_path ?? '', 'http')
                             ? $item->file_path
-                            : (str_starts_with($item->file_path ?? '', 'images/')
-                                ? asset($item->file_path)
-                                : Storage::url($item->file_path));
+                            : asset($item->file_path);
                     @endphp
                     <div class="break-inside-avoid atelier-reveal group">
                         <div class="relative rounded-[25px] overflow-hidden shadow-xl bg-slate-100 mb-6">
