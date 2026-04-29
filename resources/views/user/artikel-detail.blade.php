@@ -35,11 +35,9 @@
                 @php
                     $featuredImage = str_starts_with($article->featured_image ?? '', 'http')
                         ? $article->featured_image
-                        : (str_starts_with($article->featured_image ?? '', 'images/')
+                        : ($article->featured_image
                             ? asset($article->featured_image)
-                            : (str_starts_with($article->featured_image ?? '', 'articles/')
-                                ? Storage::url($article->featured_image)
-                                : asset('images/hero-bg.png')));
+                            : asset('images/hero-bg.png'));
                 @endphp
                 <img src="{{ $featuredImage }}" class="w-full h-full object-cover" alt="{{ $article->title }}">
             </div>

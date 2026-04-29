@@ -57,7 +57,7 @@
                                         @if(str_starts_with($art->featured_image, 'http'))
                                             <img src="{{ $art->featured_image }}" class="w-full h-full object-cover">
                                         @else
-                                            <img src="{{ Storage::url($art->featured_image) }}" class="w-full h-full object-cover">
+                                            <img src="{{ asset($art->featured_image) }}" class="w-full h-full object-cover">
                                         @endif
                                     @else
                                         <i data-lucide="file-text" class="w-5 h-5"></i>

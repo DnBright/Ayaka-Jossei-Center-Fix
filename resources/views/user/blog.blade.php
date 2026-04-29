@@ -54,7 +54,7 @@
                         $isFeaturedMemberOnly = $featuredArticle->is_member_only;
                         $featuredImage = str_starts_with($featuredArticle->featured_image ?? '', 'http')
                             ? $featuredArticle->featured_image
-                            : (str_starts_with($featuredArticle->featured_image ?? '', 'images/')
+                            : ($featuredArticle->featured_image
                                 ? asset($featuredArticle->featured_image)
                                 : asset('images/hero-bg.png'));
                     @endphp
@@ -98,7 +98,7 @@
                         $isMemberOnly = $article->is_member_only;
                         $articleImage = str_starts_with($article->featured_image ?? '', 'http')
                             ? $article->featured_image
-                            : (str_starts_with($article->featured_image ?? '', 'images/')
+                            : ($article->featured_image
                                 ? asset($article->featured_image)
                                 : asset('images/hero-bg.png'));
                     @endphp

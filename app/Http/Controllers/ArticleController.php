@@ -94,7 +94,10 @@ class ArticleController extends Controller
 
         $imagePath = $request->filled('featured_image_url') ? $request->featured_image_url : null;
         if ($request->hasFile('featured_image')) {
-            $imagePath = $request->file('featured_image')->store('articles', 'public');
+            $file = $request->file('featured_image');
+            $filename = time() . '_' . Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/articles'), $filename);
+            $imagePath = 'uploads/articles/' . $filename;
         }
 
         Article::create([
@@ -134,17 +137,20 @@ class ArticleController extends Controller
         }
 
         if ($request->filled('featured_image_url')) {
-            if ($article->featured_image && !str_starts_with($article->featured_image, 'http')) {
-                Storage::disk('public')->delete($article->featured_image);
+            if ($article->featured_image && !str_starts_with($article->featured_image, 'http') && file_exists(public_path($article->featured_image))) {
+                unlink(public_path($article->featured_image));
             }
             $article->featured_image = $request->featured_image_url;
         }
 
         if ($request->hasFile('featured_image')) {
-            if ($article->featured_image && !str_starts_with($article->featured_image, 'http')) {
-                Storage::disk('public')->delete($article->featured_image);
+            if ($article->featured_image && !str_starts_with($article->featured_image, 'http') && file_exists(public_path($article->featured_image))) {
+                unlink(public_path($article->featured_image));
             }
-            $article->featured_image = $request->file('featured_image')->store('articles', 'public');
+            $file = $request->file('featured_image');
+            $filename = time() . '_' . Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/articles'), $filename);
+            $article->featured_image = 'uploads/articles/' . $filename;
         }
 
         $article->update([
@@ -163,8 +169,8 @@ class ArticleController extends Controller
     {
         $article = Article::findOrFail($id);
 
-        if ($article->featured_image && !str_starts_with($article->featured_image, 'http')) {
-            Storage::disk('public')->delete($article->featured_image);
+        if ($article->featured_image && !str_starts_with($article->featured_image, 'http') && file_exists(public_path($article->featured_image))) {
+            unlink(public_path($article->featured_image));
         }
         $article->delete();
 

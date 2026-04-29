@@ -154,7 +154,7 @@
                                     @if(str_starts_with($article->featured_image, 'http'))
                                         <img src="{{ $article->featured_image }}" class="w-full h-full object-cover" alt="Featured">
                                     @else
-                                        <img src="{{ Storage::url($article->featured_image) }}" class="w-full h-full object-cover" alt="Featured">
+                                        <img src="{{ asset($article->featured_image) }}" class="w-full h-full object-cover" alt="Featured">
                                     @endif
                                 @else
                                     No image selected
