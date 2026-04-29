@@ -239,10 +239,16 @@ class UserContentController extends Controller
     public function downloadEbook($id)
     {
         $ebook = Ebook::where('is_active', true)->findOrFail($id);
-        $ebook->increment('download_count');
 
-        $filePath = storage_path('app/public/' . $ebook->file_path);
+        $filePath = public_path($ebook->file_path);
+        
+        // Cek fallback ke storage lama jika file adalah file legacy
+        if (!file_exists($filePath)) {
+            $filePath = storage_path('app/public/' . $ebook->file_path);
+        }
+
         if (file_exists($filePath)) {
+            $ebook->increment('download_count');
             return response()->download($filePath, $ebook->title . '.pdf');
         }
 
