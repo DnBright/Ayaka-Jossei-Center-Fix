@@ -168,6 +168,30 @@ class UserContentController extends Controller
                 'Sapporo Central Hospital', 
                 'Dari mulai pengurusan dokumen COE (Certificate of Eligibility) hingga persiapan teknis keperawatan, semuanya didampingi dengan sangat transparan dan sangat membantu. Sangat direkomendasikan!'
             ],
+            [
+                'Sarah Kusuma', 
+                'Batch 10', 
+                'Yokohama Elderly Care', 
+                'Bekerja sebagai caregiver di Jepang membutuhkan dedikasi tinggi. Untungnya, bekal dari AJC sangat membantu, mulai dari bahasa Jepang medis hingga pemahaman mendalam tentang standar pelayanan panti jompo (Kaigo) di Jepang.'
+            ],
+            [
+                'Hendra Wijaya', 
+                'Batch 15', 
+                'Saitama General Clinic', 
+                'Disiplin dan pantang menyerah adalah kunci sukses yang selalu ditekankan oleh instruktur AJC. Berkat itu, saya kini dipercaya memegang tanggung jawab besar di klinik perawatan Saitama. Terima kasih atas dukungannya!'
+            ],
+            [
+                'Putri Lestari', 
+                'Batch 14', 
+                'Kobe Medical Center', 
+                'Saya sangat bersyukur memilih AJC. Simulasi kerja nyata yang diberikan saat pelatihan membuat saya tidak kaget dengan budaya kerja cepat dan detail khas tenaga medis Jepang saat pertama kali tiba di Kobe.'
+            ],
+            [
+                'Aditya Pratama', 
+                'Batch 12', 
+                'Fukuoka Nursing Home', 
+                'Dari nol hingga bisa mengantongi sertifikat N3 dan persiapan N2, AJC memfasilitasi semuanya. Tidak hanya itu, pendampingan khusus saat interview dengan user Jepang benar-benar meningkatkan kepercayaan diri saya.'
+            ],
         ];
 
         foreach ($samples as $index => [$name, $batch, $work, $testi]) {
