@@ -40,16 +40,22 @@ class MediaController extends Controller
 
         $uploadedFile = $request->file('file');
         $filename = time() . '_' . \Illuminate\Support\Str::slug(pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $uploadedFile->getClientOriginalExtension();
-        $uploadedFile->move(public_path('uploads/media'), $filename);
         $path = 'uploads/media/' . $filename;
 
+        $mimeType = $uploadedFile->getMimeType();
+        $fileSize = $uploadedFile->getSize();
+        $originalName = $uploadedFile->getClientOriginalName();
+        $filenameOnly = pathinfo($originalName, PATHINFO_FILENAME);
+
+        $uploadedFile->move(public_path('uploads/media'), $filename);
+
         Media::create([
-            'filename' => pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME),
-            'original_name' => $uploadedFile->getClientOriginalName(),
+            'filename' => $filenameOnly,
+            'original_name' => $originalName,
             'file_path' => $path,
-            'mime_type' => $uploadedFile->getMimeType(),
-            'file_size' => $uploadedFile->getSize(),
-            'title' => $request->title ?? $uploadedFile->getClientOriginalName(),
+            'mime_type' => $mimeType,
+            'file_size' => $fileSize,
+            'title' => $request->title ?? $originalName,
             'type' => $request->type,
             'uploaded_by' => Auth::id(),
         ]);
@@ -80,13 +86,15 @@ class MediaController extends Controller
 
             $uploadedFile = $request->file('file');
             $filename = time() . '_' . \Illuminate\Support\Str::slug(pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $uploadedFile->getClientOriginalExtension();
-            $uploadedFile->move(public_path('uploads/media'), $filename);
-            
-            $updateData['file_path'] = 'uploads/media/' . $filename;
-            $updateData['filename'] = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
-            $updateData['original_name'] = $uploadedFile->getClientOriginalName();
+            $path = 'uploads/media/' . $filename;
+
             $updateData['mime_type'] = $uploadedFile->getMimeType();
             $updateData['file_size'] = $uploadedFile->getSize();
+            $updateData['original_name'] = $uploadedFile->getClientOriginalName();
+            $updateData['filename'] = pathinfo($updateData['original_name'], PATHINFO_FILENAME);
+            $updateData['file_path'] = $path;
+
+            $uploadedFile->move(public_path('uploads/media'), $filename);
         }
 
         $media->update($updateData);
