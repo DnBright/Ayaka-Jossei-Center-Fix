@@ -25,9 +25,12 @@
                     <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-12">
                         <button class="w-full sm:w-auto bg-slate-900 text-white px-12 py-5 rounded-full font-black uppercase tracking-widest text-sm hover:bg-[#da291c] transition-all shadow-2xl">Gabung Sekarang</button>
                         <div class="flex items-center -space-x-4">
-                            @for($i = 1; $i <= 4; $i++)
-                                <div class="w-10 h-10 rounded-full border-2 border-white bg-slate-200"></div>
-                            @endfor
+                            @php $avatars = ['A', 'Y', 'K', 'J']; @endphp
+                            @foreach($avatars as $letter)
+                                <div class="w-10 h-10 rounded-full border-2 border-white bg-slate-200 overflow-hidden">
+                                    <img src="https://ui-avatars.com/api/?name={{ $letter }}&background=random&color=fff" class="w-full h-full object-cover">
+                                </div>
+                            @endforeach
                             <div class="pl-8 text-[10px] font-black text-slate-900 uppercase tracking-widest">+500 Alumni</div>
                         </div>
                     </div>
@@ -37,13 +40,17 @@
                     <div class="w-[300px] h-[300px] md:w-[400px] md:h-[400px] bg-white border border-slate-100 rounded-full flex items-center justify-center relative shadow-2xl">
                         <svg class="w-24 h-24 md:w-32 md:h-32 text-[#da291c]/10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="0.5" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                         
-                        <!-- Orbiting Profiles (Static placeholders) -->
+                        <!-- Orbiting Profiles -->
                         <div class="absolute top-[-20px] left-0 bg-white p-3 rounded-full flex items-center gap-4 shadow-xl border border-slate-50 animate-bounce">
-                            <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-slate-100"></div>
+                            <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-slate-100 overflow-hidden">
+                                <img src="https://ui-avatars.com/api/?name=Sarah+Amara&background=da291c&color=fff" class="w-full h-full object-cover">
+                            </div>
                             <div><span class="block text-xs md:text-sm font-black">Sarah Amara</span><p class="text-[8px] md:text-[9px] font-black text-[#da291c]">OSAKA, JAPAN</p></div>
                         </div>
                         <div class="absolute bottom-[40px] right-[-40px] bg-white p-3 rounded-full flex items-center gap-4 shadow-xl border border-slate-50">
-                            <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-slate-100"></div>
+                            <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-slate-100 overflow-hidden">
+                                <img src="https://ui-avatars.com/api/?name=Lestari+P&background=0f172a&color=fff" class="w-full h-full object-cover">
+                            </div>
                             <div><span class="block text-xs md:text-sm font-black">Lestari P.</span><p class="text-[8px] md:text-[9px] font-black text-[#da291c]">TOKYO, JAPAN</p></div>
                         </div>
                     </div>
@@ -119,11 +126,9 @@
                     @php
                         $alumniImg = str_starts_with($person->image_url ?? '', 'http')
                             ? $person->image_url
-                            : (str_starts_with($person->image_url ?? '', 'images/')
+                            : ($person->image_url && $person->image_url !== 'images/hero-bg.png'
                                 ? asset($person->image_url)
-                                : (str_starts_with($person->image_url ?? '', 'alumni/')
-                                    ? Storage::url($person->image_url)
-                                    : asset('images/hero-bg.png')));
+                                : 'https://ui-avatars.com/api/?name='.urlencode($person->name).'&background=random&color=fff&size=256');
                     @endphp
                     <div class="circle-reveal group text-center md:text-left">
                         <div class="aspect-square bg-slate-200 rounded-3xl overflow-hidden mb-6 md:mb-8 relative shadow-lg">
