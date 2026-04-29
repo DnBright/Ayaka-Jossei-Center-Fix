@@ -51,13 +51,11 @@
                     @php
                         $imageSource = str_starts_with($item->file_path, 'http')
                             ? $item->file_path
-                            : (str_starts_with($item->file_path, 'images/')
-                                ? asset($item->file_path)
-                                : Storage::url($item->file_path));
+                            : asset($item->file_path);
                     @endphp
                     <img src="{{ $imageSource }}" alt="{{ $item->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                     <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
-                        <form action="{{ route('admin.media.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus media ini?')">
+                        <form action="{{ route('penulis.media.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus media ini?')">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="w-10 h-10 bg-red-600 text-white rounded-xl flex items-center justify-center hover:bg-red-700 transition-all shadow-lg shadow-red-900/20"><i data-lucide="trash-2" class="w-5 h-5"></i></button>
@@ -95,7 +93,7 @@
                     <i data-lucide="x" class="w-6 h-6"></i>
                 </button>
             </div>
-            <form action="{{ route('admin.media.store') }}" method="POST" enctype="multipart/form-data" class="p-10">
+            <form action="{{ route('penulis.media.store') }}" method="POST" enctype="multipart/form-data" class="p-10">
                 @csrf
                 <div class="grid grid-cols-1 gap-6">
                     <div>

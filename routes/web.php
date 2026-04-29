@@ -91,6 +91,8 @@ Route::middleware(['auth:penulis', 'role:penulis'])->group(function () {
     
     Route::get('/penulis/ebook', [App\Http\Controllers\PenulisController::class, 'ebook'])->name('penulis.ebook.index');
     Route::get('/penulis/media', [App\Http\Controllers\PenulisController::class, 'media'])->name('penulis.media.index');
+    Route::post('/penulis/media', [App\Http\Controllers\MediaController::class, 'store'])->name('penulis.media.store');
+    Route::delete('/penulis/media/{id}', [App\Http\Controllers\MediaController::class, 'destroy'])->name('penulis.media.destroy');
     Route::get('/penulis/profile', [App\Http\Controllers\PenulisController::class, 'profile'])->name('penulis.profile');
 });
 

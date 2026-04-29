@@ -51,9 +51,7 @@
                     @php
                         $imageSource = str_starts_with($item->file_path, 'http')
                             ? $item->file_path
-                            : (str_starts_with($item->file_path, 'images/')
-                                ? asset($item->file_path)
-                                : Storage::url($item->file_path));
+                            : asset($item->file_path);
                     @endphp
                     <img src="{{ $imageSource }}" alt="{{ $item->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                     <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">

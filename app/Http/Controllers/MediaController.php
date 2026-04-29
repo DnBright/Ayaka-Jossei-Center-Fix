@@ -39,7 +39,9 @@ class MediaController extends Controller
         ]);
 
         $uploadedFile = $request->file('file');
-        $path = $uploadedFile->store('media', 'public');
+        $filename = time() . '_' . \Illuminate\Support\Str::slug(pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $uploadedFile->getClientOriginalExtension();
+        $uploadedFile->move(public_path('uploads/media'), $filename);
+        $path = 'uploads/media/' . $filename;
 
         Media::create([
             'filename' => pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME),
@@ -58,7 +60,9 @@ class MediaController extends Controller
     public function destroy($id)
     {
         $media = Media::findOrFail($id);
-        Storage::disk('public')->delete($media->file_path);
+        if ($media->file_path && !str_starts_with($media->file_path, 'http') && file_exists(public_path($media->file_path))) {
+            unlink(public_path($media->file_path));
+        }
         $media->delete();
 
         return back()->with('success', 'Media berhasil dihapus.');
