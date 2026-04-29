@@ -132,9 +132,42 @@ class UserContentController extends Controller
         }
 
         $samples = [
-            ['Yuki Amami', 'Batch 12', 'Tokyo Care Center', 'Program Ayaka sangat membantu saya dalam persiapan mental dan bahasa sebelum ke Jepang.'],
-            ['Sakura Hanako', 'Batch 14', 'Osaka Hospital', 'Pengalaman yang luar biasa, sensei sangat sabar membimbing kami.'],
-            ['Rina Satou', 'Batch 11', 'Kyoto Nursing Home', 'Terima kasih AJC telah mewujudkan mimpi saya berkarir di Jepang.'],
+            [
+                'Aisyah Rahmawati', 
+                'Batch 15', 
+                'Kyoto Medical Center', 
+                'Pelatihan di Ayaka Josei Center sangat komprehensif. Selain bahasa Jepang (N3), kami diajarkan etos kerja (Kaizen) dan budaya disiplin Jepang yang sangat berguna saat bekerja di rumah sakit berstandar internasional.'
+            ],
+            [
+                'Dewi Sartika', 
+                'Batch 12', 
+                'Osaka City Hospital', 
+                'Awalnya saya ragu bisa berkarir di luar negeri. Namun berkat bimbingan intensif dari para sensei di AJC, saya tidak hanya lulus wawancara dengan user, tapi juga berhasil beradaptasi dengan cepat di lingkungan kerja medis Osaka.'
+            ],
+            [
+                'Kenjiro Tanaka', 
+                'Batch 14', 
+                'Tokyo Elderly Care', 
+                'Program spesifik Kaigo (perawat lansia) di Ayaka sangat praktikal. Kosakata medis dan simulasi praktik langsung membuat saya sangat siap secara mental dan teknis ketika pertama kali terjun ke lapangan.'
+            ],
+            [
+                'Rina Oktaviani', 
+                'Batch 11', 
+                'Fukuoka General Clinic', 
+                'Fasilitas, kurikulum yang terstruktur, serta pendampingan penuh hingga keberangkatan adalah bukti profesionalitas AJC. Terima kasih telah mewujudkan mimpi saya menjadi tenaga kesehatan di Jepang.'
+            ],
+            [
+                'Budi Santoso', 
+                'Batch 16', 
+                'Nagoya Rehabilitation Center', 
+                'Sistem belajar yang disiplin layaknya di Jepang langsung diterapkan sejak hari pertama kelas. Hal ini sangat membentuk mental profesional saya. AJC adalah gerbang terbaik menuju karir global.'
+            ],
+            [
+                'Meilisa Dwi', 
+                'Batch 13', 
+                'Sapporo Central Hospital', 
+                'Dari mulai pengurusan dokumen COE (Certificate of Eligibility) hingga persiapan teknis keperawatan, semuanya didampingi dengan sangat transparan dan sangat membantu. Sangat direkomendasikan!'
+            ],
         ];
 
         foreach ($samples as $index => [$name, $batch, $work, $testi]) {
@@ -143,7 +176,7 @@ class UserContentController extends Controller
                 'batch' => $batch,
                 'working_at' => $work,
                 'testimonial' => $testi,
-                'image_url' => 'images/hero-bg.png',
+                'image_url' => null,
                 'is_featured' => true,
             ]);
         }
