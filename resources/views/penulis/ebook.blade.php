@@ -88,7 +88,7 @@
                 <div class="pt-6 border-t border-slate-50 flex justify-between items-center">
                     <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest italic">PDF Format</span>
                     <div class="flex gap-2">
-                        <button @click="openEditModal = true; editData = { id: '{{ $ebook->id }}', title: '{{ addslashes($ebook->title) }}', description: '{{ addslashes($ebook->description) }}' }" class="text-xs font-black text-slate-600 hover:bg-slate-50 px-3 py-1.5 rounded-lg transition-colors">Edit</button>
+                        <button @click="openEditModal = true; editData = { id: '{{ $ebook->id }}', title: {{ json_encode($ebook->title) }}, description: {{ json_encode($ebook->description) }} }" class="text-xs font-black text-slate-600 hover:bg-slate-50 px-3 py-1.5 rounded-lg transition-colors">Edit</button>
                         <form action="{{ route('penulis.ebook.destroy', $ebook->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus E-Book ini?')">
                             @csrf
                             @method('DELETE')

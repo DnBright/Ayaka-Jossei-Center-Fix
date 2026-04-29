@@ -20,7 +20,7 @@ class EbookController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required',
-            'file' => 'required|mimes:pdf,epub|max:10240',
+            'file' => 'required|mimes:pdf,epub|max:51200',
             'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
 
@@ -56,7 +56,7 @@ class EbookController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required',
-            'file' => 'nullable|mimes:pdf,epub|max:10240',
+            'file' => 'nullable|mimes:pdf,epub|max:51200',
             'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
 

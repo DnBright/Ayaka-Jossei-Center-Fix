@@ -66,7 +66,7 @@
                     <img src="{{ $imageSource }}" alt="{{ $item->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                     <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-3">
                         <div class="flex gap-3">
-                            <button @click="editData = { id: {{ $item->id }}, title: '{{ addslashes($item->title) }}', type: '{{ $item->type }}' }; openEditModal = true" class="w-10 h-10 bg-blue-600 text-white rounded-xl flex items-center justify-center hover:bg-blue-700 transition-all shadow-lg shadow-blue-900/20" title="Edit Media"><i data-lucide="edit" class="w-5 h-5"></i></button>
+                            <button @click="editData = { id: {{ $item->id }}, title: {{ json_encode($item->title) }}, type: '{{ $item->type }}' }; openEditModal = true" class="w-10 h-10 bg-blue-600 text-white rounded-xl flex items-center justify-center hover:bg-blue-700 transition-all shadow-lg shadow-blue-900/20" title="Edit Media"><i data-lucide="edit" class="w-5 h-5"></i></button>
                             <form action="{{ route('penulis.media.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus media ini?')">
                                 @csrf
                                 @method('DELETE')
