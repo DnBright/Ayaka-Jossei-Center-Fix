@@ -13,10 +13,6 @@ class ArticleController extends Controller
 {
     private function resolveCategoryId(Request $request): ?int
     {
-        if ($request->filled('category_id')) {
-            return (int) $request->category_id;
-        }
-
         if ($request->filled('new_category')) {
             $name = trim($request->new_category);
             $category = Category::firstOrCreate(
@@ -25,6 +21,10 @@ class ArticleController extends Controller
             );
 
             return (int) $category->id;
+        }
+
+        if ($request->filled('category_id')) {
+            return (int) $request->category_id;
         }
 
         return null;
