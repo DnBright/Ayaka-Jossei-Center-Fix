@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     {{-- ===== CORE SEO META ===== --}}
-    <title>@yield('meta_title', @yield('title', ($settings->site_name ?? 'Ayaka Josei Center') . ' - LPK Khusus Putri untuk Karir Profesional di Jepang'))</title>
+    <title>@yield('meta_title', ($settings->site_name ?? 'Ayaka Josei Center') . ' - LPK Khusus Putri untuk Karir Profesional di Jepang')</title>
     <meta name="description" content="@yield('meta_description', 'Ayaka Josei Center (AJC) adalah Lembaga Pelatihan Kerja (LPK) khusus putri terpercaya untuk karir profesional di Jepang. Program Kaigo, FnB, Manufaktur dengan tingkat kelulusan 98%.')">
     <meta name="keywords" content="@yield('meta_keywords', 'LPK Jepang, Ayaka Josei Center, pelatihan kerja Jepang, karir Jepang perempuan, kaigo, magang Jepang, LPK putri, tenaga kerja Jepang, berangkat kerja Jepang')">
     <meta name="author" content="Ayaka Josei Center">
@@ -15,8 +15,8 @@
     {{-- ===== OPEN GRAPH (Facebook, WhatsApp, LinkedIn) ===== --}}
     <meta property="og:type" content="@yield('og_type', 'website')">
     <meta property="og:url" content="@yield('canonical', url()->current())">
-    <meta property="og:title" content="@yield('og_title', @yield('meta_title', ($settings->site_name ?? 'Ayaka Josei Center') . ' - LPK Khusus Putri untuk Karir Profesional di Jepang'))">
-    <meta property="og:description" content="@yield('og_description', @yield('meta_description', 'Ayaka Josei Center (AJC) adalah Lembaga Pelatihan Kerja khusus putri terpercaya untuk karir profesional di Jepang.'))">
+    <meta property="og:title" content="@yield('og_title', ($settings->site_name ?? 'Ayaka Josei Center') . ' - LPK Khusus Putri untuk Karir Profesional di Jepang')">
+    <meta property="og:description" content="@yield('og_description', 'Ayaka Josei Center (AJC) adalah Lembaga Pelatihan Kerja khusus putri terpercaya untuk karir profesional di Jepang.')">
     <meta property="og:image" content="@yield('og_image', asset('images/og-default.png'))">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -25,8 +25,8 @@
 
     {{-- ===== TWITTER CARD ===== --}}
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="@yield('og_title', @yield('meta_title', ($settings->site_name ?? 'Ayaka Josei Center')))">
-    <meta name="twitter:description" content="@yield('og_description', @yield('meta_description', 'Ayaka Josei Center - LPK Khusus Putri untuk Karir Profesional di Jepang.'))">
+    <meta name="twitter:title" content="@yield('og_title', ($settings->site_name ?? 'Ayaka Josei Center') . ' - LPK Khusus Putri')">
+    <meta name="twitter:description" content="@yield('og_description', 'Ayaka Josei Center - LPK Khusus Putri untuk Karir Profesional di Jepang.')">
     <meta name="twitter:image" content="@yield('og_image', asset('images/og-default.png'))">
 
     {{-- ===== FAVICON ===== --}}
