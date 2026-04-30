@@ -47,8 +47,8 @@
     <!-- 2. ARTICLE CONTENT -->
     <section class="py-16 md:py-24">
         <div class="container mx-auto px-6 max-w-3xl">
-            <div class="prose prose-slate prose-lg max-w-none text-slate-600 leading-relaxed font-medium">
-                {!! nl2br($article->content) !!}
+            <div class="article-content prose prose-slate prose-lg max-w-none">
+                {!! $article->content !!}
             </div>
 
             <!-- Share Section -->

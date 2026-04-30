@@ -19,6 +19,112 @@
     <style>
         [x-cloak] { display: none !important; }
     </style>
+    <style>
+        /* ========== ARTICLE CONTENT TYPOGRAPHY ========== */
+        .article-content {
+            color: #475569;
+            font-size: 1.0625rem;
+            line-height: 1.85;
+            font-family: 'Inter', sans-serif;
+        }
+        .article-content h1,
+        .article-content h2,
+        .article-content h3,
+        .article-content h4,
+        .article-content h5,
+        .article-content h6 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 900;
+            color: #0f172a;
+            letter-spacing: -0.02em;
+            margin-top: 2.5em;
+            margin-bottom: 0.75em;
+            line-height: 1.2;
+        }
+        .article-content h1 { font-size: 2.2rem; }
+        .article-content h2 { font-size: 1.7rem; border-bottom: 2px solid #f1f5f9; padding-bottom: 0.4em; }
+        .article-content h3 { font-size: 1.35rem; color: #da291c; }
+        .article-content h4 { font-size: 1.1rem; }
+        .article-content h5 { font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.1em; }
+        .article-content h6 { font-size: 0.875rem; color: #64748b; }
+        .article-content p { margin-bottom: 1.5em; }
+        .article-content strong { font-weight: 800; color: #0f172a; }
+        .article-content em { font-style: italic; }
+        .article-content a { color: #da291c; text-decoration: underline; text-underline-offset: 3px; font-weight: 600; }
+        .article-content a:hover { color: #991b1b; }
+        .article-content ul, .article-content ol {
+            padding-left: 1.75rem;
+            margin-bottom: 1.5em;
+        }
+        .article-content ul { list-style-type: disc; }
+        .article-content ol { list-style-type: decimal; }
+        .article-content li { margin-bottom: 0.5em; }
+        .article-content ul li::marker { color: #da291c; }
+        .article-content blockquote {
+            border-left: 4px solid #da291c;
+            padding: 1rem 1.5rem;
+            margin: 2em 0;
+            background: #fff5f5;
+            border-radius: 0 12px 12px 0;
+            color: #64748b;
+            font-style: italic;
+        }
+        .article-content blockquote p { margin-bottom: 0; }
+        .article-content code {
+            font-family: 'Courier New', monospace;
+            font-size: 0.875em;
+            background: #f1f5f9;
+            padding: 0.15em 0.4em;
+            border-radius: 4px;
+            color: #da291c;
+            font-weight: 600;
+        }
+        .article-content pre {
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 16px;
+            overflow-x: auto;
+            margin: 2em 0;
+            font-size: 0.875rem;
+        }
+        .article-content pre code { background: none; color: inherit; padding: 0; }
+        .article-content img {
+            border-radius: 20px;
+            margin: 2em auto;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            max-width: 100%;
+            height: auto;
+        }
+        .article-content hr {
+            border: none;
+            border-top: 2px solid #f1f5f9;
+            margin: 3em 0;
+        }
+        .article-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2em 0;
+            font-size: 0.9rem;
+        }
+        .article-content th {
+            background: #0f172a;
+            color: white;
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-weight: 700;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        .article-content td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #f1f5f9;
+            color: #64748b;
+        }
+        .article-content tr:nth-child(even) td { background: #f8fafc; }
+        /* ========== END ARTICLE CONTENT ========== */
+    </style>
 </head>
 <body class="antialiased font-sans text-[#0f172a] bg-white overflow-x-hidden m-0 p-0" x-data="{ mobileMenuOpen: false }">
     <!-- Navbar -->
@@ -342,5 +448,6 @@
         @endif
     </script>
     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    @stack('scripts')
 </body>
 </html>
