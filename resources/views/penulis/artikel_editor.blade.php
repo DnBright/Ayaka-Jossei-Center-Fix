@@ -14,11 +14,15 @@
 
         @if($errors->any())
             <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded text-red-700 text-sm">
-                {{ $errors->first() }}
+                <ul class="list-disc list-inside space-y-1">
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
             </div>
         @endif
 
-        <form action="{{ $formAction }}" method="POST" enctype="multipart/form-data">
+        <form id="artikel-form" action="{{ $formAction }}" method="POST" enctype="multipart/form-data">
             @csrf
             @if($formMethod === 'PUT')
                 @method('PUT')
@@ -42,9 +46,9 @@
 
                     <div class="bg-white border border-[#dcdcde]">
                         <textarea
+                            id="artikel-content"
                             name="content"
                             rows="16"
-                            required
                             placeholder="Start writing..."
                             class="w-full px-4 py-4 text-sm text-slate-700 focus:outline-none"
                         >{{ old('content', $article?->content) }}</textarea>
@@ -107,11 +111,7 @@
 
                             <div class="flex justify-between items-center">
                                 @if($article)
-                                <form id="delete-form" action="{{ route('penulis.artikel.destroy', [$article->id]) }}" method="POST" class="hidden">
-                                    @csrf
-                                    @method('DELETE')
-                                </form>
-                                <button type="button" onclick="document.getElementById('delete-form').submit();" class="text-xs text-[#b32d2e] underline bg-transparent border-none p-0 cursor-pointer">
+                                <button type="button" onclick="if(confirm('Hapus artikel ini?')) { document.getElementById('delete-form').submit(); }" class="text-xs text-[#b32d2e] underline bg-transparent border-none p-0 cursor-pointer">
                                     Move to Trash
                                 </button>
                                 @endif
@@ -185,6 +185,14 @@
                 </div>
             </div>
         </form>
+
+        {{-- Delete form di luar form utama (nested form = invalid HTML) --}}
+        @if($article)
+        <form id="delete-form" action="{{ route('penulis.artikel.destroy', $article->id) }}" method="POST" class="hidden">
+            @csrf
+            @method('DELETE')
+        </form>
+        @endif
     </div>
 </div>
 
@@ -193,15 +201,31 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         tinymce.init({
-            selector: 'textarea[name="content"]',
+            selector: '#artikel-content',
             plugins: 'advlist autolink lists link image charmap preview anchor searchreplace visualblocks code fullscreen insertdatetime media table wordcount',
             toolbar: 'undo redo | blocks | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media | removeformat',
             height: 500,
             menubar: false,
             content_style: 'body { font-family:Inter,Outfit,sans-serif; font-size:16px; color:#334155; }',
             branding: false,
-            promotion: false
+            promotion: false,
+            setup: function(editor) {
+                // Sync konten TinyMCE ke textarea sebelum form dikirim
+                editor.on('change', function() {
+                    editor.save();
+                });
+            }
         });
+
+        // Pastikan TinyMCE sync sebelum form submit
+        const form = document.getElementById('artikel-form');
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                if (typeof tinymce !== 'undefined') {
+                    tinymce.triggerSave();
+                }
+            });
+        }
     });
 </script>
 @endpush

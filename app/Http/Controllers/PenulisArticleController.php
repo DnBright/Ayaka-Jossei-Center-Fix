@@ -81,7 +81,7 @@ class PenulisArticleController extends Controller
 
         $request->validate([
             'title'              => 'required|string|max:255',
-            'content'            => 'required',
+            'content'            => 'nullable',
             'category_id'        => 'nullable|exists:categories,id',
             'new_category'       => 'nullable|string|max:255',
             'featured_image'     => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
@@ -90,11 +90,6 @@ class PenulisArticleController extends Controller
         ]);
 
         $categoryId = $this->resolveCategoryId($request);
-        if (!$categoryId) {
-            return back()->withInput()->withErrors([
-                'category_id' => 'Pilih kategori atau buat kategori baru terlebih dahulu.',
-            ]);
-        }
 
         $imagePath = $request->filled('featured_image_url') ? $request->featured_image_url : null;
         if ($request->hasFile('featured_image')) {
@@ -159,7 +154,7 @@ class PenulisArticleController extends Controller
 
         $request->validate([
             'title'              => 'required|string|max:255',
-            'content'            => 'required',
+            'content'            => 'nullable',
             'category_id'        => 'nullable|exists:categories,id',
             'new_category'       => 'nullable|string|max:255',
             'featured_image'     => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
@@ -168,11 +163,6 @@ class PenulisArticleController extends Controller
         ]);
 
         $categoryId = $this->resolveCategoryId($request);
-        if (!$categoryId) {
-            return back()->withInput()->withErrors([
-                'category_id' => 'Pilih kategori atau buat kategori baru terlebih dahulu.',
-            ]);
-        }
 
         // Update gambar jika ada
         if ($request->filled('featured_image_url')) {
