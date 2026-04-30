@@ -43,10 +43,11 @@ Route::post('/kontak', [App\Http\Controllers\CommunicationController::class, 'st
 Route::get('/ebook', [UserContentController::class, 'ebook'])->name('ebook.index');
 Route::get('/ebook/download/{id}', [UserContentController::class, 'downloadEbook'])->middleware('auth')->name('ebook.download');
 
-Route::middleware(['auth:admin,penulis', 'role:admin,penulis'])->group(function () {
+// Admin-Only Routes
+Route::middleware(['auth:admin', 'role:admin'])->group(function () {
     Route::get('/admin', [App\Http\Controllers\AdminController::class, 'dashboard'])->name('admin.dashboard');
 
-    // Artikel Management (Shared for Admin & Penulis)
+    // Artikel Admin
     Route::get('/admin/artikel', [App\Http\Controllers\ArticleController::class, 'index'])->name('admin.artikel.index');
     Route::get('/admin/artikel/create', [App\Http\Controllers\ArticleController::class, 'create'])->name('admin.artikel.create');
     Route::get('/admin/artikel/{id}/edit', [App\Http\Controllers\ArticleController::class, 'edit'])->name('admin.artikel.edit');
@@ -54,7 +55,6 @@ Route::middleware(['auth:admin,penulis', 'role:admin,penulis'])->group(function 
     Route::put('/admin/artikel/{id}', [App\Http\Controllers\ArticleController::class, 'update'])->name('admin.artikel.update');
     Route::delete('/admin/artikel/{id}', [App\Http\Controllers\ArticleController::class, 'destroy'])->name('admin.artikel.destroy');
 
-    // Other Admin-Only Modules (Optional: Keep here or move)
     Route::get('/admin/ebook', [App\Http\Controllers\EbookController::class, 'index'])->name('admin.ebook.index');
     Route::post('/admin/ebook', [App\Http\Controllers\EbookController::class, 'store'])->name('admin.ebook.store');
     Route::put('/admin/ebook/{id}', [App\Http\Controllers\EbookController::class, 'update'])->name('admin.ebook.update');
@@ -87,16 +87,18 @@ Route::middleware(['auth:admin,penulis', 'role:admin,penulis'])->group(function 
     Route::put('/admin/pengaturan', [App\Http\Controllers\SettingController::class, 'update'])->name('admin.pengaturan.update');
 });
 
-// Penulis Routes
+// Penulis-Only Routes — menggunakan PenulisArticleController yang sepenuhnya terpisah
 Route::middleware(['auth:penulis', 'role:penulis'])->group(function () {
     Route::get('/penulis', [App\Http\Controllers\PenulisController::class, 'dashboard'])->name('penulis.dashboard');
-    Route::get('/penulis/artikel', [App\Http\Controllers\PenulisController::class, 'artikel'])->name('penulis.artikel.index');
-    Route::get('/penulis/artikel/create', [App\Http\Controllers\ArticleController::class, 'create'])->name('penulis.artikel.create');
-    Route::get('/penulis/artikel/{id}/edit', [App\Http\Controllers\ArticleController::class, 'edit'])->name('penulis.artikel.edit');
-    Route::post('/penulis/artikel', [App\Http\Controllers\ArticleController::class, 'store'])->name('penulis.artikel.store');
-    Route::put('/penulis/artikel/{id}', [App\Http\Controllers\ArticleController::class, 'update'])->name('penulis.artikel.update');
-    Route::delete('/penulis/artikel/{id}', [App\Http\Controllers\ArticleController::class, 'destroy'])->name('penulis.artikel.destroy');
-    
+
+    // Artikel CRUD — sepenuhnya menggunakan PenulisArticleController
+    Route::get('/penulis/artikel', [App\Http\Controllers\PenulisArticleController::class, 'index'])->name('penulis.artikel.index');
+    Route::get('/penulis/artikel/create', [App\Http\Controllers\PenulisArticleController::class, 'create'])->name('penulis.artikel.create');
+    Route::post('/penulis/artikel', [App\Http\Controllers\PenulisArticleController::class, 'store'])->name('penulis.artikel.store');
+    Route::get('/penulis/artikel/{id}/edit', [App\Http\Controllers\PenulisArticleController::class, 'edit'])->name('penulis.artikel.edit');
+    Route::put('/penulis/artikel/{id}', [App\Http\Controllers\PenulisArticleController::class, 'update'])->name('penulis.artikel.update');
+    Route::delete('/penulis/artikel/{id}', [App\Http\Controllers\PenulisArticleController::class, 'destroy'])->name('penulis.artikel.destroy');
+
     Route::get('/penulis/ebook', [App\Http\Controllers\PenulisController::class, 'ebook'])->name('penulis.ebook.index');
     Route::post('/penulis/ebook', [App\Http\Controllers\EbookController::class, 'store'])->name('penulis.ebook.store');
     Route::put('/penulis/ebook/{id}', [App\Http\Controllers\EbookController::class, 'update'])->name('penulis.ebook.update');
