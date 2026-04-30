@@ -39,7 +39,9 @@ class ArticleController extends Controller
     public function create()
     {
         $categories = Category::orderBy('name')->get();
-        $isPenulis = Auth::user()->role === 'penulis';
+        
+        $user = Auth::guard('admin')->check() ? Auth::guard('admin')->user() : Auth::guard('penulis')->user();
+        $isPenulis = $user && $user->role === 'penulis';
         
         return view('admin.artikel_editor', [
             'article' => null,
@@ -54,9 +56,10 @@ class ArticleController extends Controller
     public function edit($id)
     {
         $article = Article::findOrFail($id);
+        $user = Auth::guard('admin')->check() ? Auth::guard('admin')->user() : Auth::guard('penulis')->user();
 
         // Penulis hanya bisa edit artikel miliknya sendiri
-        if (Auth::user()->role === 'penulis' && $article->author_id !== Auth::id()) {
+        if ($user && $user->role === 'penulis' && $article->author_id !== $user->id) {
             abort(403, 'Anda tidak memiliki izin untuk mengedit artikel ini.');
         }
 
@@ -100,27 +103,30 @@ class ArticleController extends Controller
             $imagePath = 'uploads/articles/' . $filename;
         }
 
+        $user = Auth::guard('admin')->check() ? Auth::guard('admin')->user() : Auth::guard('penulis')->user();
+
         Article::create([
             'title' => $request->title,
             'slug' => Str::slug($request->title) . '-' . uniqid(),
             'content' => $request->content,
             'featured_image' => $imagePath,
-            'author_id' => Auth::user()->id,
+            'author_id' => $user ? $user->id : null,
             'category_id' => $categoryId,
             'status' => $request->status,
             'is_member_only' => $request->boolean('is_member_only'),
         ]);
 
-        $redirectRoute = Auth::user()->role === 'admin' ? 'admin.artikel.index' : 'penulis.artikel.index';
+        $redirectRoute = ($user && $user->role === 'admin') ? 'admin.artikel.index' : 'penulis.artikel.index';
         return redirect()->route($redirectRoute)->with('success', 'Artikel berhasil ditambahkan.');
     }
 
     public function update(Request $request, $id)
     {
         $article = Article::findOrFail($id);
+        $user = Auth::guard('admin')->check() ? Auth::guard('admin')->user() : Auth::guard('penulis')->user();
 
         // Penulis hanya bisa update artikel miliknya sendiri
-        if (Auth::user()->role === 'penulis' && $article->author_id !== Auth::id()) {
+        if ($user && $user->role === 'penulis' && $article->author_id !== $user->id) {
             abort(403, 'Anda tidak memiliki izin untuk mengubah artikel ini.');
         }
 
@@ -166,16 +172,17 @@ class ArticleController extends Controller
             'is_member_only' => $request->boolean('is_member_only'),
         ]);
 
-        $redirectRoute = Auth::user()->role === 'admin' ? 'admin.artikel.index' : 'penulis.artikel.index';
+        $redirectRoute = ($user && $user->role === 'admin') ? 'admin.artikel.index' : 'penulis.artikel.index';
         return redirect()->route($redirectRoute)->with('success', 'Artikel berhasil diperbarui.');
     }
 
     public function destroy($id)
     {
         $article = Article::findOrFail($id);
+        $user = Auth::guard('admin')->check() ? Auth::guard('admin')->user() : Auth::guard('penulis')->user();
 
         // Penulis hanya bisa hapus artikel miliknya sendiri
-        if (Auth::user()->role === 'penulis' && $article->author_id !== Auth::id()) {
+        if ($user && $user->role === 'penulis' && $article->author_id !== $user->id) {
             abort(403, 'Anda tidak memiliki izin untuk menghapus artikel ini.');
         }
 
