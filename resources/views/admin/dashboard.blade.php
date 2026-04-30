@@ -100,15 +100,8 @@
         <div class="bg-white rounded-[24px] border border-slate-100 shadow-sm p-8">
             <h3 class="font-black text-slate-900 text-sm mb-6">Distribusi Konten</h3>
             <div id="doughnutChart" class="w-full h-[220px]"></div>
-            <div class="flex justify-center items-center mt-6 gap-6">
-                <div class="flex items-center gap-2">
-                    <div class="w-4 h-4 rounded-md bg-[#da291c]"></div>
-                    <span class="text-xs font-black text-slate-600">Artikel ({{ $totalStats['total_articles'] }})</span>
-                </div>
-                <div class="flex items-center gap-2">
-                    <div class="w-4 h-4 rounded-md bg-slate-800"></div>
-                    <span class="text-xs font-black text-slate-600">E-Book ({{ $totalStats['total_ebooks'] }})</span>
-                </div>
+            <div id="doughnutLegend" class="flex flex-wrap justify-center items-center mt-6 gap-x-4 gap-y-2">
+                <!-- filled by JS -->
             </div>
         </div>
         
@@ -156,96 +149,181 @@
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // Main Line Chart
+
+        // ===== 1. MAIN AREA CHART: Views Artikel vs Download Ebook =====
+        var articleLabels   = @json($chartData['labels']);
+        var articleViews    = @json($chartData['views']);
+        var ebookLabels     = @json($chartData['ebookLabels']);
+        var ebookDownloads  = @json($chartData['downloads']);
+
+        // Use article labels as primary axis (pad ebook data if shorter)
+        var mainLabels = articleLabels.length >= ebookLabels.length ? articleLabels : ebookLabels;
+        while (articleViews.length < mainLabels.length)    articleViews.push(0);
+        while (ebookDownloads.length < mainLabels.length)  ebookDownloads.push(0);
+
         var mainOptions = {
-            series: [{
-                name: 'Member Baru',
-                data: @json($chartData['users'])
-            }, {
-                name: 'Pesan Masuk',
-                data: @json($chartData['messages'])
-            }],
+            series: [
+                { name: 'Views Artikel', data: articleViews },
+                { name: 'Download E-Book', data: ebookDownloads }
+            ],
             chart: {
-                height: 300,
+                height: 320,
                 type: 'area',
                 fontFamily: 'inherit',
-                toolbar: { show: false }
+                toolbar: { show: false },
+                animations: { enabled: true, easing: 'easeinout', speed: 800 }
             },
             colors: ['#da291c', '#0f172a'],
             dataLabels: { enabled: false },
-            stroke: { curve: 'smooth', width: 3 },
+            stroke: { curve: 'smooth', width: [3, 3] },
             fill: {
                 type: 'gradient',
-                gradient: { shadeIntensity: 1, opacityFrom: 0.2, opacityTo: 0.0, stops: [0, 90, 100] }
+                gradient: { shadeIntensity: 1, opacityFrom: 0.25, opacityTo: 0.02, stops: [0, 90, 100] }
             },
             xaxis: {
-                categories: @json($chartData['labels']),
+                categories: mainLabels,
                 axisBorder: { show: false },
                 axisTicks: { show: false },
-                labels: { style: { colors: '#94a3b8', fontSize: '12px', fontWeight: 600 } }
-            },
-            yaxis: {
-                labels: { 
-                    formatter: function (val) { return Math.floor(val); },
-                    style: { colors: '#94a3b8', fontSize: '12px', fontWeight: 600 }
+                labels: {
+                    style: { colors: '#94a3b8', fontSize: '11px', fontWeight: 700 },
+                    rotate: -30,
+                    maxHeight: 60
                 }
             },
-            grid: {
-                borderColor: '#f1f5f9',
-                strokeDashArray: 4,
+            yaxis: {
+                labels: {
+                    formatter: function(val) { return Number(val).toLocaleString('id-ID'); },
+                    style: { colors: '#94a3b8', fontSize: '11px', fontWeight: 600 }
+                }
+            },
+            grid: { borderColor: '#f1f5f9', strokeDashArray: 4 },
+            markers: { size: 4, strokeWidth: 0, hover: { size: 6 } },
+            tooltip: {
+                y: { formatter: function(val) { return Number(val).toLocaleString('id-ID'); } }
             },
             legend: {
                 position: 'top',
                 horizontalAlign: 'left',
-                markers: { radius: 12 },
+                markers: { radius: 6, width: 12, height: 12 },
                 fontWeight: 700,
-                itemMargin: { horizontal: 10, vertical: 0 }
+                fontSize: '12px',
+                itemMargin: { horizontal: 12, vertical: 0 }
             }
         };
         new ApexCharts(document.querySelector("#mainChart"), mainOptions).render();
 
-        // Doughnut Chart
+        // ===== 2. DOUGHNUT CHART: Distribusi per Kategori Artikel =====
+        var catData  = @json($categoryDistribution);
+        var catNames = catData.map(function(c){ return c.name; });
+        var catVals  = catData.map(function(c){ return c.total; });
+
+        // Fallback: if no category data, show artikel vs ebook
+        if (catVals.length === 0) {
+            catNames = ['Artikel', 'E-Book'];
+            catVals  = [{{ $totalStats['total_articles'] }}, {{ $totalStats['total_ebooks'] }}];
+        }
+
+        var doughnutPalette = ['#da291c','#0f172a','#ef4444','#64748b','#f97316','#6366f1','#10b981','#f59e0b'];
+
         var doughnutOptions = {
-            series: [{{ $totalStats['total_articles'] ?: 0 }}, {{ $totalStats['total_ebooks'] ?: 0 }}],
-            chart: { type: 'donut', height: 240, fontFamily: 'inherit' },
-            labels: ['Artikel', 'E-Book'],
-            colors: ['#da291c', '#0f172a'],
+            series: catVals,
+            chart: { type: 'donut', height: 240, fontFamily: 'inherit', animations: { enabled: true } },
+            labels: catNames,
+            colors: doughnutPalette.slice(0, catVals.length),
             plotOptions: {
                 pie: {
-                    donut: { size: '75%' }
+                    donut: {
+                        size: '70%',
+                        labels: {
+                            show: true,
+                            total: {
+                                show: true,
+                                label: 'Total',
+                                fontSize: '11px',
+                                fontWeight: 800,
+                                color: '#0f172a',
+                                formatter: function(w) {
+                                    return w.globals.seriesTotals.reduce(function(a,b){ return a+b; }, 0);
+                                }
+                            }
+                        }
+                    }
                 }
             },
             dataLabels: { enabled: false },
+            stroke: { show: false },
             legend: { show: false },
-            stroke: { show: false }
+            tooltip: {
+                y: { formatter: function(val, opts) {
+                    var total = opts.globals.seriesTotals.reduce(function(a,b){return a+b;},0);
+                    return val + ' Artikel (' + Math.round(val/total*100) + '%)';
+                }}
+            }
         };
-        new ApexCharts(document.querySelector("#doughnutChart"), doughnutOptions).render();
+        var doughnutChart = new ApexCharts(document.querySelector("#doughnutChart"), doughnutOptions);
+        doughnutChart.render();
 
-        // Bar Chart
+        // Update legend dynamically
+        var legendEl = document.getElementById('doughnutLegend');
+        if (legendEl) {
+            legendEl.innerHTML = catNames.map(function(n, i) {
+                return '<div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full flex-shrink-0" style="background:' + doughnutPalette[i] + '"></div><span class="text-[11px] font-bold text-slate-600 truncate">' + n + ' (' + catVals[i] + ')</span></div>';
+            }).join('');
+        }
+
+        // ===== 3. BAR CHART: Top Artikel by Views =====
+        var topTitles = @json($topArticles->pluck('title')->map(fn($t) => \Illuminate\Support\Str::limit($t, 14)));
+        var topViews  = @json($topArticles->pluck('views_count')->map(fn($v) => (int)$v));
+
+        if (topTitles.length === 0) {
+            topTitles = ['Belum ada data'];
+            topViews  = [0];
+        }
+
         var barOptions = {
-            series: [{
-                name: 'Views',
-                data: @json($topArticles->pluck('views_count'))
-            }],
-            chart: { type: 'bar', height: 250, fontFamily: 'inherit', toolbar: { show: false } },
+            series: [{ name: 'Views', data: topViews }],
+            chart: {
+                type: 'bar',
+                height: 260,
+                fontFamily: 'inherit',
+                toolbar: { show: false },
+                animations: { enabled: true, easing: 'easeinout', speed: 600 }
+            },
             colors: ['#da291c'],
             plotOptions: {
-                bar: { borderRadius: 4, horizontal: false, columnWidth: '45%' }
+                bar: {
+                    borderRadius: 6,
+                    horizontal: true,
+                    barHeight: '60%',
+                    distributed: false
+                }
             },
-            dataLabels: { enabled: false },
+            dataLabels: {
+                enabled: true,
+                formatter: function(val) { return Number(val).toLocaleString('id-ID'); },
+                style: { fontSize: '10px', fontWeight: 700, colors: ['#fff'] },
+                offsetX: -6
+            },
             xaxis: {
-                categories: @json($topArticles->pluck('title')->map(function($title) { return \Illuminate\Support\Str::limit($title, 12); })),
-                labels: { style: { colors: '#94a3b8', fontSize: '10px', fontWeight: 700 } },
+                categories: topTitles,
+                labels: {
+                    style: { colors: '#94a3b8', fontSize: '11px', fontWeight: 700 },
+                    formatter: function(val) { return Number(val).toLocaleString('id-ID'); }
+                },
                 axisBorder: { show: false },
                 axisTicks: { show: false }
             },
             yaxis: {
-                labels: { style: { colors: '#94a3b8', fontSize: '11px', fontWeight: 600 } }
+                labels: { style: { colors: '#334155', fontSize: '11px', fontWeight: 700 } }
             },
-            grid: { show: false }
+            grid: { show: false },
+            tooltip: {
+                y: { formatter: function(val) { return Number(val).toLocaleString('id-ID') + ' Views'; } }
+            }
         };
         new ApexCharts(document.querySelector("#barChart"), barOptions).render();
     });
 </script>
 @endpush
 @endsection
+

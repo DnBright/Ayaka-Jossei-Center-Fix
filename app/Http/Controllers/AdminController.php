@@ -35,26 +35,31 @@ class AdminController extends Controller
         $topArticles = \App\Models\Article::with('category')->when($dateFilter, fn($q) => $q->whereDate('created_at', $dateFilter))->orderBy('views_count', 'desc')->take(5)->get();
         $topEbooks = \App\Models\Ebook::when($dateFilter, fn($q) => $q->whereDate('created_at', $dateFilter))->orderBy('download_count', 'desc')->take(5)->get();
 
-        // Data for Line Chart (7 Days Trend)
-        $chartLabels = [];
-        $chartUsers = [];
-        $chartMessages = [];
-        for ($i = 6; $i >= 0; $i--) {
-            $date = \Carbon\Carbon::today()->subDays($i);
-            $chartLabels[] = $date->format('d M');
-            $chartUsers[] = \App\Models\User::whereDate('created_at', $date)->count();
-            $chartMessages[] = \App\Models\Message::whereDate('created_at', $date)->count();
-        }
+        // === Chart Data ===
+
+        // 1. Line Chart: Article views per article (top 10 by views, as a trend proxy)
+        $lineArticles = \App\Models\Article::orderBy('views_count', 'desc')->take(10)->get();
         $chartData = [
-            'labels' => $chartLabels,
-            'users' => $chartUsers,
-            'messages' => $chartMessages,
+            'labels'   => $lineArticles->pluck('title')->map(fn($t) => \Illuminate\Support\Str::limit($t, 15))->values()->toArray(),
+            'views'    => $lineArticles->pluck('views_count')->map(fn($v) => (int)$v)->values()->toArray(),
+            'downloads'=> \App\Models\Ebook::orderBy('download_count', 'desc')->take(10)->pluck('download_count')->map(fn($v) => (int)$v)->values()->toArray(),
+            'ebookLabels' => \App\Models\Ebook::orderBy('download_count', 'desc')->take(10)->pluck('title')->map(fn($t) => \Illuminate\Support\Str::limit($t, 15))->values()->toArray(),
         ];
 
-        // Latest Activity
+        // 2. Category Distribution for Doughnut
+        $categoryDistribution = \App\Models\Article::selectRaw('category_id, count(*) as total')
+            ->groupBy('category_id')
+            ->with('category')
+            ->get()
+            ->map(fn($item) => [
+                'name'  => $item->category->name ?? 'Tanpa Kategori',
+                'total' => (int)$item->total,
+            ])->values()->toArray();
+
+        // 3. Latest Activity
         $latestMessages = \App\Models\Message::latest()->take(5)->get();
 
-        return view('admin.dashboard', compact('stats', 'totalStats', 'topArticles', 'topEbooks', 'dateFilter', 'chartData', 'latestMessages'));
+        return view('admin.dashboard', compact('stats', 'totalStats', 'topArticles', 'topEbooks', 'dateFilter', 'chartData', 'categoryDistribution', 'latestMessages'));
     }
 
     public function users()
