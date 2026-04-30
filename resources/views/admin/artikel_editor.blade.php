@@ -190,4 +190,23 @@
         @endif
     </div>
 </div>
+
+@push('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.8.3/tinymce.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        tinymce.init({
+            selector: 'textarea[name="content"]',
+            plugins: 'advlist autolink lists link image charmap preview anchor searchreplace visualblocks code fullscreen insertdatetime media table wordcount',
+            toolbar: 'undo redo | blocks | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media | removeformat',
+            height: 500,
+            menubar: false,
+            content_style: 'body { font-family:Inter,Outfit,sans-serif; font-size:16px; color:#334155; }',
+            branding: false,
+            promotion: false
+        });
+    });
+</script>
+@endpush
+
 @endsection
