@@ -15,7 +15,7 @@ Route::get('/pending-approval', [AuthController::class, 'showPending'])->name('p
 Route::post('/register', [AuthController::class, 'register']);
 Route::get('/admin/login', [AuthController::class, 'showAdminLogin'])->name('login.admin');
 Route::get('/penulis/login', [AuthController::class, 'showPenulisLogin'])->name('login.penulis');
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:10,1');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/profil', function () {
@@ -36,7 +36,7 @@ Route::get('/alumni', [UserContentController::class, 'alumni'])->name('alumni.in
 Route::get('/kontak', function () {
     return view('user.kontak');
 })->name('kontak');
-Route::post('/kontak', [App\Http\Controllers\CommunicationController::class, 'store'])->name('kontak.store');
+Route::post('/kontak', [App\Http\Controllers\CommunicationController::class, 'store'])->middleware('throttle:5,1')->name('kontak.store');
 
 Route::get('/ebook', [UserContentController::class, 'ebook'])->name('ebook.index');
 Route::get('/ebook/download/{id}', [UserContentController::class, 'downloadEbook'])->middleware('auth')->name('ebook.download');
@@ -106,18 +106,5 @@ Route::middleware(['auth:penulis', 'role:penulis'])->group(function () {
     Route::get('/penulis/profile', [App\Http\Controllers\PenulisController::class, 'profile'])->name('penulis.profile');
 });
 
-// Emergency Migration Route
-Route::get('/run-migrate', function () {
-    try {
-        // Gunakan Raw SQL untuk memastikan perubahan terjadi di server produksi
-        \Illuminate\Support\Facades\DB::statement('ALTER TABLE articles ADD COLUMN is_member_only TINYINT(1) DEFAULT 0 AFTER status');
-        return "Database berhasil diperbarui! Kolom 'is_member_only' telah ditambahkan. Silakan coba simpan artikel lagi.";
-    } catch (\Exception $e) {
-        // Jika kolom sudah ada, abaikan errornya
-        if (str_contains($e->getMessage(), 'Duplicate column name')) {
-            return "Kolom 'is_member_only' sudah ada di database. Sistem aman digunakan.";
-        }
-        return "Gagal update database: " . $e->getMessage();
-    }
-});
-
+// NOTE: Route /run-migrate telah dihapus karena merupakan celah keamanan kritis.
+// Gunakan 'php artisan migrate' via SSH untuk perubahan database.

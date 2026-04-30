@@ -16,17 +16,18 @@ class CommunicationController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
+            'name'    => 'required|string|max:255',
+            'email'   => 'required|email|max:255',
             'subject' => 'required|string|max:255',
-            'message' => 'required|string',
+            'message' => 'required|string|max:5000',
         ]);
 
+        // Sanitasi input — hapus semua tag HTML/script untuk mencegah XSS
         Message::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'subject' => $request->subject,
-            'message' => $request->message,
+            'name'    => strip_tags($request->name),
+            'email'   => $request->email,
+            'subject' => strip_tags($request->subject),
+            'message' => strip_tags($request->message),
             'is_read' => false,
         ]);
 

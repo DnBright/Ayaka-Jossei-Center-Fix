@@ -313,15 +313,29 @@ class UserContentController extends Controller
         $ebook = Ebook::where('is_active', true)->findOrFail($id);
 
         $filePath = public_path($ebook->file_path);
-        
+
+        // SECURITY: Cegah Path Traversal — pastikan file berada di dalam direktori yang diizinkan
+        $allowedBase = realpath(public_path('uploads/ebooks'));
+        $resolvedPath = realpath($filePath);
+
         // Cek fallback ke storage lama jika file adalah file legacy
-        if (!file_exists($filePath)) {
-            $filePath = storage_path('app/public/' . $ebook->file_path);
+        if (!$resolvedPath || !$allowedBase) {
+            $legacyPath = storage_path('app/public/' . $ebook->file_path);
+            $resolvedPath = realpath($legacyPath);
+            $allowedBase = realpath(storage_path('app/public'));
         }
 
-        if (file_exists($filePath)) {
+        // Verifikasi file ada dan berada dalam direktori yang diizinkan
+        if ($resolvedPath && $allowedBase && str_starts_with($resolvedPath, $allowedBase)) {
+            // Verifikasi ekstensi file hanya PDF atau EPUB
+            $extension = strtolower(pathinfo($resolvedPath, PATHINFO_EXTENSION));
+            if (!in_array($extension, ['pdf', 'epub'])) {
+                abort(403, 'Tipe file tidak diizinkan untuk diunduh.');
+            }
+
             $ebook->increment('download_count');
-            return response()->download($filePath, $ebook->title . '.pdf');
+            $safeFilename = \Illuminate\Support\Str::slug($ebook->title) . '.' . $extension;
+            return response()->download($resolvedPath, $safeFilename);
         }
 
         return back()->with('info', 'File e-book sedang dipersiapkan.');

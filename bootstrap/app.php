@@ -18,6 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->web(append: [
             \App\Http\Middleware\EnsureApproved::class,
+            \App\Http\Middleware\SecurityHeaders::class,
         ]);
         
         $middleware->redirectGuestsTo(function (Request $request) {

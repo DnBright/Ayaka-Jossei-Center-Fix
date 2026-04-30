@@ -55,6 +55,11 @@ class ArticleController extends Controller
     {
         $article = Article::findOrFail($id);
 
+        // Penulis hanya bisa edit artikel miliknya sendiri
+        if (Auth::user()->role === 'penulis' && $article->author_id !== Auth::id()) {
+            abort(403, 'Anda tidak memiliki izin untuk mengedit artikel ini.');
+        }
+
         $categories = Category::orderBy('name')->get();
         $isPenulis = Auth::user()->role === 'penulis';
 
@@ -114,6 +119,11 @@ class ArticleController extends Controller
     {
         $article = Article::findOrFail($id);
 
+        // Penulis hanya bisa update artikel miliknya sendiri
+        if (Auth::user()->role === 'penulis' && $article->author_id !== Auth::id()) {
+            abort(403, 'Anda tidak memiliki izin untuk mengubah artikel ini.');
+        }
+
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required',
@@ -163,6 +173,11 @@ class ArticleController extends Controller
     public function destroy($id)
     {
         $article = Article::findOrFail($id);
+
+        // Penulis hanya bisa hapus artikel miliknya sendiri
+        if (Auth::user()->role === 'penulis' && $article->author_id !== Auth::id()) {
+            abort(403, 'Anda tidak memiliki izin untuk menghapus artikel ini.');
+        }
 
         if ($article->featured_image && !str_starts_with($article->featured_image, 'http') && file_exists(public_path($article->featured_image))) {
             unlink(public_path($article->featured_image));
