@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
-@section('title', 'Galeri - Ayaka Josei Center')
+@section('title', 'Galeri Kegiatan & Fasilitas Pelatihan | Ayaka Josei Center')
+@section('meta_title', 'Galeri Kegiatan & Fasilitas Pelatihan | Ayaka Josei Center')
+@section('meta_description', 'Galeri foto dan dokumentasi kegiatan pelatihan, fasilitas asrama, dan momen keberangkatan siswa Ayaka Josei Center ke Jepang.')
+@section('meta_keywords', 'galeri LPK jepang, foto kegiatan magang jepang, asrama LPK jepang, fasilitas ayaka josei center, dokumentasi berangkat jepang')
+@section('canonical', url('/galeri'))
 
 @section('content')
 <div class="atelier-wrapper">

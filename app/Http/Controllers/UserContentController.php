@@ -364,4 +364,11 @@ class UserContentController extends Controller
         $alumni = \App\Models\Alumni::where('is_featured', true)->latest()->get();
         return view('user.alumni', compact('alumni'));
     }
+
+    public function sitemap()
+    {
+        $articles = Article::where('status', 'published')->latest()->get();
+        return response()->view('user.sitemap', compact('articles'))
+                         ->header('Content-Type', 'text/xml');
+    }
 }

@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
-@section('title', 'Profil - Ayaka Josei Center')
+@section('title', 'Profil Ayaka Josei Center | Sejarah & Visi Misi LPK Jepang')
+@section('meta_title', 'Profil Ayaka Josei Center | Sejarah & Visi Misi LPK Jepang')
+@section('meta_description', 'Mengenal lebih dekat Ayaka Josei Center. Mengetahui sejarah, visi, misi, dan tim profesional di balik kesuksesan ratusan alumni LPK khusus putri ke Jepang.')
+@section('meta_keywords', 'profil ayaka josei center, sejarah LPK AJC, visi misi LPK Jepang, tentang kami LPK putri, lembaga pelatihan kerja Jepang terpercaya')
+@section('canonical', url('/profil'))
 
 @section('content')
 <div class="professional-profil-page">

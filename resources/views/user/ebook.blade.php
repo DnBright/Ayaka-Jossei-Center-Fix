@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
-@section('title', 'E-Book - Ayaka Josei Center')
+@section('title', 'Download E-Book Panduan Kerja ke Jepang Gratis | Ayaka Josei Center')
+@section('meta_title', 'Download E-Book Panduan Kerja ke Jepang Gratis | Ayaka Josei Center')
+@section('meta_description', 'Download gratis E-Book panduan sukses wawancara, materi bahasa Jepang, dan persiapan kerja ke Jepang khusus dari Ayaka Josei Center.')
+@section('meta_keywords', 'ebook belajar bahasa jepang, download materi bahasa jepang, panduan kerja ke jepang, materi LPK jepang gratis, ebook magang jepang')
+@section('canonical', url('/ebook'))
 
 @section('content')
 <div class="ebook-page-wrapper bg-slate-50 min-h-screen pt-20">

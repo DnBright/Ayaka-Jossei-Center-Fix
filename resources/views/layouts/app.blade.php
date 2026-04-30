@@ -1,13 +1,80 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="id" prefix="og: https://ogp.me/ns#">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('title', $settings->site_name ?? 'Ayaka Josei Center')</title>
+
+    {{-- ===== CORE SEO META ===== --}}
+    <title>@yield('meta_title', @yield('title', ($settings->site_name ?? 'Ayaka Josei Center') . ' - LPK Khusus Putri untuk Karir Profesional di Jepang'))</title>
+    <meta name="description" content="@yield('meta_description', 'Ayaka Josei Center (AJC) adalah Lembaga Pelatihan Kerja (LPK) khusus putri terpercaya untuk karir profesional di Jepang. Program Kaigo, FnB, Manufaktur dengan tingkat kelulusan 98%.')">
+    <meta name="keywords" content="@yield('meta_keywords', 'LPK Jepang, Ayaka Josei Center, pelatihan kerja Jepang, karir Jepang perempuan, kaigo, magang Jepang, LPK putri, tenaga kerja Jepang, berangkat kerja Jepang')">
+    <meta name="author" content="Ayaka Josei Center">
+    <meta name="robots" content="@yield('meta_robots', 'index, follow')">
+    <link rel="canonical" href="@yield('canonical', url()->current())">
+
+    {{-- ===== OPEN GRAPH (Facebook, WhatsApp, LinkedIn) ===== --}}
+    <meta property="og:type" content="@yield('og_type', 'website')">
+    <meta property="og:url" content="@yield('canonical', url()->current())">
+    <meta property="og:title" content="@yield('og_title', @yield('meta_title', ($settings->site_name ?? 'Ayaka Josei Center') . ' - LPK Khusus Putri untuk Karir Profesional di Jepang'))">
+    <meta property="og:description" content="@yield('og_description', @yield('meta_description', 'Ayaka Josei Center (AJC) adalah Lembaga Pelatihan Kerja khusus putri terpercaya untuk karir profesional di Jepang.'))">
+    <meta property="og:image" content="@yield('og_image', asset('images/og-default.png'))">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="{{ $settings->site_name ?? 'Ayaka Josei Center' }}">
+    <meta property="og:locale" content="id_ID">
+
+    {{-- ===== TWITTER CARD ===== --}}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="@yield('og_title', @yield('meta_title', ($settings->site_name ?? 'Ayaka Josei Center')))">
+    <meta name="twitter:description" content="@yield('og_description', @yield('meta_description', 'Ayaka Josei Center - LPK Khusus Putri untuk Karir Profesional di Jepang.'))">
+    <meta name="twitter:image" content="@yield('og_image', asset('images/og-default.png'))">
+
+    {{-- ===== FAVICON ===== --}}
     <link rel="icon" type="image/png" href="{{ asset('images/logo ayakan.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('images/logo ayakan.png') }}">
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;900&family=Cormorant+Garamond:ital,wght@1,700&display=swap" rel="stylesheet">
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    {{-- ===== JSON-LD STRUCTURED DATA (Organization) ===== --}}
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "EducationalOrganization",
+        "name": "Ayaka Josei Center",
+        "alternateName": "AJC",
+        "url": "https://ayakajosseicenter.com",
+        "logo": "{{ asset('images/logo ayakan.png') }}",
+        "description": "Lembaga Pelatihan Kerja (LPK) khusus putri terpercaya untuk karir profesional di Jepang. Program Kaigo, FnB, dan Manufaktur.",
+        "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "ID"
+        },
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+62815-4200-7626",
+            "contactType": "customer service",
+            "availableLanguage": ["Indonesian", "Japanese"]
+        },
+        "sameAs": [
+            "https://ayakajosseicenter.com"
+        ],
+        "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Program Pelatihan",
+            "itemListElement": [
+                {"@type": "Offer", "itemOffered": {"@type": "Course", "name": "Kaigo (Caregiver)"}},
+                {"@type": "Offer", "itemOffered": {"@type": "Course", "name": "FnB Service"}},
+                {"@type": "Offer", "itemOffered": {"@type": "Course", "name": "Manufaktur"}}
+            ]
+        }
+    }
+    </script>
+
+    {{-- ===== EXTRA STRUCTURED DATA PER PAGE ===== --}}
+    @stack('structured_data')
+
     <style>
         /* Hide Google Translate original UI */
         .goog-te-banner-frame.skiptranslate, .goog-te-gadget-icon { display: none !important; }
@@ -20,6 +87,7 @@
         [x-cloak] { display: none !important; }
     </style>
     <style>
+
         /* ========== ARTICLE CONTENT TYPOGRAPHY ========== */
         .article-content {
             color: #475569;

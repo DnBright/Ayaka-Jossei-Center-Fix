@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
-@section('title', 'Alumni - Ayaka Josei Center')
+@section('title', 'Kisah Sukses Alumni di Jepang | Ayaka Josei Center')
+@section('meta_title', 'Kisah Sukses Alumni di Jepang | Ayaka Josei Center')
+@section('meta_description', 'Melihat langsung kisah sukses ratusan alumni Ayaka Josei Center yang telah berhasil berkarir profesional di berbagai perusahaan terkemuka di Jepang.')
+@section('meta_keywords', 'alumni LPK jepang, kisah sukses magang jepang, pengalaman kerja di jepang, testimoni LPK jepang, alumni ayaka josei center')
+@section('canonical', url('/alumni'))
 
 @section('content')
 <div class="circle-wrapper font-['Outfit']">

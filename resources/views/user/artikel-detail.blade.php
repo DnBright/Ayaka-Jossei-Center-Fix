@@ -1,8 +1,56 @@
 @extends('layouts.app')
 
-@section('title', $article->title . ' - Ayaka Josei Center')
+@section('title', $article->title . ' | Ayaka Josei Center')
+@section('meta_title', $article->title . ' | Ayaka Josei Center')
+@section('meta_description', Str::limit(strip_tags($article->content), 155))
+@section('meta_keywords', ($article->category->name ?? 'LPK Jepang') . ', Ayaka Josei Center, ' . Str::words(strip_tags($article->content), 8, ''))
+@section('canonical', route('blog.show', $article->slug))
+@section('og_type', 'article')
+@section('og_title', $article->title)
+@section('og_description', Str::limit(strip_tags($article->content), 155))
+@section('og_image', $article->featured_image
+    ? (str_starts_with($article->featured_image, 'http') ? $article->featured_image : asset($article->featured_image))
+    : asset('images/og-default.png'))
+
+@push('structured_data')
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "{{ $article->title }}",
+    "description": "{{ Str::limit(strip_tags($article->content), 155) }}",
+    "image": "{{ $article->featured_image ? (str_starts_with($article->featured_image, 'http') ? $article->featured_image : asset($article->featured_image)) : asset('images/og-default.png') }}",
+    "author": {
+        "@type": "Person",
+        "name": "{{ $article->author->name ?? 'Ayaka Josei Center' }}"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "Ayaka Josei Center",
+        "logo": { "@type": "ImageObject", "url": "{{ asset('images/logo ayakan.png') }}" }
+    },
+    "datePublished": "{{ $article->created_at->toISOString() }}",
+    "dateModified": "{{ $article->updated_at->toISOString() }}",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "{{ route('blog.show', $article->slug) }}" },
+    "articleSection": "{{ $article->category->name ?? 'Blog' }}",
+    "url": "{{ route('blog.show', $article->slug) }}"
+}
+</script>
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Beranda", "item": "{{ url('/') }}"},
+        {"@type": "ListItem", "position": 2, "name": "Blog", "item": "{{ route('blog.index') }}"},
+        {"@type": "ListItem", "position": 3, "name": "{{ $article->title }}", "item": "{{ route('blog.show', $article->slug) }}"}
+    ]
+}
+</script>
+@endpush
 
 @section('content')
+
 <div class="article-detail-wrapper font-['Outfit'] bg-white">
     <!-- 1. ARTICLE HEADER -->
     <header class="py-16 md:py-24 border-b border-slate-100">

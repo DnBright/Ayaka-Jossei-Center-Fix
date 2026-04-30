@@ -1,6 +1,53 @@
 @extends('layouts.app')
 
-@section('title', 'Ayaka Josei Center - Lembaga Pelatihan Kerja Jepang')
+@section('title', 'Ayaka Josei Center | LPK Khusus Putri Terpercaya untuk Karir di Jepang')
+@section('meta_title', 'Ayaka Josei Center | LPK Khusus Putri Terpercaya untuk Karir di Jepang')
+@section('meta_description', 'Ayaka Josei Center (AJC) - Lembaga Pelatihan Kerja (LPK) khusus putri terpercaya. Program Kaigo, FnB & Manufaktur dengan tingkat kelulusan 98%. Wujudkan karir profesional di Jepang bersama kami!')
+@section('meta_keywords', 'LPK Jepang terpercaya, Ayaka Josei Center, pelatihan kerja Jepang putri, kaigo Jepang, magang Jepang perempuan, berangkat kerja Jepang, LPK resmi Jepang, pelatihan bahasa Jepang')
+@section('canonical', url('/'))
+
+@push('structured_data')
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+        {
+            "@type": "Question",
+            "name": "Apa itu Ayaka Josei Center (AJC)?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Ayaka Josei Center (AJC) adalah Lembaga Pelatihan Kerja (LPK) khusus putri yang berfokus pada pengembangan karir profesional di Jepang, mencakup program Kaigo (caregiver), FnB Service, dan Manufaktur."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Berapa tingkat kelulusan interview AJC?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Ayaka Josei Center memiliki tingkat kelulusan interview mencapai 98%, dengan lebih dari 500 alumni yang berhasil ditempatkan bekerja di Jepang."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Program apa saja yang tersedia di AJC?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "AJC menyediakan tiga program unggulan: Kaigo (Perawat Lansia), Food & Beverage Service, dan Manufaktur. Semua program dilengkapi pelatihan bahasa Jepang intensif dan persiapan wawancara user."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Bagaimana cara mendaftar di Ayaka Josei Center?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Anda dapat mendaftar melalui website resmi kami di ayakajosseicenter.com, menghubungi kami via WhatsApp di +62815-4200-7626, atau mengunjungi halaman kontak kami untuk konsultasi gratis."
+            }
+        }
+    ]
+}
+</script>
+@endpush
 
 @section('content')
 <main class="font-['Outfit']">

@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
-@section('title', 'Hubungi Kami - Ayaka Josei Center')
+@section('title', 'Hubungi Kami | Konsultasi Kerja ke Jepang | Ayaka Josei Center')
+@section('meta_title', 'Hubungi Kami | Konsultasi Kerja ke Jepang | Ayaka Josei Center')
+@section('meta_description', 'Hubungi Ayaka Josei Center untuk konsultasi gratis program pelatihan kerja ke Jepang. Kami siap membantu mewujudkan karir profesional Anda.')
+@section('meta_keywords', 'kontak LPK jepang, alamat ayaka josei center, pendaftaran magang jepang, konsultasi kerja ke jepang, nomor telepon LPK jepang')
+@section('canonical', url('/kontak'))
 
 @section('content')
 <div class="contact-wrapper font-['Inter']">

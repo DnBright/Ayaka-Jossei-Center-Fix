@@ -8,6 +8,8 @@ Route::get('/', function () {
     return view('user.welcome');
 });
 
+Route::get('/sitemap.xml', [UserContentController::class, 'sitemap'])->name('sitemap');
+
 // Auth Routes
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');

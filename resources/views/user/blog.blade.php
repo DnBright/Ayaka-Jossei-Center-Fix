@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
-@section('title', 'Blog & Artikel - Ayaka Josei Center')
+@section('title', 'Blog & Artikel Seputar Kerja di Jepang | Ayaka Josei Center')
+@section('meta_title', 'Blog & Artikel Seputar Kerja di Jepang | Ayaka Josei Center')
+@section('meta_description', 'Kumpulan artikel, berita, tips wawancara, dan informasi budaya kerja Jepang terbaru. Panduan lengkap persiapan karir di Jepang untuk putri Indonesia.')
+@section('meta_keywords', 'artikel kerja jepang, tips magang jepang, budaya kerja jepang, berita LPK jepang, info magang jepang terbaru, blog ayaka josei center')
+@section('canonical', url('/blog'))
 
 @section('content')
 <div class="journal-wrapper font-['Outfit']">
