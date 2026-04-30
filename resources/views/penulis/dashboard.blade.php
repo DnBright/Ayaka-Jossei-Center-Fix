@@ -34,7 +34,10 @@
                     <i data-lucide="file-text"></i>
                 </div>
                 <div>
-                    <span class="block text-3xl font-black text-slate-900 leading-none mb-2">{{ $stats['total_articles'] }}</span>
+                    <span class="flex items-end gap-2 mb-2">
+                        <span class="block text-3xl font-black text-slate-900 leading-none">{{ $stats['total_articles'] }}</span>
+                        @if(request('date_filter'))<span class="text-xs font-bold text-slate-400 mb-0.5">/ {{ $totalStats['total_articles'] }} Total</span>@endif
+                    </span>
                     <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Total Artikel</span>
                 </div>
             </div>
@@ -45,7 +48,10 @@
                     <i data-lucide="eye"></i>
                 </div>
                 <div>
-                    <span class="block text-3xl font-black text-slate-900 leading-none mb-2">{{ number_format($stats['article_views']) }}</span>
+                    <span class="flex items-end gap-2 mb-2">
+                        <span class="block text-3xl font-black text-slate-900 leading-none">{{ number_format($stats['article_views']) }}</span>
+                        @if(request('date_filter'))<span class="text-xs font-bold text-slate-400 mb-0.5">/ {{ number_format($totalStats['article_views']) }} Total</span>@endif
+                    </span>
                     <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Total Pembaca Artikel</span>
                 </div>
             </div>
@@ -56,7 +62,10 @@
                     <i data-lucide="book-open"></i>
                 </div>
                 <div>
-                    <span class="block text-3xl font-black text-slate-900 leading-none mb-2">{{ $stats['total_ebooks'] }}</span>
+                    <span class="flex items-end gap-2 mb-2">
+                        <span class="block text-3xl font-black text-slate-900 leading-none">{{ $stats['total_ebooks'] }}</span>
+                        @if(request('date_filter'))<span class="text-xs font-bold text-slate-400 mb-0.5">/ {{ $totalStats['total_ebooks'] }} Total</span>@endif
+                    </span>
                     <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Total E-Book</span>
                 </div>
             </div>
@@ -67,7 +76,10 @@
                     <i data-lucide="download"></i>
                 </div>
                 <div>
-                    <span class="block text-3xl font-black text-slate-900 leading-none mb-2">{{ number_format($stats['ebook_downloads']) }}</span>
+                    <span class="flex items-end gap-2 mb-2">
+                        <span class="block text-3xl font-black text-slate-900 leading-none">{{ number_format($stats['ebook_downloads']) }}</span>
+                        @if(request('date_filter'))<span class="text-xs font-bold text-slate-400 mb-0.5">/ {{ number_format($totalStats['ebook_downloads']) }} Total</span>@endif
+                    </span>
                     <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Total Download E-Book</span>
                 </div>
             </div>
@@ -78,7 +90,10 @@
                     <i data-lucide="users"></i>
                 </div>
                 <div>
-                    <span class="block text-3xl font-black text-slate-900 leading-none mb-2">{{ $stats['total_users'] }}</span>
+                    <span class="flex items-end gap-2 mb-2">
+                        <span class="block text-3xl font-black text-slate-900 leading-none">{{ $stats['total_users'] }}</span>
+                        @if(request('date_filter'))<span class="text-xs font-bold text-slate-400 mb-0.5">/ {{ $totalStats['total_users'] }} Total</span>@endif
+                    </span>
                     <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Total Pengguna</span>
                 </div>
             </div>
@@ -89,7 +104,10 @@
                     <i data-lucide="message-square"></i>
                 </div>
                 <div>
-                    <span class="block text-3xl font-black text-slate-900 leading-none mb-2">{{ $stats['total_messages'] }}</span>
+                    <span class="flex items-end gap-2 mb-2">
+                        <span class="block text-3xl font-black text-slate-900 leading-none">{{ $stats['total_messages'] }}</span>
+                        @if(request('date_filter'))<span class="text-xs font-bold text-slate-400 mb-0.5">/ {{ $totalStats['total_messages'] }} Total</span>@endif
+                    </span>
                     <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Total Pesan</span>
                 </div>
             </div>

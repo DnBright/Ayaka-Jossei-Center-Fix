@@ -23,10 +23,19 @@ class AdminController extends Controller
             'ebook_downloads' => \App\Models\Ebook::when($dateFilter, fn($q) => $q->whereDate('created_at', $dateFilter))->sum('download_count'),
         ];
 
+        $totalStats = [
+            'total_messages' => \App\Models\Message::count(),
+            'total_articles' => \App\Models\Article::count(),
+            'total_ebooks' => \App\Models\Ebook::count(),
+            'total_users' => \App\Models\User::count(),
+            'article_views' => \App\Models\Article::sum('views_count'),
+            'ebook_downloads' => \App\Models\Ebook::sum('download_count'),
+        ];
+
         $topArticles = \App\Models\Article::with('category')->when($dateFilter, fn($q) => $q->whereDate('created_at', $dateFilter))->orderBy('views_count', 'desc')->take(5)->get();
         $topEbooks = \App\Models\Ebook::when($dateFilter, fn($q) => $q->whereDate('created_at', $dateFilter))->orderBy('download_count', 'desc')->take(5)->get();
 
-        return view('admin.dashboard', compact('stats', 'topArticles', 'topEbooks', 'dateFilter'));
+        return view('admin.dashboard', compact('stats', 'totalStats', 'topArticles', 'topEbooks', 'dateFilter'));
     }
 
     public function users()
