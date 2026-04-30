@@ -46,10 +46,11 @@ class ArticleController extends Controller
         return view('admin.artikel_editor', [
             'article' => null,
             'categories' => $categories,
-            'formAction' => $isPenulis ? route('penulis.artikel.store') : route('admin.artikel.store'),
+            'formAction' => $isPenulis ? route('penulis.artikel.store', [], false) : route('admin.artikel.store', [], false),
             'formMethod' => 'POST',
             'initialStatus' => 'draft',
             'layout' => $isPenulis ? 'layouts.penulis' : 'layouts.admin',
+            'currentUser' => $user,
         ]);
     }
 
@@ -64,15 +65,16 @@ class ArticleController extends Controller
         }
 
         $categories = Category::orderBy('name')->get();
-        $isPenulis = Auth::user()->role === 'penulis';
+        $isPenulis = $user && $user->role === 'penulis';
 
         return view('admin.artikel_editor', [
             'article' => $article,
             'categories' => $categories,
-            'formAction' => $isPenulis ? route('penulis.artikel.update', $article->id) : route('admin.artikel.update', $article->id),
+            'formAction' => $isPenulis ? route('penulis.artikel.update', $article->id, false) : route('admin.artikel.update', $article->id, false),
             'formMethod' => 'PUT',
             'initialStatus' => $article->status,
             'layout' => $isPenulis ? 'layouts.penulis' : 'layouts.admin',
+            'currentUser' => $user,
         ]);
     }
 

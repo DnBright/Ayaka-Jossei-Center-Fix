@@ -7,7 +7,7 @@
     <div class="max-w-7xl mx-auto">
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-2xl font-normal text-slate-800">{{ $article ? 'Edit Post' : 'Add New Post' }}</h1>
-            <a href="{{ Auth::user()->role === 'admin' ? route('admin.artikel.index') : route('penulis.artikel.index') }}" class="text-slate-600 hover:text-slate-800 bg-white border border-slate-300 rounded px-3 py-2 text-sm">
+            <a href="{{ $currentUser->role === 'admin' ? route('admin.artikel.index') : route('penulis.artikel.index') }}" class="text-slate-600 hover:text-slate-800 bg-white border border-slate-300 rounded px-3 py-2 text-sm">
                 Kembali
             </a>
         </div>
@@ -107,6 +107,10 @@
 
                             <div class="flex justify-between items-center">
                                 @if($article)
+                                <form id="delete-form" action="{{ $currentUser->role === 'admin' ? route('admin.artikel.destroy', [$article->id], false) : route('penulis.artikel.destroy', [$article->id], false) }}" method="POST" class="hidden">
+                                    @csrf
+                                    @method('DELETE')
+                                </form>
                                 <button type="button" onclick="document.getElementById('delete-form').submit();" class="text-xs text-[#b32d2e] underline bg-transparent border-none p-0 cursor-pointer">
                                     Move to Trash
                                 </button>
@@ -181,13 +185,6 @@
                 </div>
             </div>
         </form>
-
-        @if($article)
-        <form id="delete-form" action="{{ route('admin.artikel.destroy', $article->id) }}" method="POST" class="hidden">
-            @csrf
-            @method('DELETE')
-        </form>
-        @endif
     </div>
 </div>
 
