@@ -40,7 +40,26 @@ class PenulisController extends Controller
             ->take(5)
             ->get();
 
-        return view('penulis.dashboard', compact('stats', 'totalStats', 'topArticles', 'dateFilter'));
+        // Data for Line Chart (7 Days Trend)
+        $chartLabels = [];
+        $chartUsers = [];
+        $chartMessages = [];
+        for ($i = 6; $i >= 0; $i--) {
+            $date = \Carbon\Carbon::today()->subDays($i);
+            $chartLabels[] = $date->format('d M');
+            $chartUsers[] = \App\Models\User::whereDate('created_at', $date)->count();
+            $chartMessages[] = \App\Models\Message::whereDate('created_at', $date)->count();
+        }
+        $chartData = [
+            'labels' => $chartLabels,
+            'users' => $chartUsers,
+            'messages' => $chartMessages,
+        ];
+
+        // Latest Activity
+        $latestMessages = \App\Models\Message::latest()->take(5)->get();
+
+        return view('penulis.dashboard', compact('stats', 'totalStats', 'topArticles', 'dateFilter', 'chartData', 'latestMessages'));
     }
 
     public function artikel()

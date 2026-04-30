@@ -35,7 +35,26 @@ class AdminController extends Controller
         $topArticles = \App\Models\Article::with('category')->when($dateFilter, fn($q) => $q->whereDate('created_at', $dateFilter))->orderBy('views_count', 'desc')->take(5)->get();
         $topEbooks = \App\Models\Ebook::when($dateFilter, fn($q) => $q->whereDate('created_at', $dateFilter))->orderBy('download_count', 'desc')->take(5)->get();
 
-        return view('admin.dashboard', compact('stats', 'totalStats', 'topArticles', 'topEbooks', 'dateFilter'));
+        // Data for Line Chart (7 Days Trend)
+        $chartLabels = [];
+        $chartUsers = [];
+        $chartMessages = [];
+        for ($i = 6; $i >= 0; $i--) {
+            $date = \Carbon\Carbon::today()->subDays($i);
+            $chartLabels[] = $date->format('d M');
+            $chartUsers[] = \App\Models\User::whereDate('created_at', $date)->count();
+            $chartMessages[] = \App\Models\Message::whereDate('created_at', $date)->count();
+        }
+        $chartData = [
+            'labels' => $chartLabels,
+            'users' => $chartUsers,
+            'messages' => $chartMessages,
+        ];
+
+        // Latest Activity
+        $latestMessages = \App\Models\Message::latest()->take(5)->get();
+
+        return view('admin.dashboard', compact('stats', 'totalStats', 'topArticles', 'topEbooks', 'dateFilter', 'chartData', 'latestMessages'));
     }
 
     public function users()

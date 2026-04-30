@@ -4,154 +4,248 @@
 
 @section('content')
 <div class="dashboard-container">
-    <!-- Welcome Area -->
-    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6">
-        <div class="flex items-center gap-6">
-            <div class="w-16 h-16 bg-gradient-to-br from-[#da291c] to-[#991b1b] rounded-2xl flex items-center justify-center text-white text-2xl font-black shadow-xl shadow-red-900/20">
-                P
-            </div>
-            <div>
-                <h1 class="text-3xl font-black text-slate-900 tracking-tight">Selamat Datang, {{ Auth::user()->name }}</h1>
-                <p class="text-slate-500 font-medium mt-1">Pantau performa artikel dan materi yang Anda publikasikan.</p>
-            </div>
+    <!-- 1. Top Filter Bar -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4 bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
+        <div class="flex items-center gap-3">
+            <i data-lucide="filter" class="w-5 h-5 text-slate-400"></i>
+            <span class="font-bold text-slate-700">Filter Data</span>
         </div>
-        <form method="GET" class="flex items-center gap-3 bg-white px-4 py-2 rounded-2xl border border-slate-200 shadow-sm text-slate-500 font-bold text-sm transition-all hover:border-[#da291c]">
+        <form method="GET" class="flex items-center gap-3 bg-slate-50 px-4 py-2 rounded-xl border border-slate-200 transition-all hover:border-[#da291c]">
             <i data-lucide="calendar" class="w-4 h-4 text-slate-400"></i>
-            <input type="date" name="date_filter" value="{{ request('date_filter') }}" class="border-none bg-transparent p-0 text-sm focus:ring-0 text-slate-600 outline-none cursor-pointer" onchange="this.form.submit()">
+            <input type="date" name="date_filter" value="{{ request('date_filter') }}" class="border-none bg-transparent p-0 text-sm font-bold focus:ring-0 text-slate-700 outline-none cursor-pointer" onchange="this.form.submit()">
             @if(request('date_filter'))
-                <a href="{{ url()->current() }}" class="ml-2 w-5 h-5 bg-red-50 text-[#da291c] rounded-full flex items-center justify-center hover:bg-[#da291c] hover:text-white transition-colors" title="Hapus Filter">
+                <a href="{{ url()->current() }}" class="ml-2 w-5 h-5 bg-red-100 text-[#da291c] rounded-full flex items-center justify-center hover:bg-[#da291c] hover:text-white transition-colors" title="Hapus Filter">
                     <i data-lucide="x" class="w-3 h-3"></i>
                 </a>
             @endif
         </form>
     </div>
 
-    <!-- Stats Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-        <div class="bg-white p-6 rounded-[24px] border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group overflow-hidden relative">
-            <div class="flex flex-col gap-4 relative z-10">
-                <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <i data-lucide="file-text"></i>
+    <!-- 2. Top Data Blocks -->
+    <div class="grid lg:grid-cols-2 gap-6 mb-8">
+        <!-- Block 1: User & Komunikasi -->
+        <div class="bg-white rounded-[24px] border border-slate-100 shadow-sm p-8 relative flex items-center gap-8">
+            <div class="flex-shrink-0 w-20 h-20 bg-gradient-to-br from-[#da291c] to-[#991b1b] rounded-[20px] flex items-center justify-center text-white shadow-lg shadow-red-900/20">
+                <i data-lucide="users" class="w-10 h-10"></i>
+            </div>
+            <div class="flex-1 grid grid-cols-2 md:grid-cols-3 gap-6">
+                <div>
+                    <span class="text-[11px] font-black text-slate-400 uppercase tracking-widest block mb-2">Total Member</span>
+                    <div class="flex items-end gap-2">
+                        <span class="text-4xl font-black text-slate-900 leading-none">{{ $stats['total_users'] }}</span>
+                        @if(request('date_filter'))<span class="text-xs font-bold text-emerald-500 mb-0.5">/ {{ $totalStats['total_users'] }}</span>@endif
+                    </div>
                 </div>
                 <div>
-                    <span class="flex items-end gap-2 mb-2">
-                        <span class="block text-3xl font-black text-slate-900 leading-none">{{ $stats['total_articles'] }}</span>
-                        @if(request('date_filter'))<span class="text-xs font-bold text-slate-400 mb-0.5">/ {{ $totalStats['total_articles'] }} Total</span>@endif
-                    </span>
-                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Total Artikel</span>
+                    <span class="text-[11px] font-black text-slate-400 uppercase tracking-widest block mb-2">Total Pesan</span>
+                    <div class="flex items-end gap-2">
+                        <span class="text-4xl font-black text-slate-900 leading-none">{{ $stats['total_messages'] }}</span>
+                        @if(request('date_filter'))<span class="text-xs font-bold text-emerald-500 mb-0.5">/ {{ $totalStats['total_messages'] }}</span>@endif
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <span class="text-[11px] font-black text-slate-400 uppercase tracking-widest block mb-2">Peran Anda</span>
+                    <div class="flex items-end gap-2">
+                        <span class="text-2xl font-black text-slate-900 leading-none mt-1">Penulis</span>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="bg-white p-6 rounded-[24px] border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group overflow-hidden relative">
-            <div class="flex flex-col gap-4 relative z-10">
-                <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <i data-lucide="eye"></i>
-                </div>
-                <div>
-                    <span class="flex items-end gap-2 mb-2">
-                        <span class="block text-3xl font-black text-slate-900 leading-none">{{ number_format($stats['article_views']) }}</span>
-                        @if(request('date_filter'))<span class="text-xs font-bold text-slate-400 mb-0.5">/ {{ number_format($totalStats['article_views']) }} Total</span>@endif
-                    </span>
-                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Total Pembaca Artikel</span>
-                </div>
+        
+        <!-- Block 2: Performa Konten -->
+        <div class="bg-white rounded-[24px] border border-slate-100 shadow-sm p-8 relative flex items-center gap-8">
+            <div class="flex-shrink-0 w-20 h-20 bg-gradient-to-br from-slate-700 to-slate-900 rounded-[20px] flex items-center justify-center text-white shadow-lg shadow-slate-900/20">
+                <i data-lucide="bar-chart-2" class="w-10 h-10"></i>
             </div>
-        </div>
-        <div class="bg-white p-6 rounded-[24px] border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group overflow-hidden relative">
-            <div class="flex flex-col gap-4 relative z-10">
-                <div class="w-12 h-12 rounded-xl bg-violet-50 text-violet-600 flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <i data-lucide="book-open"></i>
+            <div class="flex-1 grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div>
+                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-2">Artikel</span>
+                    <div class="flex items-end gap-1">
+                        <span class="text-2xl font-black text-slate-900 leading-none">{{ $stats['total_articles'] }}</span>
+                    </div>
                 </div>
                 <div>
-                    <span class="flex items-end gap-2 mb-2">
-                        <span class="block text-3xl font-black text-slate-900 leading-none">{{ $stats['total_ebooks'] }}</span>
-                        @if(request('date_filter'))<span class="text-xs font-bold text-slate-400 mb-0.5">/ {{ $totalStats['total_ebooks'] }} Total</span>@endif
-                    </span>
-                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Total E-Book</span>
-                </div>
-            </div>
-        </div>
-        <div class="bg-white p-6 rounded-[24px] border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group overflow-hidden relative">
-            <div class="flex flex-col gap-4 relative z-10">
-                <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <i data-lucide="download"></i>
+                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-2">View</span>
+                    <div class="flex items-end gap-1">
+                        <span class="text-2xl font-black text-slate-900 leading-none">{{ number_format($stats['article_views']) }}</span>
+                    </div>
                 </div>
                 <div>
-                    <span class="flex items-end gap-2 mb-2">
-                        <span class="block text-3xl font-black text-slate-900 leading-none">{{ number_format($stats['ebook_downloads']) }}</span>
-                        @if(request('date_filter'))<span class="text-xs font-bold text-slate-400 mb-0.5">/ {{ number_format($totalStats['ebook_downloads']) }} Total</span>@endif
-                    </span>
-                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Total Download E-Book</span>
-                </div>
-            </div>
-        </div>
-        <div class="bg-white p-6 rounded-[24px] border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group overflow-hidden relative">
-            <div class="flex flex-col gap-4 relative z-10">
-                <div class="w-12 h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <i data-lucide="users"></i>
+                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-2">E-Book</span>
+                    <div class="flex items-end gap-1">
+                        <span class="text-2xl font-black text-slate-900 leading-none">{{ $stats['total_ebooks'] }}</span>
+                    </div>
                 </div>
                 <div>
-                    <span class="flex items-end gap-2 mb-2">
-                        <span class="block text-3xl font-black text-slate-900 leading-none">{{ $stats['total_users'] }}</span>
-                        @if(request('date_filter'))<span class="text-xs font-bold text-slate-400 mb-0.5">/ {{ $totalStats['total_users'] }} Total</span>@endif
-                    </span>
-                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Total Pengguna</span>
-                </div>
-            </div>
-        </div>
-        <div class="bg-white p-6 rounded-[24px] border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group overflow-hidden relative">
-            <div class="flex flex-col gap-4 relative z-10">
-                <div class="w-12 h-12 rounded-xl bg-slate-50 text-slate-600 flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <i data-lucide="message-square"></i>
-                </div>
-                <div>
-                    <span class="flex items-end gap-2 mb-2">
-                        <span class="block text-3xl font-black text-slate-900 leading-none">{{ $stats['total_messages'] }}</span>
-                        @if(request('date_filter'))<span class="text-xs font-bold text-slate-400 mb-0.5">/ {{ $totalStats['total_messages'] }} Total</span>@endif
-                    </span>
-                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Total Pesan</span>
+                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-2">Unduhan</span>
+                    <div class="flex items-end gap-1">
+                        <span class="text-2xl font-black text-slate-900 leading-none">{{ number_format($stats['ebook_downloads']) }}</span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Top Performing Content -->
-    <div class="bg-white rounded-[32px] border border-slate-100 shadow-sm overflow-hidden flex flex-col">
-        <div class="px-8 py-6 border-b border-slate-50 flex justify-between items-center bg-slate-50/50">
-            <h3 class="font-black text-slate-900 flex items-center gap-3">
-                <i data-lucide="trending-up" class="w-5 h-5 text-[#da291c]"></i>
-                Artikel Terpopuler (Global)
-            </h3>
+    <!-- 3. Performance Over Time -->
+    <div class="bg-white rounded-[24px] border border-slate-100 shadow-sm p-6 mb-8">
+        <div class="flex justify-between items-center mb-6 px-2">
+            <h3 class="font-black text-slate-900 text-lg">Performance Over Time</h3>
         </div>
-        <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse">
-                <thead>
-                    <tr class="bg-slate-50/30">
-                        <th class="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-50">Judul Artikel</th>
-                        <th class="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-50">Penulis</th>
-                        <th class="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-50">Kategori</th>
-                        <th class="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-50">Views</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-slate-50">
-                    @forelse($topArticles as $art)
-                    <tr class="hover:bg-slate-50/50 transition-colors">
-                        <td class="px-8 py-5 font-bold text-slate-700">{{ $art->title }}</td>
-                        <td class="px-8 py-5 text-xs font-bold text-slate-500 uppercase tracking-wider">{{ $art->author->name ?? 'System' }}</td>
-                        <td class="px-8 py-5">
-                            <span class="text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-widest bg-slate-100 text-slate-600">
-                                {{ $art->category->name ?? 'Uncategorized' }}
-                            </span>
-                        </td>
-                        <td class="px-8 py-5 font-black text-blue-600">{{ number_format($art->views_count) }}</td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="4" class="px-8 py-10 text-center text-slate-400 text-xs font-bold uppercase tracking-widest">Belum ada data artikel tersedia</td>
-                    </tr>
-                    @endforelse
-                </tbody>
-            </table>
+        <div id="mainChart" class="w-full h-[300px]"></div>
+    </div>
+
+    <!-- 4. Bottom Grid -->
+    <div class="grid lg:grid-cols-3 gap-6">
+        <!-- Content Breakdown -->
+        <div class="bg-white rounded-[24px] border border-slate-100 shadow-sm p-8">
+            <h3 class="font-black text-slate-900 text-sm mb-6">Distribusi Konten</h3>
+            <div id="doughnutChart" class="w-full h-[220px]"></div>
+            <div class="flex justify-center items-center mt-6 gap-6">
+                <div class="flex items-center gap-2">
+                    <div class="w-4 h-4 rounded-md bg-[#da291c]"></div>
+                    <span class="text-xs font-black text-slate-600">Artikel ({{ $totalStats['total_articles'] }})</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <div class="w-4 h-4 rounded-md bg-slate-800"></div>
+                    <span class="text-xs font-black text-slate-600">E-Book ({{ $totalStats['total_ebooks'] }})</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Top Articles -->
+        <div class="bg-white rounded-[24px] border border-slate-100 shadow-sm p-8">
+            <h3 class="font-black text-slate-900 text-sm mb-6">Performa Top Artikel</h3>
+            <div id="barChart" class="w-full h-[250px]"></div>
+        </div>
+        
+        <!-- Latest Activity -->
+        <div class="bg-white rounded-[24px] border border-slate-100 shadow-sm p-8">
+            <h3 class="font-black text-slate-900 text-sm mb-6">Pesan Masuk Terbaru</h3>
+            <div class="flex flex-col gap-5">
+                @forelse($latestMessages as $msg)
+                <div class="flex items-start gap-4">
+                    <div class="w-8 h-8 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center flex-shrink-0 font-bold text-xs uppercase">
+                        {{ substr($msg->name, 0, 2) }}
+                    </div>
+                    <div class="flex-1 min-w-0 border-b border-slate-50 pb-4">
+                        <div class="flex justify-between items-start mb-1">
+                            <span class="block font-black text-slate-800 text-sm truncate pr-2">{{ $msg->name }}</span>
+                            <span class="text-[10px] font-black text-slate-400 uppercase whitespace-nowrap">{{ $msg->created_at->diffForHumans() }}</span>
+                        </div>
+                        <span class="block text-xs font-medium text-slate-500 truncate">{{ $msg->subject ?? 'Tanpa Subjek' }}</span>
+                    </div>
+                </div>
+                @empty
+                <div class="text-center text-xs text-slate-400 py-8 font-bold uppercase tracking-widest">Belum ada pesan</div>
+                @endforelse
+            </div>
         </div>
     </div>
 </div>
+
+<style>
+    .line-clamp-1 {
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+</style>
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Main Line Chart
+        var mainOptions = {
+            series: [{
+                name: 'Member Baru',
+                data: @json($chartData['users'])
+            }, {
+                name: 'Pesan Masuk',
+                data: @json($chartData['messages'])
+            }],
+            chart: {
+                height: 300,
+                type: 'area',
+                fontFamily: 'inherit',
+                toolbar: { show: false }
+            },
+            colors: ['#da291c', '#0f172a'],
+            dataLabels: { enabled: false },
+            stroke: { curve: 'smooth', width: 3 },
+            fill: {
+                type: 'gradient',
+                gradient: { shadeIntensity: 1, opacityFrom: 0.2, opacityTo: 0.0, stops: [0, 90, 100] }
+            },
+            xaxis: {
+                categories: @json($chartData['labels']),
+                axisBorder: { show: false },
+                axisTicks: { show: false },
+                labels: { style: { colors: '#94a3b8', fontSize: '12px', fontWeight: 600 } }
+            },
+            yaxis: {
+                labels: { 
+                    formatter: function (val) { return Math.floor(val); },
+                    style: { colors: '#94a3b8', fontSize: '12px', fontWeight: 600 }
+                }
+            },
+            grid: {
+                borderColor: '#f1f5f9',
+                strokeDashArray: 4,
+            },
+            legend: {
+                position: 'top',
+                horizontalAlign: 'left',
+                markers: { radius: 12 },
+                fontWeight: 700,
+                itemMargin: { horizontal: 10, vertical: 0 }
+            }
+        };
+        new ApexCharts(document.querySelector("#mainChart"), mainOptions).render();
+
+        // Doughnut Chart
+        var doughnutOptions = {
+            series: [{{ $totalStats['total_articles'] ?: 0 }}, {{ $totalStats['total_ebooks'] ?: 0 }}],
+            chart: { type: 'donut', height: 240, fontFamily: 'inherit' },
+            labels: ['Artikel', 'E-Book'],
+            colors: ['#da291c', '#0f172a'],
+            plotOptions: {
+                pie: {
+                    donut: { size: '75%' }
+                }
+            },
+            dataLabels: { enabled: false },
+            legend: { show: false },
+            stroke: { show: false }
+        };
+        new ApexCharts(document.querySelector("#doughnutChart"), doughnutOptions).render();
+
+        // Bar Chart
+        var barOptions = {
+            series: [{
+                name: 'Views',
+                data: @json($topArticles->pluck('views_count'))
+            }],
+            chart: { type: 'bar', height: 250, fontFamily: 'inherit', toolbar: { show: false } },
+            colors: ['#da291c'],
+            plotOptions: {
+                bar: { borderRadius: 4, horizontal: false, columnWidth: '45%' }
+            },
+            dataLabels: { enabled: false },
+            xaxis: {
+                categories: @json($topArticles->pluck('title')->map(function($title) { return \Illuminate\Support\Str::limit($title, 12); })),
+                labels: { style: { colors: '#94a3b8', fontSize: '10px', fontWeight: 700 } },
+                axisBorder: { show: false },
+                axisTicks: { show: false }
+            },
+            yaxis: {
+                labels: { style: { colors: '#94a3b8', fontSize: '11px', fontWeight: 600 } }
+            },
+            grid: { show: false }
+        };
+        new ApexCharts(document.querySelector("#barChart"), barOptions).render();
+    });
+</script>
+@endpush
 @endsection
