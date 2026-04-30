@@ -8,23 +8,25 @@ use App\Http\Controllers\UserContentController;
 
 class AdminController extends Controller
 {
-    public function dashboard()
+    public function dashboard(Request $request)
     {
         app(UserContentController::class)->syncSharedContent();
 
+        $dateFilter = $request->input('date_filter');
+
         $stats = [
-            'total_messages' => \App\Models\Message::count(),
-            'total_articles' => \App\Models\Article::count(),
-            'total_ebooks' => \App\Models\Ebook::count(),
-            'total_users' => \App\Models\User::count(),
-            'article_views' => \App\Models\Article::sum('views_count'),
-            'ebook_downloads' => \App\Models\Ebook::sum('download_count'),
+            'total_messages' => \App\Models\Message::when($dateFilter, fn($q) => $q->whereDate('created_at', $dateFilter))->count(),
+            'total_articles' => \App\Models\Article::when($dateFilter, fn($q) => $q->whereDate('created_at', $dateFilter))->count(),
+            'total_ebooks' => \App\Models\Ebook::when($dateFilter, fn($q) => $q->whereDate('created_at', $dateFilter))->count(),
+            'total_users' => \App\Models\User::when($dateFilter, fn($q) => $q->whereDate('created_at', $dateFilter))->count(),
+            'article_views' => \App\Models\Article::when($dateFilter, fn($q) => $q->whereDate('created_at', $dateFilter))->sum('views_count'),
+            'ebook_downloads' => \App\Models\Ebook::when($dateFilter, fn($q) => $q->whereDate('created_at', $dateFilter))->sum('download_count'),
         ];
 
-        $topArticles = \App\Models\Article::with('category')->orderBy('views_count', 'desc')->take(5)->get();
-        $topEbooks = \App\Models\Ebook::orderBy('download_count', 'desc')->take(5)->get();
+        $topArticles = \App\Models\Article::with('category')->when($dateFilter, fn($q) => $q->whereDate('created_at', $dateFilter))->orderBy('views_count', 'desc')->take(5)->get();
+        $topEbooks = \App\Models\Ebook::when($dateFilter, fn($q) => $q->whereDate('created_at', $dateFilter))->orderBy('download_count', 'desc')->take(5)->get();
 
-        return view('admin.dashboard', compact('stats', 'topArticles', 'topEbooks'));
+        return view('admin.dashboard', compact('stats', 'topArticles', 'topEbooks', 'dateFilter'));
     }
 
     public function users()

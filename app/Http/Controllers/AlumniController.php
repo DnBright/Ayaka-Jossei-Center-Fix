@@ -10,6 +10,7 @@ class AlumniController extends Controller
 {
     public function index()
     {
+        app(\App\Http\Controllers\UserContentController::class)->syncSharedContent();
         $alumnis = Alumni::latest()->paginate(10);
         return view('admin.alumni', compact('alumnis'));
     }

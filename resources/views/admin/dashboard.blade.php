@@ -15,10 +15,15 @@
                 <p class="text-slate-500 font-medium mt-1">Berikut adalah ringkasan performa konten Anda hari ini.</p>
             </div>
         </div>
-        <div class="flex items-center gap-3 bg-white px-5 py-3 rounded-2xl border border-slate-200 shadow-sm text-slate-500 font-bold text-sm">
-            <i data-lucide="calendar" class="w-4 h-4"></i>
-            {{ date('d F Y') }}
-        </div>
+        <form method="GET" class="flex items-center gap-3 bg-white px-4 py-2 rounded-2xl border border-slate-200 shadow-sm text-slate-500 font-bold text-sm transition-all hover:border-[#da291c]">
+            <i data-lucide="calendar" class="w-4 h-4 text-slate-400"></i>
+            <input type="date" name="date_filter" value="{{ request('date_filter') }}" class="border-none bg-transparent p-0 text-sm focus:ring-0 text-slate-600 outline-none cursor-pointer" onchange="this.form.submit()">
+            @if(request('date_filter'))
+                <a href="{{ url()->current() }}" class="ml-2 w-5 h-5 bg-red-50 text-[#da291c] rounded-full flex items-center justify-center hover:bg-[#da291c] hover:text-white transition-colors" title="Hapus Filter">
+                    <i data-lucide="x" class="w-3 h-3"></i>
+                </a>
+            @endif
+        </form>
     </div>
 
     <!-- 2. Stats Grid -->
