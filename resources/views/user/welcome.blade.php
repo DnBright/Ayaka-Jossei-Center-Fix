@@ -9,38 +9,38 @@
 @push('structured_data')
 <script type="application/ld+json">
 {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
+    "@@context": "https://schema.org",
+    "@@type": "FAQPage",
     "mainEntity": [
         {
-            "@type": "Question",
+            "@@type": "Question",
             "name": "Apa itu Ayaka Josei Center (AJC)?",
             "acceptedAnswer": {
-                "@type": "Answer",
+                "@@type": "Answer",
                 "text": "Ayaka Josei Center (AJC) adalah Lembaga Pelatihan Kerja (LPK) khusus putri yang berfokus pada pengembangan karir profesional di Jepang, mencakup program Kaigo (caregiver), FnB Service, dan Manufaktur."
             }
         },
         {
-            "@type": "Question",
+            "@@type": "Question",
             "name": "Berapa tingkat kelulusan interview AJC?",
             "acceptedAnswer": {
-                "@type": "Answer",
+                "@@type": "Answer",
                 "text": "Ayaka Josei Center memiliki tingkat kelulusan interview mencapai 98%, dengan lebih dari 500 alumni yang berhasil ditempatkan bekerja di Jepang."
             }
         },
         {
-            "@type": "Question",
+            "@@type": "Question",
             "name": "Program apa saja yang tersedia di AJC?",
             "acceptedAnswer": {
-                "@type": "Answer",
+                "@@type": "Answer",
                 "text": "AJC menyediakan tiga program unggulan: Kaigo (Perawat Lansia), Food & Beverage Service, dan Manufaktur. Semua program dilengkapi pelatihan bahasa Jepang intensif dan persiapan wawancara user."
             }
         },
         {
-            "@type": "Question",
+            "@@type": "Question",
             "name": "Bagaimana cara mendaftar di Ayaka Josei Center?",
             "acceptedAnswer": {
-                "@type": "Answer",
+                "@@type": "Answer",
                 "text": "Anda dapat mendaftar melalui website resmi kami di ayakajosseicenter.com, menghubungi kami via WhatsApp di +62815-4200-7626, atau mengunjungi halaman kontak kami untuk konsultasi gratis."
             }
         }

@@ -40,19 +40,19 @@
     {{-- ===== JSON-LD STRUCTURED DATA (Organization) ===== --}}
     <script type="application/ld+json">
     {
-        "@context": "https://schema.org",
-        "@type": "EducationalOrganization",
+        "@@context": "https://schema.org",
+        "@@type": "EducationalOrganization",
         "name": "Ayaka Josei Center",
         "alternateName": "AJC",
         "url": "https://ayakajosseicenter.com",
         "logo": "{{ asset('images/logo ayakan.png') }}",
         "description": "Lembaga Pelatihan Kerja (LPK) khusus putri terpercaya untuk karir profesional di Jepang. Program Kaigo, FnB, dan Manufaktur.",
         "address": {
-            "@type": "PostalAddress",
+            "@@type": "PostalAddress",
             "addressCountry": "ID"
         },
         "contactPoint": {
-            "@type": "ContactPoint",
+            "@@type": "ContactPoint",
             "telephone": "+62815-4200-7626",
             "contactType": "customer service",
             "availableLanguage": ["Indonesian", "Japanese"]
@@ -61,12 +61,12 @@
             "https://ayakajosseicenter.com"
         ],
         "hasOfferCatalog": {
-            "@type": "OfferCatalog",
+            "@@type": "OfferCatalog",
             "name": "Program Pelatihan",
             "itemListElement": [
-                {"@type": "Offer", "itemOffered": {"@type": "Course", "name": "Kaigo (Caregiver)"}},
-                {"@type": "Offer", "itemOffered": {"@type": "Course", "name": "FnB Service"}},
-                {"@type": "Offer", "itemOffered": {"@type": "Course", "name": "Manufaktur"}}
+                {"@@type": "Offer", "itemOffered": {"@@type": "Course", "name": "Kaigo (Caregiver)"}},
+                {"@@type": "Offer", "itemOffered": {"@@type": "Course", "name": "FnB Service"}},
+                {"@@type": "Offer", "itemOffered": {"@@type": "Course", "name": "Manufaktur"}}
             ]
         }
     }
