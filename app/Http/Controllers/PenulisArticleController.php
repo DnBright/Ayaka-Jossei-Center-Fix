@@ -121,12 +121,12 @@ class PenulisArticleController extends Controller
      */
     public function edit($id)
     {
-        $user    = $this->getPenulis();
-        $article = Article::findOrFail($id);
+        $user = $this->getPenulis();
 
-        if ($article->author_id !== $user->id) {
-            abort(403, 'Anda tidak memiliki izin untuk mengedit artikel ini.');
-        }
+        // Langsung filter dengan author_id — 404 jika bukan miliknya
+        $article = Article::where('id', $id)
+            ->where('author_id', $user->id)
+            ->firstOrFail();
 
         $categories = Category::orderBy('name')->get();
 
@@ -145,12 +145,12 @@ class PenulisArticleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user    = $this->getPenulis();
-        $article = Article::findOrFail($id);
+        $user = $this->getPenulis();
 
-        if ($article->author_id !== $user->id) {
-            abort(403, 'Anda tidak memiliki izin untuk mengubah artikel ini.');
-        }
+        // Langsung filter dengan author_id — 404 jika bukan miliknya
+        $article = Article::where('id', $id)
+            ->where('author_id', $user->id)
+            ->firstOrFail();
 
         $request->validate([
             'title'              => 'required|string|max:255',
@@ -200,12 +200,12 @@ class PenulisArticleController extends Controller
      */
     public function destroy($id)
     {
-        $user    = $this->getPenulis();
-        $article = Article::findOrFail($id);
+        $user = $this->getPenulis();
 
-        if ($article->author_id !== $user->id) {
-            abort(403, 'Anda tidak memiliki izin untuk menghapus artikel ini.');
-        }
+        // Langsung filter dengan author_id — 404 jika bukan miliknya
+        $article = Article::where('id', $id)
+            ->where('author_id', $user->id)
+            ->firstOrFail();
 
         if ($article->featured_image && !str_starts_with($article->featured_image, 'http') && file_exists(public_path($article->featured_image))) {
             unlink(public_path($article->featured_image));
