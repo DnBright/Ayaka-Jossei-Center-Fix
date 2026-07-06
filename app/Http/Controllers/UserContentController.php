@@ -226,22 +226,15 @@ class UserContentController extends Controller
         $this->syncSharedContent();
 
         $search = $request->input('search');
-        $categoryName = $request->input('category');
 
-        $query = Article::with('category')
-            ->where('status', 'published')
+        $query = Article::where('status', 'published')
             ->when($search, function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
                   ->orWhere('content', 'like', "%{$search}%");
-            })
-            ->when($categoryName && $categoryName !== 'Semua', function ($q) use ($categoryName) {
-                $q->whereHas('category', function ($cq) use ($categoryName) {
-                    $cq->where('name', $categoryName);
-                });
             });
 
         $featuredArticle = null;
-        if (!$search && (!$categoryName || $categoryName === 'Semua') && $request->input('page', 1) == 1) {
+        if (!$search && $request->input('page', 1) == 1) {
             $featuredArticle = (clone $query)->latest()->first();
         }
 
@@ -250,9 +243,7 @@ class UserContentController extends Controller
             ->paginate(6)
             ->withQueryString();
 
-        $categories = Category::orderBy('name')->pluck('name')->toArray();
-
-        return view('user.blog', compact('featuredArticle', 'regularArticles', 'categories'));
+        return view('user.blog', compact('featuredArticle', 'regularArticles'));
     }
 
     public function showArticle($slug)

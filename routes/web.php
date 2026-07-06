@@ -98,6 +98,7 @@ Route::middleware(['auth:penulis', 'role:penulis'])->group(function () {
     Route::get('/penulis/artikel/{id}/edit', [App\Http\Controllers\PenulisArticleController::class, 'edit'])->name('penulis.artikel.edit');
     Route::put('/penulis/artikel/{id}', [App\Http\Controllers\PenulisArticleController::class, 'update'])->name('penulis.artikel.update');
     Route::delete('/penulis/artikel/{id}', [App\Http\Controllers\PenulisArticleController::class, 'destroy'])->name('penulis.artikel.destroy');
+    Route::delete('/penulis/kategori/{id}', [App\Http\Controllers\PenulisArticleController::class, 'deleteCategory'])->name('penulis.kategori.destroy');
 
     Route::get('/penulis/ebook', [App\Http\Controllers\PenulisController::class, 'ebook'])->name('penulis.ebook.index');
     Route::post('/penulis/ebook', [App\Http\Controllers\EbookController::class, 'store'])->name('penulis.ebook.store');

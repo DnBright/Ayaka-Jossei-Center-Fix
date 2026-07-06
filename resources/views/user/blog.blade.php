@@ -34,16 +34,7 @@
                         <svg class="w-5 h-5 text-[#da291c]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                     </button>
                 </form>
-                <div class="flex flex-wrap gap-4 justify-center">
-                    @php
-                        $categoryFilters = array_merge(['Semua'], $categories ?? []);
-                    @endphp
-                    @foreach($categoryFilters as $cat)
-                        <a href="{{ route('blog.index', ['category' => $cat]) }}" class="px-4 md:px-6 py-2 text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-[#da291c] transition-all {{ (request('category', 'Semua') == $cat) ? 'border-b-4 border-[#da291c] text-[#da291c]' : '' }}">
-                            {{ $cat }}
-                        </a>
-                    @endforeach
-                </div>
+                <!-- Categories removed, keeping only search -->
             </div>
         </div>
     </section>

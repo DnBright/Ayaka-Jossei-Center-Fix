@@ -220,7 +220,7 @@
                         ['name' => 'Blog', 'href' => '/blog'],
                         ['name' => 'E-Book', 'href' => '/ebook'],
                         ['name' => 'Alumni', 'href' => '/alumni'],
-                        ['name' => 'Kontak', 'href' => '/kontak'],
+                        ['name' => 'Kontak', 'href' => 'https://wa.me/6281542007626'],
                     ];
                 @endphp
                 @foreach($navItems as $item)
@@ -374,7 +374,7 @@
                         <li><a href="/galeri" class="hover:text-[#da291c] transition-colors">Galeri</a></li>
                         <li><a href="/blog" class="hover:text-[#da291c] transition-colors">Blog</a></li>
                         <li><a href="/alumni" class="hover:text-[#da291c] transition-colors">Alumni</a></li>
-                        <li><a href="/kontak" class="hover:text-[#da291c] transition-colors">Kontak</a></li>
+                        <li><a href="https://wa.me/6281542007626" class="hover:text-[#da291c] transition-colors">Kontak</a></li>
                     </ul>
                 </div>
                 <div>
@@ -383,6 +383,12 @@
                         <li class="flex items-center gap-3"><svg class="w-4 h-4 text-[#da291c]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg> {{ $settings->site_email ?? 'admin@ayakajosei.com' }}</li>
                         <li class="flex items-center gap-3"><svg class="w-4 h-4 text-[#da291c]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg> +62 815-4200-7626</li>
                     </ul>
+                    <h4 class="text-xs font-black uppercase tracking-widest mt-8 mb-4 text-white">Sosial Media</h4>
+                    <div class="flex items-center gap-4 text-slate-400">
+                        <a href="{{ $settings->facebook_url ?? '#' }}" target="_blank" class="hover:text-[#da291c] transition-colors"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H7v-3h3V9.5C10 7.57 11.57 6 13.5 6c1.05 0 2 .5 2.25 1.5v3H14c-.69 0-1 .5-1 1v1.5h2.85L15 15h-2v6.8C18.56 20.87 22 16.84 22 12z"></path></svg></a>
+                        <a href="{{ $settings->instagram_url ?? '#' }}" target="_blank" class="hover:text-[#da291c] transition-colors"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"></path></svg></a>
+                        <a href="{{ $settings->tiktok_url ?? '#' }}" target="_blank" class="hover:text-[#da291c] transition-colors"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"></path></svg></a>
+                    </div>
                 </div>
             </div>
             <div class="text-center pt-12 border-t border-white/5 text-slate-600 text-[10px] font-black uppercase tracking-[0.3em]">
@@ -442,9 +448,6 @@
     <div class="fixed bottom-8 right-8 z-[100] flex flex-col gap-4">
         <a href="https://wa.me/6281542007626" target="_blank" class="w-14 h-14 bg-green-500 rounded-full flex items-center justify-center shadow-2xl shadow-green-900/40 hover:scale-110 transition-transform">
             <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.767 5.767 0 1.261.405 2.422 1.096 3.369l-1.096 3.193 3.267-1.07c.92.582 2.01.928 3.181.928 3.181 0 5.767-2.586 5.767-5.767 0-3.181-2.586-5.767-5.767-5.767zm3.38 8.136c-.147.412-.729.743-1.002.793-.243.044-.56.079-1.425-.262-1.096-.433-1.802-1.545-1.857-1.618-.055-.073-.442-.587-.442-1.129 0-.541.284-.807.385-.918.101-.111.22-.138.294-.138.074 0 .147.001.211.004.067.003.158-.026.248.188.091.214.312.763.34 0 .027.214.046.303.018.067-.028.147-.042.22-.111s.303-.294.385-.385c.083-.092.166-.156.276-.064.11.092.735.361.855.421.12.06.2.091.248.174.048.083.048.48-.099.892z"></path></svg>
-        </a>
-        <a href="/kontak" class="w-14 h-14 bg-[#da291c] rounded-full flex items-center justify-center shadow-2xl shadow-red-900/40 hover:scale-110 transition-transform">
-            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
         </a>
     </div>
 

@@ -9,10 +9,45 @@
             <h1 class="text-3xl font-black text-slate-900 tracking-tight">Artikel Saya</h1>
             <p class="text-slate-500 font-medium mt-1">Kelola tulisan dan publikasi Anda di platform Ayaka.</p>
         </div>
-        <a href="{{ route('penulis.artikel.create') }}" class="bg-gradient-to-r from-[#da291c] to-[#b91c1c] text-white px-8 py-4 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-red-900/20 hover:-translate-y-1 transition-all flex items-center gap-3">
-            <i data-lucide="plus" class="w-5 h-5"></i>
-            Tulis Artikel Baru
-        </a>
+        <div class="flex items-center gap-3">
+            @if(isset($unusedCategories) && $unusedCategories->count() > 0)
+            <div x-data="{ open: false }" class="relative">
+                <button @click="open = !open" class="bg-slate-100 text-slate-600 px-4 py-4 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-slate-200 transition-all flex items-center gap-2">
+                    <i data-lucide="tag" class="w-4 h-4"></i> Hapus Kategori ({{ $unusedCategories->count() }})
+                </button>
+                <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-64 bg-white rounded-2xl shadow-xl border border-slate-100 p-2 z-50" x-cloak>
+                    <div class="text-[10px] font-black uppercase tracking-widest text-slate-400 px-3 py-2 mb-1">Kategori Kosong (0 Artikel)</div>
+                    @foreach($unusedCategories as $uc)
+                    <form action="{{ route('penulis.kategori.destroy', $uc->id) }}" method="POST" class="w-full">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="w-full text-left px-3 py-2 rounded-xl text-xs font-bold text-slate-700 hover:bg-red-50 hover:text-[#da291c] flex justify-between items-center group">
+                            {{ $uc->name }}
+                            <i data-lucide="trash-2" class="w-3 h-3 opacity-0 group-hover:opacity-100"></i>
+                        </button>
+                    </form>
+                    @endforeach
+                </div>
+            </div>
+            @endif
+            <a href="{{ route('penulis.artikel.create') }}" class="bg-gradient-to-r from-[#da291c] to-[#b91c1c] text-white px-6 md:px-8 py-4 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-red-900/20 hover:-translate-y-1 transition-all flex items-center gap-3">
+                <i data-lucide="plus" class="w-5 h-5"></i>
+                <span class="hidden md:inline">Tulis Artikel Baru</span>
+                <span class="md:hidden">Tulis Baru</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-[32px] border border-slate-100 shadow-sm overflow-hidden mb-6 p-2 md:p-4">
+        <form action="{{ route('penulis.artikel.index') }}" method="GET" class="relative w-full max-w-md">
+            <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari artikel lama..." class="w-full bg-slate-50 border border-slate-100 rounded-xl px-5 py-3 pl-12 text-sm font-bold text-slate-700 focus:outline-none focus:border-[#da291c] focus:ring-1 focus:ring-[#da291c]">
+            <i data-lucide="search" class="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2"></i>
+            @if(request('search'))
+            <a href="{{ route('penulis.artikel.index') }}" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-[#da291c]">
+                <i data-lucide="x" class="w-4 h-4"></i>
+            </a>
+            @endif
+        </form>
     </div>
 
     <div class="bg-white rounded-[32px] border border-slate-100 shadow-sm overflow-hidden">
@@ -80,6 +115,9 @@
                     @endforelse
                 </tbody>
             </table>
+        </div>
+        <div class="p-6 border-t border-slate-50">
+            {{ $articles->links('pagination::tailwind') }}
         </div>
     </div>
 </div>

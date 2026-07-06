@@ -42,16 +42,38 @@ class PenulisArticleController extends Controller
     /**
      * Tampilkan daftar artikel penulis.
      */
-    public function index()
+    public function index(Request $request)
     {
         $user = $this->getPenulis();
-        // Penulis hanya melihat artikelnya sendiri
+        $search = $request->input('search');
+
         $articles = Article::with(['category', 'author'])
             ->where('author_id', $user->id)
+            ->when($search, function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%");
+            })
             ->latest()
-            ->paginate(10);
+            ->paginate(10)
+            ->withQueryString();
 
-        return view('penulis.artikel', compact('articles'));
+        $unusedCategories = Category::doesntHave('articles')->get();
+
+        return view('penulis.artikel', compact('articles', 'search', 'unusedCategories'));
+    }
+
+    /**
+     * Hapus kategori yang tidak terpakai (0 artikel).
+     */
+    public function deleteCategory($id)
+    {
+        $category = Category::findOrFail($id);
+        
+        if ($category->articles()->count() > 0) {
+            return redirect()->back()->with('error', 'Kategori tidak bisa dihapus karena masih memiliki artikel.');
+        }
+
+        $category->delete();
+        return redirect()->back()->with('success', 'Kategori tidak terpakai berhasil dihapus.');
     }
 
     /**

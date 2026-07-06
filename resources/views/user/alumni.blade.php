@@ -155,7 +155,25 @@
         </div>
     </section>
 
-    <!-- 5. FINAL CTA -->
+    <!-- 5. ALUMNI GALLERY -->
+    <section class="py-20 md:py-32 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="mb-12 md:mb-16 circle-reveal text-center">
+                <span class="text-[#da291c] font-black tracking-[0.4em] text-[10px] mb-6 block uppercase">Momen Berharga</span>
+                <h2 class="text-4xl md:text-5xl font-black text-slate-900 tracking-tighter italic uppercase leading-none">Galeri Alumni</h2>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 circle-reveal">
+                @for($i = 1; $i <= 8; $i++)
+                    <div class="aspect-square bg-slate-100 rounded-[20px] overflow-hidden group">
+                        <img src="{{ asset('images/hero-bg.png') }}" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700" alt="Alumni moment">
+                    </div>
+                @endfor
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. FINAL CTA -->
     <footer class="py-20 md:py-32 bg-slate-50 text-center">
         <div class="container mx-auto px-6">
             <div class="w-16 h-16 md:w-20 md:h-20 bg-slate-900 text-white rounded-full flex items-center justify-center text-3xl md:text-4xl font-black mx-auto mb-12 md:mb-16 circle-reveal">A</div>

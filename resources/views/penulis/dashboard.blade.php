@@ -114,8 +114,22 @@
         
         <!-- Top Articles -->
         <div class="bg-white rounded-[24px] border border-slate-100 shadow-sm p-8">
-            <h3 class="font-black text-slate-900 text-sm mb-6">Performa Top Artikel</h3>
-            <div id="barChart" class="w-full h-[250px]"></div>
+            <h3 class="font-black text-slate-900 text-sm mb-6">Performa Top Artikel (Berdasarkan Kunjungan)</h3>
+            <div class="flex flex-col gap-4">
+                @forelse($topArticles as $idx => $article)
+                <div class="flex items-center gap-4 border-b border-slate-50 pb-3 last:border-0 last:pb-0">
+                    <div class="w-6 h-6 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center flex-shrink-0 font-bold text-[10px]">
+                        {{ $idx + 1 }}
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <span class="block font-black text-slate-800 text-xs truncate">{{ $article->title }}</span>
+                        <span class="text-[9px] font-bold text-[#da291c] uppercase tracking-widest">{{ number_format($article->views_count) }} Views</span>
+                    </div>
+                </div>
+                @empty
+                <div class="text-center text-xs text-slate-400 py-8 font-bold uppercase tracking-widest">Belum ada artikel</div>
+                @endforelse
+            </div>
         </div>
         
         <!-- Latest Activity -->
@@ -159,11 +173,8 @@
         // Main Line Chart
         var mainOptions = {
             series: [{
-                name: 'Member Baru',
-                data: @json($chartData['users'])
-            }, {
-                name: 'Pesan Masuk',
-                data: @json($chartData['messages'])
+                name: 'Estimasi Kunjungan (Views)',
+                data: @json($chartData['views'])
             }],
             chart: {
                 height: 300,
@@ -221,30 +232,7 @@
         };
         new ApexCharts(document.querySelector("#doughnutChart"), doughnutOptions).render();
 
-        // Bar Chart
-        var barOptions = {
-            series: [{
-                name: 'Views',
-                data: @json($topArticles->pluck('views_count'))
-            }],
-            chart: { type: 'bar', height: 250, fontFamily: 'inherit', toolbar: { show: false } },
-            colors: ['#da291c'],
-            plotOptions: {
-                bar: { borderRadius: 4, horizontal: false, columnWidth: '45%' }
-            },
-            dataLabels: { enabled: false },
-            xaxis: {
-                categories: @json($topArticles->pluck('title')->map(function($title) { return \Illuminate\Support\Str::limit($title, 12); })),
-                labels: { style: { colors: '#94a3b8', fontSize: '10px', fontWeight: 700 } },
-                axisBorder: { show: false },
-                axisTicks: { show: false }
-            },
-            yaxis: {
-                labels: { style: { colors: '#94a3b8', fontSize: '11px', fontWeight: 600 } }
-            },
-            grid: { show: false }
-        };
-        new ApexCharts(document.querySelector("#barChart"), barOptions).render();
+        // Bar chart removed
     });
 </script>
 @endpush
