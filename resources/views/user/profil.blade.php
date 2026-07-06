@@ -105,12 +105,12 @@
                 <div class="impact-block-prof bg-slate-900 p-10 md:p-16">
                     <svg class="w-10 h-10 text-[#da291c] mb-8 mx-auto md:mx-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
                     <h3 class="text-2xl md:text-3xl font-black mb-6 tracking-tighter uppercase italic text-center md:text-left">Fokus Utama</h3>
-                    <p class="text-slate-400 leading-relaxed text-base md:text-lg text-center md:text-left">Pelatihan kami difokuskan pada sektor Kaigo (Caregiver), F&B, dan Industri Manufaktur, menyesuaikan dengan kebutuhan pasar kerja perempuan yang stabil di Jepang.</p>
+                    <p class="text-slate-400 leading-relaxed text-base md:text-lg text-center md:text-left">Kami berfokus pada pemberian pelatihan dan persiapan bagi tenaga kerja perempuan kaigo (caregiver) di Jepang. Kami menyesuaikan pelatihan sesuai standar kebutuhan tenaga kerja Jepang.</p>
                 </div>
                 <div class="impact-block-prof bg-slate-900 p-10 md:p-16 border-t md:border-t-0 border-slate-800">
                     <svg class="w-10 h-10 text-[#da291c] mb-8 mx-auto md:mx-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04kM12 21a8.966 8.966 0 01-5.917-2.24L4 15.033V12a1 1 0 011-1h14a1 1 0 011 1v3.033l-2.083 3.727A8.966 8.966 0 0112 21z"></path></svg>
                     <h3 class="text-2xl md:text-3xl font-black mb-6 tracking-tighter uppercase italic text-center md:text-left">Legalitas & Kepercayaan</h3>
-                    <p class="text-slate-400 leading-relaxed text-base md:text-lg text-center md:text-left">AJC beroperasi di bawah PT Ayaka Global Indonesia dengan izin resmi dari Kementerian Ketenagakerjaan (Izin SO No. 123/2026), menjamin keamanan setiap langkah karir Anda.</p>
+                    <p class="text-slate-400 leading-relaxed text-base md:text-lg text-center md:text-left">Beroperasi di bawah PT Saitama Juara Mendunia yang memiliki NIB 0301240043427. Kami juga memiliki NIB 2607240065336 dan telah terdaftar dalam OSS Kabupaten Magelang.</p>
                 </div>
             </div>
         </div>
