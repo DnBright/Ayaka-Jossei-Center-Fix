@@ -421,7 +421,8 @@
                         ['fr', 'French', '🇫🇷'],
                         ['de', 'German', '🇩🇪'],
                         ['ko', 'Korean', '🇰🇷'],
-                        ['es', 'Spanish', '🇪🇸']
+                        ['es', 'Spanish', '🇪🇸'],
+                        ['ja', 'Japanese', '🇯🇵']
                     ];
                 @endphp
 
@@ -467,7 +468,7 @@
         function googleTranslateElementInit() {
             new google.translate.TranslateElement({
                 pageLanguage: 'id',
-                includedLanguages: 'id,ar,zh-CN,en,fr,de,ko,es',
+                includedLanguages: 'id,ar,zh-CN,en,fr,de,ko,es,ja',
                 layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
                 autoDisplay: false
             }, 'google_translate_element');
