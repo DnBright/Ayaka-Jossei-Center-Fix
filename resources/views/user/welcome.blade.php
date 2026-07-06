@@ -158,9 +158,9 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
                 @php
                     $programs = [
-                        ['title' => 'Kaigo (Caregiver)', 'desc' => 'Pelatihan perawat lansia profesional dengan standar pelayanan Jepang.'],
-                        ['title' => 'F&B Service', 'desc' => 'Keterampilan pengolahan makanan dan pelayanan restoran internasional.'],
-                        ['title' => 'Manufaktur', 'desc' => 'Pelatihan teknis untuk industri perakitan dan produksi di Jepang.'],
+                        ['title' => 'Pelatihan Kaigo (Caregiver)', 'desc' => 'Pelatihan perawat lansia profesional dengan standar pelayanan Jepang.'],
+                        ['title' => 'Pembentukan sikap siap kerja di Jepang', 'desc' => 'Pelatihan sikap, disiplin dan budaya kerja Jepang untuk menjadi tenaga kerja profesional.'],
+                        ['title' => 'Pelatihan bahasa Jepang sampai N4', 'desc' => 'Memberi pelatihan bahasa Jepang berkualitas dengan standar JLPT N4.'],
                     ];
                 @endphp
                 @foreach($programs as $p)
