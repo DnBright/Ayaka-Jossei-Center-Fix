@@ -66,10 +66,9 @@
         <div class="flex flex-col lg:flex-row gap-6 container mx-auto px-6 h-auto lg:min-h-[600px]">
             @php
                 $programs = [
-                    ['id' => 'kaigo', 'name' => 'KAIGO (CAREGIVER)', 'desc' => 'Program pelatihan perawat lansia dengan fokus pada etika pelayanan (Omotenashi) dan teknik perawatan medis dasar.'],
-                    ['id' => 'fb', 'name' => 'F&B SERVICE', 'desc' => 'Pelatihan pelayanan restoran dan pengolahan makanan dengan standar kebersihan HACCP Jepang.'],
-                    ['id' => 'industri', 'name' => 'INDUSTRI', 'desc' => 'Fokus pada keterampilan teknis manufaktur, perakitan, dan kontrol kualitas produksi.'],
-                    ['id' => 'hospitality', 'name' => 'HOSPITALITY', 'desc' => 'Manajemen hotel dan pelayanan pariwisata untuk mendukung industri leisure di Jepang.']
+                    ['id' => 'kaigo', 'name' => 'Pelatihan Kaigo', 'desc' => 'Pelatihan berkualitas dapat kamu dapatkan untuk menjadi tenaga kerja kaigo unggul di Jepang dari Ayaka Jossei Center.'],
+                    ['id' => 'sikap', 'name' => 'Pembentukan Sikap', 'desc' => 'Demi menjadi individu siap kerja di Jepang, Ayaka Jossei Center memberikan pelatihan mental, budaya, kedisiplinan dan sikap siap kerja di Jepang sesuai dengan standar internasional.'],
+                    ['id' => 'bahasa', 'name' => 'Pelatihan Bahasa Jepang', 'desc' => 'Memberikan pembelajaran dan pelatihan bahasa Jepang yang dibutuhkan untuk bekerja di Jepang dengan patokan standar JLPT N4.']
                 ];
             @endphp
 
