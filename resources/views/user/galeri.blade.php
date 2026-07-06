@@ -28,33 +28,6 @@
         <div class="absolute top-0 right-0 w-[40%] h-full bg-slate-50 -z-0 hidden lg:block"></div>
     </header>
 
-    <!-- 2. FILTER & CATEGORIES -->
-    <nav class="bg-white border-y border-slate-100 py-4 md:py-6">
-        <div class="container mx-auto px-6">
-            <div class="flex flex-col lg:flex-row items-center justify-between gap-6">
-                <div class="flex items-center gap-4 text-[10px] font-black uppercase tracking-widest text-slate-900">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path></svg>
-                    Filter Galeri
-                </div>
-                <div class="flex flex-wrap gap-3 justify-center">
-                    @php
-                        $categories = [
-                            ['id' => 'all', 'label' => 'Semua'],
-                            ['id' => 'pelatihan', 'label' => 'Pelatihan'],
-                            ['id' => 'interview', 'label' => 'Wawancara'],
-                            ['id' => 'keberangkatan', 'label' => 'Keberangkatan'],
-                            ['id' => 'alumni', 'label' => 'Alumni di Jepang']
-                        ];
-                    @endphp
-                    @foreach($categories as $cat)
-                        <a href="{{ route('galeri.index', ['type' => $cat['id']]) }}" class="px-4 md:px-6 py-2 rounded-full border border-slate-200 text-[9px] md:text-xs font-black uppercase tracking-widest hover:border-[#da291c] hover:text-[#da291c] transition-all {{ request('type', 'all') == $cat['id'] ? 'bg-slate-900 text-white border-slate-900' : '' }}">
-                            {{ $cat['label'] }}
-                        </a>
-                    @endforeach
-                </div>
-            </div>
-        </div>
-    </nav>
 
     <!-- 3. PHOTO GRID - MASONRY STYLE -->
     <section class="py-16 md:py-24">
@@ -85,8 +58,14 @@
             </div>
 
             <!-- Pagination -->
-            <div class="mt-20 flex justify-center atelier-reveal">
-                {{ $galleryItems->links() }}
+            <div class="mt-20 flex justify-center gap-4 atelier-reveal">
+                @if($galleryItems->currentPage() > 1)
+                    <a href="{{ $galleryItems->previousPageUrl() }}" class="bg-white border border-slate-200 text-slate-900 px-8 py-3 rounded-full text-xs font-black uppercase tracking-widest hover:bg-slate-50 transition-all">Previous</a>
+                @endif
+                
+                @if($galleryItems->hasMorePages())
+                    <a href="{{ $galleryItems->nextPageUrl() }}" class="bg-slate-900 text-white px-8 py-3 rounded-full text-xs font-black uppercase tracking-widest hover:bg-[#da291c] transition-all shadow-xl hover:shadow-[#da291c]/20">See More</a>
+                @endif
             </div>
         </div>
     </section>

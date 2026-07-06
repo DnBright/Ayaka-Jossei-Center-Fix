@@ -105,9 +105,9 @@
                 </div>
                 @php
                     $reqs = [
-                        'Wanita, Usia 18 - 28 Tahun',
+                        'Wanita, Usia 18 - 26 Tahun',
                         'Pendidikan Minimal SMA/SMK Sederajat',
-                        'Tinggi Badan Minimal 150 cm',
+                        'Tinggi Badan Minimal 155 cm',
                         'Sehat Jasmani & Rohani',
                         'Tidak Memiliki Tato atau Bekas Tindik Berlebih'
                     ];

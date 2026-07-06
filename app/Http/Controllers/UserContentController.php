@@ -345,14 +345,9 @@ class UserContentController extends Controller
     {
         $this->syncSharedContent();
 
-        $type = $request->input('type');
-
         $galleryItems = Media::where('type', 'gallery')
-            ->when($type && $type !== 'all', function ($q) use ($type) {
-                // Filter logic can be added here
-            })
             ->latest()
-            ->paginate(12)
+            ->paginate(6)
             ->withQueryString();
 
         return view('user.galeri', compact('galleryItems'));
