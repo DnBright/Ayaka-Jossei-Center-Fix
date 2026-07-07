@@ -138,11 +138,9 @@
                                             >
                                             {{ $cat->name }}
                                         </label>
-                                        @if($cat->articles_count === 0)
-                                            <button type="button" onclick="if(confirm('Hapus kategori ini?')) { document.getElementById('delete-cat-{{ $cat->id }}').submit(); }" class="text-slate-300 hover:text-red-600 p-1 opacity-0 group-hover/cat:opacity-100 transition-all">
-                                                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-                                            </button>
-                                        @endif
+                                        <button type="button" onclick="if(confirm('Hapus kategori ini? Artikel yang menggunakan kategori ini tidak akan terhapus, namun tidak akan memiliki kategori lagi.')) { document.getElementById('delete-cat-{{ $cat->id }}').submit(); }" class="text-slate-400 hover:text-[#da291c] p-1 transition-all" title="Hapus kategori">
+                                            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                                        </button>
                                     </div>
                                 @empty
                                     <p class="text-xs text-slate-500">Belum ada kategori. Tambahkan kategori baru di bawah ini.</p>
@@ -151,12 +149,10 @@
                             
                             {{-- Hidden forms for deleting categories --}}
                             @foreach($categories as $cat)
-                                @if($cat->articles_count === 0)
-                                    <form id="delete-cat-{{ $cat->id }}" action="{{ route('penulis.kategori.destroy', $cat->id) }}" method="POST" class="hidden">
-                                        @csrf
-                                        @method('DELETE')
-                                    </form>
-                                @endif
+                                <form id="delete-cat-{{ $cat->id }}" action="{{ route('penulis.kategori.destroy', $cat->id) }}" method="POST" class="hidden">
+                                    @csrf
+                                    @method('DELETE')
+                                </form>
                             @endforeach
                             <div class="mt-3">
                                 <label class="block text-[11px] font-semibold text-slate-500 mb-1">Add New Category</label>

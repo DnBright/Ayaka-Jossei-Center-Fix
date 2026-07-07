@@ -50,13 +50,8 @@ class ArticleController extends Controller
     public function deleteCategory($id)
     {
         $category = Category::findOrFail($id);
-        
-        if ($category->articles()->count() > 0) {
-            return redirect()->back()->with('error', 'Kategori tidak bisa dihapus karena masih memiliki artikel.');
-        }
-
         $category->delete();
-        return redirect()->back()->with('success', 'Kategori tidak terpakai berhasil dihapus.');
+        return redirect()->back()->with('success', 'Kategori berhasil dihapus.');
     }
 
     public function create()
