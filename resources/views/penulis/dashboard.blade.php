@@ -86,16 +86,51 @@
         </div>
     </div>
 
-    <!-- 3. Performance Over Time -->
+    <!-- 3. Top 10 Articles -->
     <div class="bg-white rounded-[24px] border border-slate-100 shadow-sm p-6 mb-8">
         <div class="flex justify-between items-center mb-6 px-2">
-            <h3 class="font-black text-slate-900 text-lg">Performance Over Time</h3>
+            <h3 class="font-black text-slate-900 text-lg">Top 10 Artikel dengan View Terbanyak</h3>
         </div>
-        <div id="mainChart" class="w-full h-[300px]"></div>
+        <div class="overflow-x-auto px-2">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="border-b border-slate-100">
+                        <th class="py-3 text-[10px] font-black text-slate-400 uppercase tracking-widest w-12 text-center">#</th>
+                        <th class="py-3 text-[10px] font-black text-slate-400 uppercase tracking-widest">Judul Artikel</th>
+                        <th class="py-3 text-[10px] font-black text-slate-400 uppercase tracking-widest">Kategori</th>
+                        <th class="py-3 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Total Views</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-50">
+                    @forelse($topArticles as $idx => $article)
+                    <tr class="hover:bg-slate-50/50 transition-colors">
+                        <td class="py-4 text-center">
+                            <div class="w-8 h-8 mx-auto rounded-full bg-slate-100 text-slate-500 flex items-center justify-center font-bold text-[11px]">
+                                {{ $idx + 1 }}
+                            </div>
+                        </td>
+                        <td class="py-4">
+                            <span class="block font-black text-slate-800 text-sm truncate max-w-xl">{{ $article->title }}</span>
+                        </td>
+                        <td class="py-4">
+                            <span class="bg-slate-100 text-slate-600 px-3 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider">{{ $article->category->name ?? 'Uncategorized' }}</span>
+                        </td>
+                        <td class="py-4 text-right">
+                            <span class="text-sm font-black text-[#da291c] uppercase tracking-widest">{{ number_format($article->views_count) }} Views</span>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="4" class="py-8 text-center text-xs font-bold text-slate-400 uppercase tracking-widest">Belum ada artikel</td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <!-- 4. Bottom Grid -->
-    <div class="grid lg:grid-cols-3 gap-6">
+    <div class="grid lg:grid-cols-2 gap-6">
         <!-- Content Breakdown -->
         <div class="bg-white rounded-[24px] border border-slate-100 shadow-sm p-8">
             <h3 class="font-black text-slate-900 text-sm mb-6">Distribusi Konten</h3>
@@ -109,26 +144,6 @@
                     <div class="w-4 h-4 rounded-md bg-slate-800"></div>
                     <span class="text-xs font-black text-slate-600">E-Book ({{ $totalStats['total_ebooks'] }})</span>
                 </div>
-            </div>
-        </div>
-        
-        <!-- Top Articles -->
-        <div class="bg-white rounded-[24px] border border-slate-100 shadow-sm p-8">
-            <h3 class="font-black text-slate-900 text-sm mb-6">Performa Top Artikel (Berdasarkan Kunjungan)</h3>
-            <div class="flex flex-col gap-4">
-                @forelse($topArticles as $idx => $article)
-                <div class="flex items-center gap-4 border-b border-slate-50 pb-3 last:border-0 last:pb-0">
-                    <div class="w-6 h-6 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center flex-shrink-0 font-bold text-[10px]">
-                        {{ $idx + 1 }}
-                    </div>
-                    <div class="flex-1 min-w-0">
-                        <span class="block font-black text-slate-800 text-xs truncate">{{ $article->title }}</span>
-                        <span class="text-[9px] font-bold text-[#da291c] uppercase tracking-widest">{{ number_format($article->views_count) }} Views</span>
-                    </div>
-                </div>
-                @empty
-                <div class="text-center text-xs text-slate-400 py-8 font-bold uppercase tracking-widest">Belum ada artikel</div>
-                @endforelse
             </div>
         </div>
         
@@ -170,50 +185,6 @@
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // Main Line Chart
-        var mainOptions = {
-            series: [{
-                name: 'Estimasi Kunjungan (Views)',
-                data: @json($chartData['views'])
-            }],
-            chart: {
-                height: 300,
-                type: 'area',
-                fontFamily: 'inherit',
-                toolbar: { show: false }
-            },
-            colors: ['#da291c', '#0f172a'],
-            dataLabels: { enabled: false },
-            stroke: { curve: 'smooth', width: 3 },
-            fill: {
-                type: 'gradient',
-                gradient: { shadeIntensity: 1, opacityFrom: 0.2, opacityTo: 0.0, stops: [0, 90, 100] }
-            },
-            xaxis: {
-                categories: @json($chartData['labels']),
-                axisBorder: { show: false },
-                axisTicks: { show: false },
-                labels: { style: { colors: '#94a3b8', fontSize: '12px', fontWeight: 600 } }
-            },
-            yaxis: {
-                labels: { 
-                    formatter: function (val) { return Math.floor(val); },
-                    style: { colors: '#94a3b8', fontSize: '12px', fontWeight: 600 }
-                }
-            },
-            grid: {
-                borderColor: '#f1f5f9',
-                strokeDashArray: 4,
-            },
-            legend: {
-                position: 'top',
-                horizontalAlign: 'left',
-                markers: { radius: 12 },
-                fontWeight: 700,
-                itemMargin: { horizontal: 10, vertical: 0 }
-            }
-        };
-        new ApexCharts(document.querySelector("#mainChart"), mainOptions).render();
 
         // Doughnut Chart
         var doughnutOptions = {

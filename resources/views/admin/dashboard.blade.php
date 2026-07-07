@@ -86,16 +86,51 @@
         </div>
     </div>
 
-    <!-- 3. Performance Over Time -->
+    <!-- 3. Top 10 Articles -->
     <div class="bg-white rounded-[24px] border border-slate-100 shadow-sm p-6 mb-8">
         <div class="flex justify-between items-center mb-6 px-2">
-            <h3 class="font-black text-slate-900 text-lg">Performance Over Time</h3>
+            <h3 class="font-black text-slate-900 text-lg">Top 10 Artikel dengan View Terbanyak</h3>
         </div>
-        <div id="mainChart" class="w-full h-[300px]"></div>
+        <div class="overflow-x-auto px-2">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="border-b border-slate-100">
+                        <th class="py-3 text-[10px] font-black text-slate-400 uppercase tracking-widest w-12 text-center">#</th>
+                        <th class="py-3 text-[10px] font-black text-slate-400 uppercase tracking-widest">Judul Artikel</th>
+                        <th class="py-3 text-[10px] font-black text-slate-400 uppercase tracking-widest">Kategori</th>
+                        <th class="py-3 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Total Views</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-50">
+                    @forelse($topArticles as $idx => $article)
+                    <tr class="hover:bg-slate-50/50 transition-colors">
+                        <td class="py-4 text-center">
+                            <div class="w-8 h-8 mx-auto rounded-full bg-slate-100 text-slate-500 flex items-center justify-center font-bold text-[11px]">
+                                {{ $idx + 1 }}
+                            </div>
+                        </td>
+                        <td class="py-4">
+                            <span class="block font-black text-slate-800 text-sm truncate max-w-xl">{{ $article->title }}</span>
+                        </td>
+                        <td class="py-4">
+                            <span class="bg-slate-100 text-slate-600 px-3 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider">{{ $article->category->name ?? 'Uncategorized' }}</span>
+                        </td>
+                        <td class="py-4 text-right">
+                            <span class="text-sm font-black text-[#da291c] uppercase tracking-widest">{{ number_format($article->views_count) }} Views</span>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="4" class="py-8 text-center text-xs font-bold text-slate-400 uppercase tracking-widest">Belum ada artikel</td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <!-- 4. Bottom Grid -->
-    <div class="grid lg:grid-cols-3 gap-6">
+    <div class="grid lg:grid-cols-2 gap-6">
         <!-- Device Breakdown -> Content Breakdown -->
         <div class="bg-white rounded-[24px] border border-slate-100 shadow-sm p-8">
             <h3 class="font-black text-slate-900 text-sm mb-6">Distribusi Konten</h3>
@@ -103,12 +138,6 @@
             <div id="doughnutLegend" class="flex flex-wrap justify-center items-center mt-6 gap-x-4 gap-y-2">
                 <!-- filled by JS -->
             </div>
-        </div>
-        
-        <!-- Performance By Campaign -> Top Articles -->
-        <div class="bg-white rounded-[24px] border border-slate-100 shadow-sm p-8">
-            <h3 class="font-black text-slate-900 text-sm mb-6">Performa Top Artikel</h3>
-            <div id="barChart" class="w-full h-[250px]"></div>
         </div>
         
         <!-- Performance By Country -> Latest Activity -->
@@ -149,68 +178,6 @@
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-
-        // ===== 1. MAIN AREA CHART: Views Artikel vs Download Ebook =====
-        var articleLabels   = @json($chartData['labels']);
-        var articleViews    = @json($chartData['views']);
-        var ebookLabels     = @json($chartData['ebookLabels']);
-        var ebookDownloads  = @json($chartData['downloads']);
-
-        // Use article labels as primary axis (pad ebook data if shorter)
-        var mainLabels = articleLabels.length >= ebookLabels.length ? articleLabels : ebookLabels;
-        while (articleViews.length < mainLabels.length)    articleViews.push(0);
-        while (ebookDownloads.length < mainLabels.length)  ebookDownloads.push(0);
-
-        var mainOptions = {
-            series: [
-                { name: 'Views Artikel', data: articleViews },
-                { name: 'Download E-Book', data: ebookDownloads }
-            ],
-            chart: {
-                height: 320,
-                type: 'area',
-                fontFamily: 'inherit',
-                toolbar: { show: false },
-                animations: { enabled: true, easing: 'easeinout', speed: 800 }
-            },
-            colors: ['#da291c', '#0f172a'],
-            dataLabels: { enabled: false },
-            stroke: { curve: 'smooth', width: [3, 3] },
-            fill: {
-                type: 'gradient',
-                gradient: { shadeIntensity: 1, opacityFrom: 0.25, opacityTo: 0.02, stops: [0, 90, 100] }
-            },
-            xaxis: {
-                categories: mainLabels,
-                axisBorder: { show: false },
-                axisTicks: { show: false },
-                labels: {
-                    style: { colors: '#94a3b8', fontSize: '11px', fontWeight: 700 },
-                    rotate: -30,
-                    maxHeight: 60
-                }
-            },
-            yaxis: {
-                labels: {
-                    formatter: function(val) { return Number(val).toLocaleString('id-ID'); },
-                    style: { colors: '#94a3b8', fontSize: '11px', fontWeight: 600 }
-                }
-            },
-            grid: { borderColor: '#f1f5f9', strokeDashArray: 4 },
-            markers: { size: 4, strokeWidth: 0, hover: { size: 6 } },
-            tooltip: {
-                y: { formatter: function(val) { return Number(val).toLocaleString('id-ID'); } }
-            },
-            legend: {
-                position: 'top',
-                horizontalAlign: 'left',
-                markers: { radius: 6, width: 12, height: 12 },
-                fontWeight: 700,
-                fontSize: '12px',
-                itemMargin: { horizontal: 12, vertical: 0 }
-            }
-        };
-        new ApexCharts(document.querySelector("#mainChart"), mainOptions).render();
 
         // ===== 2. DOUGHNUT CHART: Distribusi per Kategori Artikel =====
         var catData  = @json($categoryDistribution);
@@ -271,57 +238,7 @@
             }).join('');
         }
 
-        // ===== 3. BAR CHART: Top Artikel by Views =====
-        var topTitles = @json($topArticles->pluck('title')->map(fn($t) => \Illuminate\Support\Str::limit($t, 14)));
-        var topViews  = @json($topArticles->pluck('views_count')->map(fn($v) => (int)$v));
-
-        if (topTitles.length === 0) {
-            topTitles = ['Belum ada data'];
-            topViews  = [0];
-        }
-
-        var barOptions = {
-            series: [{ name: 'Views', data: topViews }],
-            chart: {
-                type: 'bar',
-                height: 260,
-                fontFamily: 'inherit',
-                toolbar: { show: false },
-                animations: { enabled: true, easing: 'easeinout', speed: 600 }
-            },
-            colors: ['#da291c'],
-            plotOptions: {
-                bar: {
-                    borderRadius: 6,
-                    horizontal: true,
-                    barHeight: '60%',
-                    distributed: false
-                }
-            },
-            dataLabels: {
-                enabled: true,
-                formatter: function(val) { return Number(val).toLocaleString('id-ID'); },
-                style: { fontSize: '10px', fontWeight: 700, colors: ['#fff'] },
-                offsetX: -6
-            },
-            xaxis: {
-                categories: topTitles,
-                labels: {
-                    style: { colors: '#94a3b8', fontSize: '11px', fontWeight: 700 },
-                    formatter: function(val) { return Number(val).toLocaleString('id-ID'); }
-                },
-                axisBorder: { show: false },
-                axisTicks: { show: false }
-            },
-            yaxis: {
-                labels: { style: { colors: '#334155', fontSize: '11px', fontWeight: 700 } }
-            },
-            grid: { show: false },
-            tooltip: {
-                y: { formatter: function(val) { return Number(val).toLocaleString('id-ID') + ' Views'; } }
-            }
-        };
-        new ApexCharts(document.querySelector("#barChart"), barOptions).render();
+        // Bar chart removed
     });
 </script>
 @endpush
