@@ -86,7 +86,15 @@
         </div>
     </div>
 
-    <!-- 3. Top 10 Articles -->
+    <!-- 3. Grafik Kunjungan Website (Keseluruhan) -->
+    <div class="bg-white rounded-[24px] border border-slate-100 shadow-sm p-6 mb-8">
+        <div class="flex justify-between items-center mb-6 px-2">
+            <h3 class="font-black text-slate-900 text-lg">Grafik Kunjungan Website (Keseluruhan)</h3>
+        </div>
+        <div id="mainChart" class="w-full h-[300px]"></div>
+    </div>
+
+    <!-- 4. Top 10 Articles -->
     <div class="bg-white rounded-[24px] border border-slate-100 shadow-sm p-6 mb-8">
         <div class="flex justify-between items-center mb-6 px-2">
             <h3 class="font-black text-slate-900 text-lg">Top 10 Artikel dengan View Terbanyak</h3>
@@ -129,7 +137,7 @@
         </div>
     </div>
 
-    <!-- 4. Bottom Grid -->
+    <!-- 5. Bottom Grid -->
     <div class="grid lg:grid-cols-2 gap-6">
         <!-- Content Breakdown -->
         <div class="bg-white rounded-[24px] border border-slate-100 shadow-sm p-8">
@@ -185,6 +193,50 @@
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
+        // Main Line Chart (Grafik Kunjungan Keseluruhan)
+        var mainOptions = {
+            series: [{
+                name: 'Estimasi Kunjungan (Views)',
+                data: @json($chartData['views'])
+            }],
+            chart: {
+                height: 300,
+                type: 'area',
+                fontFamily: 'inherit',
+                toolbar: { show: false }
+            },
+            colors: ['#da291c', '#0f172a'],
+            dataLabels: { enabled: false },
+            stroke: { curve: 'smooth', width: 3 },
+            fill: {
+                type: 'gradient',
+                gradient: { shadeIntensity: 1, opacityFrom: 0.2, opacityTo: 0.0, stops: [0, 90, 100] }
+            },
+            xaxis: {
+                categories: @json($chartData['labels']),
+                axisBorder: { show: false },
+                axisTicks: { show: false },
+                labels: { style: { colors: '#94a3b8', fontSize: '12px', fontWeight: 600 } }
+            },
+            yaxis: {
+                labels: { 
+                    formatter: function (val) { return Math.floor(val); },
+                    style: { colors: '#94a3b8', fontSize: '12px', fontWeight: 600 }
+                }
+            },
+            grid: {
+                borderColor: '#f1f5f9',
+                strokeDashArray: 4,
+            },
+            legend: {
+                position: 'top',
+                horizontalAlign: 'left',
+                markers: { radius: 12 },
+                fontWeight: 700,
+                itemMargin: { horizontal: 10, vertical: 0 }
+            }
+        };
+        new ApexCharts(document.querySelector("#mainChart"), mainOptions).render();
 
         // Doughnut Chart
         var doughnutOptions = {
