@@ -10,10 +10,32 @@
             <h1 class="text-3xl font-black text-slate-900 tracking-tight">Artikel & Media Journal</h1>
             <p class="text-slate-500 font-medium mt-1">Kelola semua publikasi artikel dan konten berita di platform.</p>
         </div>
-        <a href="{{ route('admin.artikel.create') }}" class="bg-gradient-to-r from-[#da291c] to-[#b91c1c] text-white px-8 py-4 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-red-900/20 hover:-translate-y-1 transition-all flex items-center gap-3">
-            <i data-lucide="plus" class="w-5 h-5"></i>
-            Buat Artikel Baru
-        </a>
+        <div class="flex items-center gap-3">
+            @if(isset($unusedCategories) && $unusedCategories->count() > 0)
+            <div x-data="{ open: false }" class="relative">
+                <button @click="open = !open" class="bg-slate-100 text-slate-600 px-4 py-4 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-slate-200 transition-all flex items-center gap-2">
+                    <i data-lucide="tag" class="w-4 h-4"></i> Hapus Kategori ({{ $unusedCategories->count() }})
+                </button>
+                <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-64 bg-white rounded-2xl shadow-xl border border-slate-100 p-2 z-50" x-cloak>
+                    <div class="text-[10px] font-black uppercase tracking-widest text-slate-400 px-3 py-2 mb-1">Kategori Kosong (0 Artikel)</div>
+                    @foreach($unusedCategories as $uc)
+                    <form action="{{ route('admin.kategori.destroy', $uc->id) }}" method="POST" class="w-full">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="w-full text-left px-3 py-2 rounded-xl text-xs font-bold text-slate-700 hover:bg-red-50 hover:text-[#da291c] flex justify-between items-center group">
+                            {{ $uc->name }}
+                            <i data-lucide="trash-2" class="w-3 h-3 opacity-0 group-hover:opacity-100"></i>
+                        </button>
+                    </form>
+                    @endforeach
+                </div>
+            </div>
+            @endif
+            <a href="{{ route('admin.artikel.create') }}" class="bg-gradient-to-r from-[#da291c] to-[#b91c1c] text-white px-8 py-4 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-red-900/20 hover:-translate-y-1 transition-all flex items-center gap-3">
+                <i data-lucide="plus" class="w-5 h-5"></i>
+                Buat Artikel Baru
+            </a>
+        </div>
     </div>
 
     @if(session('success'))
@@ -24,10 +46,15 @@
 
     <!-- Filters -->
     <div class="flex flex-col lg:flex-row justify-between items-center mb-8 gap-6">
-        <div class="relative flex-1 w-full lg:max-w-xl">
-            <i data-lucide="search" class="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5"></i>
-            <input type="text" placeholder="Cari berdasarkan judul artikel..." class="w-full pl-16 pr-6 py-4 bg-white border border-slate-200 rounded-full text-sm focus:outline-none focus:border-[#da291c] shadow-sm transition-all">
-        </div>
+        <form action="{{ route('admin.artikel.index') }}" method="GET" class="relative flex-1 w-full lg:max-w-xl">
+            <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari berdasarkan judul artikel..." class="w-full pl-14 pr-6 py-4 bg-white border border-slate-200 rounded-full text-sm font-bold focus:outline-none focus:border-[#da291c] shadow-sm transition-all">
+            <i data-lucide="search" class="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5"></i>
+            @if(request('search'))
+            <a href="{{ route('admin.artikel.index') }}" class="absolute right-5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-[#da291c]">
+                <i data-lucide="x" class="w-4 h-4"></i>
+            </a>
+            @endif
+        </form>
         <div class="text-xs font-black text-slate-400 uppercase tracking-[0.2em]">
             Showing {{ $articles->total() }} Articles
         </div>

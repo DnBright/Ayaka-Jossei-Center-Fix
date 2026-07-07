@@ -30,10 +30,33 @@ class ArticleController extends Controller
         return null;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $articles = Article::with(['category', 'author'])->latest()->paginate(10);
-        return view('admin.artikel', compact('articles'));
+        $search = $request->input('search');
+
+        $articles = Article::with(['category', 'author'])
+            ->when($search, function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%");
+            })
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
+
+        $unusedCategories = Category::doesntHave('articles')->get();
+
+        return view('admin.artikel', compact('articles', 'search', 'unusedCategories'));
+    }
+
+    public function deleteCategory($id)
+    {
+        $category = Category::findOrFail($id);
+        
+        if ($category->articles()->count() > 0) {
+            return redirect()->back()->with('error', 'Kategori tidak bisa dihapus karena masih memiliki artikel.');
+        }
+
+        $category->delete();
+        return redirect()->back()->with('success', 'Kategori tidak terpakai berhasil dihapus.');
     }
 
     public function create()

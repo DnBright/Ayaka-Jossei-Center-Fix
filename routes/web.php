@@ -54,6 +54,7 @@ Route::middleware(['auth:admin', 'role:admin'])->group(function () {
     Route::post('/admin/artikel', [App\Http\Controllers\ArticleController::class, 'store'])->name('admin.artikel.store');
     Route::put('/admin/artikel/{id}', [App\Http\Controllers\ArticleController::class, 'update'])->name('admin.artikel.update');
     Route::delete('/admin/artikel/{id}', [App\Http\Controllers\ArticleController::class, 'destroy'])->name('admin.artikel.destroy');
+    Route::delete('/admin/kategori/{id}', [App\Http\Controllers\ArticleController::class, 'deleteCategory'])->name('admin.kategori.destroy');
 
     Route::get('/admin/ebook', [App\Http\Controllers\EbookController::class, 'index'])->name('admin.ebook.index');
     Route::post('/admin/ebook', [App\Http\Controllers\EbookController::class, 'store'])->name('admin.ebook.store');
