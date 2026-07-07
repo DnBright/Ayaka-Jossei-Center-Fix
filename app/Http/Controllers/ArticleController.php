@@ -61,7 +61,7 @@ class ArticleController extends Controller
 
     public function create()
     {
-        $categories = Category::orderBy('name')->get();
+        $categories = Category::withCount('articles')->orderBy('name')->get();
         
         $user = Auth::guard('admin')->check() ? Auth::guard('admin')->user() : Auth::guard('penulis')->user();
         $isPenulis = $user && $user->role === 'penulis';
@@ -87,7 +87,7 @@ class ArticleController extends Controller
             abort(403, 'Anda tidak memiliki izin untuk mengedit artikel ini.');
         }
 
-        $categories = Category::orderBy('name')->get();
+        $categories = Category::withCount('articles')->orderBy('name')->get();
         $isPenulis = $user && $user->role === 'penulis';
 
         return view('admin.artikel_editor', [

@@ -127,20 +127,37 @@
                         <div class="p-4">
                             <div class="max-h-60 overflow-y-auto border border-slate-200 bg-slate-50 rounded p-3 space-y-2">
                                 @forelse($categories as $cat)
-                                    <label class="flex items-center gap-3 text-sm font-semibold text-slate-600 hover:text-red-600 cursor-pointer">
-                                        <input
-                                            type="radio"
-                                            name="category_id"
-                                            value="{{ $cat->id }}"
-                                            class="accent-red-600 w-4 h-4"
-                                            {{ (string)old('category_id', $article?->category_id) === (string)$cat->id ? 'checked' : '' }}
-                                        >
-                                        {{ $cat->name }}
-                                    </label>
+                                    <div class="flex items-center justify-between group/cat">
+                                        <label class="flex items-center gap-3 text-sm font-semibold text-slate-600 hover:text-red-600 cursor-pointer flex-1">
+                                            <input
+                                                type="radio"
+                                                name="category_id"
+                                                value="{{ $cat->id }}"
+                                                class="accent-red-600 w-4 h-4"
+                                                {{ (string)old('category_id', $article?->category_id) === (string)$cat->id ? 'checked' : '' }}
+                                            >
+                                            {{ $cat->name }}
+                                        </label>
+                                        @if($cat->articles_count === 0)
+                                            <button type="button" onclick="if(confirm('Hapus kategori ini?')) { document.getElementById('delete-cat-{{ $cat->id }}').submit(); }" class="text-slate-300 hover:text-red-600 p-1 opacity-0 group-hover/cat:opacity-100 transition-all">
+                                                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                                            </button>
+                                        @endif
+                                    </div>
                                 @empty
                                     <p class="text-xs text-slate-500">Belum ada kategori. Tambahkan kategori baru di bawah ini.</p>
                                 @endforelse
                             </div>
+                            
+                            {{-- Hidden forms for deleting categories --}}
+                            @foreach($categories as $cat)
+                                @if($cat->articles_count === 0)
+                                    <form id="delete-cat-{{ $cat->id }}" action="{{ $currentUser->role === 'admin' ? route('admin.kategori.destroy', $cat->id, false) : route('penulis.kategori.destroy', $cat->id, false) }}" method="POST" class="hidden">
+                                        @csrf
+                                        @method('DELETE')
+                                    </form>
+                                @endif
+                            @endforeach
                             <div class="mt-3">
                                 <label class="block text-[11px] font-semibold text-slate-500 mb-1">Add New Category</label>
                                 <input

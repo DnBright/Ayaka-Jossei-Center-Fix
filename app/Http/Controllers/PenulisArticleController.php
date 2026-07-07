@@ -82,7 +82,7 @@ class PenulisArticleController extends Controller
     public function create()
     {
         $user = $this->getPenulis();
-        $categories = Category::orderBy('name')->get();
+        $categories = Category::withCount('articles')->orderBy('name')->get();
 
         return view('penulis.artikel_editor', [
             'article'     => null,
@@ -150,7 +150,7 @@ class PenulisArticleController extends Controller
             ->where('author_id', $user->id)
             ->firstOrFail();
 
-        $categories = Category::orderBy('name')->get();
+        $categories = Category::withCount('articles')->orderBy('name')->get();
 
         return view('penulis.artikel_editor', [
             'article'       => $article,
