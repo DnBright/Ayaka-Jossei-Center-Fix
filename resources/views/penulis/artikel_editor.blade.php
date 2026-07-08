@@ -146,14 +146,7 @@
                                     <p class="text-xs text-slate-500">Belum ada kategori. Tambahkan kategori baru di bawah ini.</p>
                                 @endforelse
                             </div>
-                            
-                            {{-- Hidden forms for deleting categories --}}
-                            @foreach($categories as $cat)
-                                <form id="delete-cat-{{ $cat->id }}" action="{{ route('penulis.kategori.destroy', $cat->id) }}" method="POST" class="hidden">
-                                    @csrf
-                                    @method('DELETE')
-                                </form>
-                            @endforeach
+
                             <div class="mt-3">
                                 <label class="block text-[11px] font-semibold text-slate-500 mb-1">Add New Category</label>
                                 <input
@@ -206,6 +199,14 @@
             @method('DELETE')
         </form>
         @endif
+
+        {{-- Hidden forms for deleting categories --}}
+        @foreach($categories as $cat)
+            <form id="delete-cat-{{ $cat->id }}" action="{{ route('penulis.kategori.destroy', $cat->id) }}" method="POST" class="hidden">
+                @csrf
+                @method('DELETE')
+            </form>
+        @endforeach
     </div>
 </div>
 
