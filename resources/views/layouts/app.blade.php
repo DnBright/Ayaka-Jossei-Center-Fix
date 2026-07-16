@@ -220,7 +220,7 @@
                         ['name' => 'Blog', 'href' => '/blog'],
                         ['name' => 'E-Book', 'href' => '/ebook'],
                         ['name' => 'Alumni', 'href' => '/alumni'],
-                        ['name' => 'Kontak', 'href' => 'https://wa.me/6281542007626'],
+                        ['name' => 'Kontak', 'href' => '/kontak'],
                     ];
                 @endphp
                 @foreach($navItems as $item)
@@ -374,7 +374,7 @@
                         <li><a href="/galeri" class="hover:text-[#da291c] transition-colors">Galeri</a></li>
                         <li><a href="/blog" class="hover:text-[#da291c] transition-colors">Blog</a></li>
                         <li><a href="/alumni" class="hover:text-[#da291c] transition-colors">Alumni</a></li>
-                        <li><a href="https://wa.me/6281542007626" class="hover:text-[#da291c] transition-colors">Kontak</a></li>
+                        <li><a href="/kontak" class="hover:text-[#da291c] transition-colors">Kontak</a></li>
                     </ul>
                 </div>
                 <div>
