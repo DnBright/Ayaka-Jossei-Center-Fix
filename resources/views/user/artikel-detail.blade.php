@@ -27,7 +27,7 @@
     "publisher": {
         "@@type": "Organization",
         "name": "Ayaka Josei Center",
-        "logo": { "@@type": "ImageObject", "url": "{{ asset('images/logo ayakan.png') }}" }
+        "logo": { "@@type": "ImageObject", "url": "{{ asset('images/AJC LOGO TERBARU.png') }}" }
     },
     "datePublished": "{{ $article->created_at->toISOString() }}",
     "dateModified": "{{ $article->updated_at->toISOString() }}",

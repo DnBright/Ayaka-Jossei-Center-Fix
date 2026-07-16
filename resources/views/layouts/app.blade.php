@@ -30,8 +30,8 @@
     <meta name="twitter:image" content="@yield('og_image', asset('images/og-default.png'))">
 
     {{-- ===== FAVICON ===== --}}
-    <link rel="icon" type="image/png" href="{{ asset('images/logo ayakan.png') }}">
-    <link rel="apple-touch-icon" href="{{ asset('images/logo ayakan.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('images/AJC LOGO TERBARU.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('images/AJC LOGO TERBARU.png') }}">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;900&family=Cormorant+Garamond:ital,wght@1,700&display=swap" rel="stylesheet">
@@ -45,7 +45,7 @@
         "name": "Ayaka Josei Center",
         "alternateName": "AJC",
         "url": "https://ayakajosseicenter.com",
-        "logo": "{{ asset('images/logo ayakan.png') }}",
+        "logo": "{{ asset('images/AJC LOGO TERBARU.png') }}",
         "description": "Lembaga Pelatihan Kerja (LPK) khusus putri terpercaya untuk karir profesional di Jepang. Program Kaigo, FnB, dan Manufaktur.",
         "address": {
             "@@type": "PostalAddress",
@@ -200,7 +200,7 @@
         <div class="flex items-center justify-between lg:justify-start lg:gap-8">
             <!-- Logo -->
             <a href="/" class="flex items-center h-8 hover:opacity-80 transition-opacity">
-                <img src="{{ asset('images/logo ayakan.png') }}" alt="{{ $settings->site_name ?? 'Ayaka Logo' }}" class="h-6 md:h-8 w-auto object-contain">
+                <img src="{{ asset('images/AJC LOGO TERBARU.png') }}" alt="{{ $settings->site_name ?? 'Ayaka Logo' }}" class="h-6 md:h-8 w-auto object-contain">
             </a>
 
             <!-- Mobile Menu Toggle -->
@@ -360,7 +360,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-4 gap-16 mb-20">
                 <div class="lg:col-span-2">
                     <a href="/" class="inline-block h-16 mb-8 hover:opacity-80 transition-opacity">
-                        <img src="{{ asset('images/logo ayakan.png') }}" alt="Logo" class="h-full object-contain">
+                        <img src="{{ asset('images/AJC LOGO TERBARU.png') }}" alt="Logo" class="h-full object-contain">
                     </a>
                     <h3 class="text-3xl font-black italic tracking-tighter mb-4">{{ $settings->site_name ?? 'Ayaka Josei Center' }}</h3>
                     <p class="text-slate-500 max-w-md leading-relaxed">{{ $settings->site_description ?? 'Membuka gerbang karir profesional di Jepang untuk perempuan Indonesia melalui pelatihan yang berkualitas dan sistem pemberangkatan yang transparan.' }}</p>
