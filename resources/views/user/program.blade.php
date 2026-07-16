@@ -66,9 +66,33 @@
         <div class="flex flex-col lg:flex-row gap-6 container mx-auto px-6 h-auto lg:min-h-[600px]">
             @php
                 $programs = [
-                    ['id' => 'kaigo', 'name' => 'Pelatihan Kaigo', 'desc' => 'Pelatihan berkualitas dapat kamu dapatkan untuk menjadi tenaga kerja kaigo unggul di Jepang dari Ayaka Jossei Center.'],
-                    ['id' => 'sikap', 'name' => 'Pembentukan Sikap', 'desc' => 'Demi menjadi individu siap kerja di Jepang, Ayaka Jossei Center memberikan pelatihan mental, budaya, kedisiplinan dan sikap siap kerja di Jepang sesuai dengan standar internasional.'],
-                    ['id' => 'bahasa', 'name' => 'Pelatihan Bahasa Jepang', 'desc' => 'Memberikan pembelajaran dan pelatihan bahasa Jepang yang dibutuhkan untuk bekerja di Jepang dengan patokan standar JLPT N4.']
+                    [
+                        'id' => 'kaigo', 
+                        'name' => 'Pelatihan Kaigo', 
+                        'desc' => 'Pelatihan berkualitas dapat kamu dapatkan untuk menjadi tenaga kerja kaigo unggul di Jepang dari Ayaka Jossei Center.',
+                        'targets' => [
+                            'Memiliki kemampuan siap kerja Kaigo di Jepang',
+                            'Memiliki SSW Kaigo untuk yang memilih jalur TG'
+                        ]
+                    ],
+                    [
+                        'id' => 'sikap', 
+                        'name' => 'Pembentukan Sikap', 
+                        'desc' => 'Demi menjadi individu siap kerja di Jepang, Ayaka Jossei Center memberikan pelatihan mental, budaya, kedisiplinan dan sikap siap kerja di Jepang sesuai dengan standar internasional.',
+                        'targets' => [
+                            'Mengetahui dan mampu mempraktekan budaya kerja di Jepang',
+                            'Memiliki mental, sikap dan kedisiplinan sesuai standar lapangan kerja Jepang'
+                        ]
+                    ],
+                    [
+                        'id' => 'bahasa', 
+                        'name' => 'Pelatihan Bahasa Jepang', 
+                        'desc' => 'Memberikan pembelajaran dan pelatihan bahasa Jepang yang dibutuhkan untuk bekerja di Jepang dengan patokan standar JLPT N4.',
+                        'targets' => [
+                            'Mendapatkan sertifikat JLPT N4 atau JFT-Basic Level A2',
+                            'Mampu berkomunikasi baik sesuai standar kerja Kaigo di Jepang'
+                        ]
+                    ]
                 ];
             @endphp
 
@@ -84,7 +108,11 @@
                             <p class="text-base md:text-lg opacity-80 mb-10 leading-relaxed max-w-lg">{{ $prog['desc'] }}</p>
                             <div class="pt-8 border-t border-white/20">
                                 <span class="text-[10px] font-black uppercase tracking-widest opacity-60 block mb-2">Target Kompetensi</span>
-                                <p class="text-sm font-bold">Sertifikat JLPT N4 / JFT-Basic & Sertifikat Teknis (Tokutei Ginou)</p>
+                                <ul class="text-sm font-bold list-disc pl-4 space-y-1">
+                                    @foreach($prog['targets'] as $target)
+                                        <li>{{ $target }}</li>
+                                    @endforeach
+                                </ul>
                             </div>
                         </div>
                     </div>
