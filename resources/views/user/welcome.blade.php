@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
-@section('title', 'Ayaka Josei Center | LPK Khusus Putri Terpercaya untuk Karir di Jepang')
-@section('meta_title', 'Ayaka Josei Center | LPK Khusus Putri Terpercaya untuk Karir di Jepang')
-@section('meta_description', 'Ayaka Josei Center (AJC) - Lembaga Pelatihan Kerja (LPK) khusus putri terpercaya. Program Kaigo, FnB & Manufaktur dengan tingkat kelulusan 98%. Wujudkan karir profesional di Jepang bersama kami!')
-@section('meta_keywords', 'LPK Jepang terpercaya, Ayaka Josei Center, pelatihan kerja Jepang putri, kaigo Jepang, magang Jepang perempuan, berangkat kerja Jepang, LPK resmi Jepang, pelatihan bahasa Jepang')
+@section('title', 'Ayaka Jossei Center | LPK Khusus Putri Terpercaya untuk Karir di Jepang')
+@section('meta_title', 'Ayaka Jossei Center | LPK Khusus Putri Terpercaya untuk Karir di Jepang')
+@section('meta_description', 'Ayaka Jossei Center (AJC) - Lembaga Pelatihan Kerja (LPK) khusus putri terpercaya. Program Kaigo, FnB & Manufaktur dengan tingkat kelulusan 98%. Wujudkan karir profesional di Jepang bersama kami!')
+@section('meta_keywords', 'LPK Jepang terpercaya, Ayaka Jossei Center, pelatihan kerja Jepang putri, kaigo Jepang, magang Jepang perempuan, berangkat kerja Jepang, LPK resmi Jepang, pelatihan bahasa Jepang')
 @section('canonical', url('/'))
 
 @push('structured_data')
@@ -14,10 +14,10 @@
     "mainEntity": [
         {
             "@@type": "Question",
-            "name": "Apa itu Ayaka Josei Center (AJC)?",
+            "name": "Apa itu Ayaka Jossei Center (AJC)?",
             "acceptedAnswer": {
                 "@@type": "Answer",
-                "text": "Ayaka Josei Center (AJC) adalah Lembaga Pelatihan Kerja (LPK) khusus putri yang berfokus pada pengembangan karir profesional di Jepang, mencakup program Kaigo (caregiver), FnB Service, dan Manufaktur."
+                "text": "Ayaka Jossei Center (AJC) adalah Lembaga Pelatihan Kerja (LPK) khusus putri yang berfokus pada pengembangan karir profesional di Jepang, mencakup program Kaigo (caregiver), FnB Service, dan Manufaktur."
             }
         },
         {
@@ -25,7 +25,7 @@
             "name": "Berapa tingkat kelulusan interview AJC?",
             "acceptedAnswer": {
                 "@@type": "Answer",
-                "text": "Ayaka Josei Center memiliki tingkat kelulusan interview mencapai 98%, dengan lebih dari 500 alumni yang berhasil ditempatkan bekerja di Jepang."
+                "text": "Ayaka Jossei Center memiliki tingkat kelulusan interview mencapai 98%, dengan lebih dari 500 alumni yang berhasil ditempatkan bekerja di Jepang."
             }
         },
         {
@@ -38,7 +38,7 @@
         },
         {
             "@@type": "Question",
-            "name": "Bagaimana cara mendaftar di Ayaka Josei Center?",
+            "name": "Bagaimana cara mendaftar di Ayaka Jossei Center?",
             "acceptedAnswer": {
                 "@@type": "Answer",
                 "text": "Anda dapat mendaftar melalui website resmi kami di ayakajosseicenter.com, menghubungi kami via WhatsApp di +62815-4200-7626, atau mengunjungi halaman kontak kami untuk konsultasi gratis."
@@ -68,7 +68,7 @@
                 
                 <h1 class="text-white text-5xl md:text-7xl lg:text-9xl font-black leading-[0.95] md:leading-[0.85] tracking-tighter uppercase italic mb-8">
                     @php
-                        $heroTitle = $pages['home']->content['hero_title'] ?? 'Ayaka Josei Center';
+                        $heroTitle = $pages['home']->content['hero_title'] ?? 'Ayaka Jossei Center';
                         $words = explode(' ', $heroTitle);
                         $lastWord = array_pop($words);
                         $firstPart = implode(' ', $words);
@@ -139,7 +139,7 @@
                 <div class="text-center lg:text-left">
                     <span class="text-[#da291c] font-black tracking-[0.4em] uppercase text-[10px] mb-6 block">Tentang AJC</span>
                     <h2 class="text-4xl md:text-6xl font-black tracking-tighter leading-none mb-8 italic uppercase">{{ $pages['home']->content['about_title'] ?? 'Membangun Masa Depan di Jepang' }}</h2>
-                    <p class="text-lg text-slate-500 leading-relaxed mb-10">{{ $pages['home']->content['about_description'] ?? 'Ayaka Josei Center adalah lembaga pelatihan kerja spesialis putri yang berfokus pada pengembangan karir di Jepang. Kami memberikan pelatihan intensif bahasa dan keterampilan teknis untuk mencetak tenaga kerja profesional yang siap bersaing di pasar global.' }}</p>
+                    <p class="text-lg text-slate-500 leading-relaxed mb-10">{{ $pages['home']->content['about_description'] ?? 'Ayaka Jossei Center adalah lembaga pelatihan kerja spesialis putri yang berfokus pada pengembangan karir di Jepang. Kami memberikan pelatihan intensif bahasa dan keterampilan teknis untuk mencetak tenaga kerja profesional yang siap bersaing di pasar global.' }}</p>
                     <a href="/profil" class="inline-flex items-center gap-4 text-slate-900 font-black uppercase tracking-widest text-xs group">
                         Selengkapnya Tentang Kami 
                         <svg class="w-5 h-5 text-[#da291c] group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>

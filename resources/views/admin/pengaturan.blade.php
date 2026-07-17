@@ -31,7 +31,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="space-y-2">
                         <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Judul Website (SEO)</label>
-                        <input type="text" name="site_name" value="{{ $settings['site_name'] ?? 'Ayaka Josei Center' }}" class="w-full px-5 py-3.5 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold focus:outline-none focus:border-[#da291c] transition-all">
+                        <input type="text" name="site_name" value="{{ $settings['site_name'] ?? 'Ayaka Jossei Center' }}" class="w-full px-5 py-3.5 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold focus:outline-none focus:border-[#da291c] transition-all">
                     </div>
                     <div class="space-y-2">
                         <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Tagline / Slogan</label>

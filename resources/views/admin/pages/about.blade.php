@@ -50,7 +50,7 @@ Mendukung kemandirian ekonomi wanita Indonesia melalui karir global.</textarea>
             <div class="p-8">
                 <div class="space-y-3">
                     <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Teks Sejarah Singkat</label>
-                    <textarea rows="8" class="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-base font-bold focus:outline-none focus:border-[#da291c] transition-all">Ayaka Josei Center didirikan pada tahun 2018 dengan fokus utama memberikan kesempatan bagi wanita Indonesia untuk berkarir di Jepang secara legal dan profesional. Kami percaya bahwa dengan pelatihan yang tepat, potensi wanita Indonesia dapat bersaing di pasar kerja internasional, khususnya di Jepang yang sangat menghargai ketelitian dan dedikasi.</textarea>
+                    <textarea rows="8" class="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-base font-bold focus:outline-none focus:border-[#da291c] transition-all">Ayaka Jossei Center didirikan pada tahun 2018 dengan fokus utama memberikan kesempatan bagi wanita Indonesia untuk berkarir di Jepang secara legal dan profesional. Kami percaya bahwa dengan pelatihan yang tepat, potensi wanita Indonesia dapat bersaing di pasar kerja internasional, khususnya di Jepang yang sangat menghargai ketelitian dan dedikasi.</textarea>
                 </div>
             </div>
         </div>

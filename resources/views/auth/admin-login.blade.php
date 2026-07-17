@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin Login - Ayaka Josei Center</title>
+    <title>Admin Login - Ayaka Jossei Center</title>
     <link rel="icon" type="image/png" href="{{ asset('images/AJC LOGO TERBARU.png') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;800;900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
@@ -154,7 +154,7 @@
     <div class="login-card">
         <div class="logo-section">
             <h1 class="logo-text"><span class="brand-red">Admin</span>Portal</h1>
-            <p style="color: rgba(255,255,255,0.4); font-weight: 600; margin-top: 0.5rem;">Ayaka Josei Center Management</p>
+            <p style="color: rgba(255,255,255,0.4); font-weight: 600; margin-top: 0.5rem;">Ayaka Jossei Center Management</p>
         </div>
 
         <form action="/login" method="POST">

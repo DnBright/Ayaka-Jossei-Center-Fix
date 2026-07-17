@@ -95,7 +95,7 @@ class UserContentController extends Controller
             Ebook::create([
                 'title' => $title,
                 'slug' => Str::slug($title) . '-' . ($index + 1),
-                'description' => 'Materi ' . $category . ' untuk persiapan peserta Ayaka Josei Center.',
+                'description' => 'Materi ' . $category . ' untuk persiapan peserta Ayaka Jossei Center.',
                 'file_path' => 'ebooks/files/sample-' . ($index + 1) . '.pdf',
                 'cover_image' => 'images/hero-bg.png',
                 'download_count' => 120 + ($index * 45),
@@ -139,7 +139,7 @@ class UserContentController extends Controller
                 'Aisyah Rahmawati', 
                 'Batch 15', 
                 'Kyoto Medical Center', 
-                'Pelatihan di Ayaka Josei Center sangat komprehensif. Selain bahasa Jepang (N3), kami diajarkan etos kerja (Kaizen) dan budaya disiplin Jepang yang sangat berguna saat bekerja di rumah sakit berstandar internasional.'
+                'Pelatihan di Ayaka Jossei Center sangat komprehensif. Selain bahasa Jepang (N3), kami diajarkan etos kerja (Kaizen) dan budaya disiplin Jepang yang sangat berguna saat bekerja di rumah sakit berstandar internasional.'
             ],
             [
                 'Dewi Sartika', 
@@ -280,7 +280,7 @@ class UserContentController extends Controller
     public function ebook(Request $request)
     {
         if (!auth()->check()) {
-            return redirect()->route('login')->with('info', 'Silakan mendaftar atau login terlebih dahulu untuk mengakses koleksi E-Book materi eksklusif Ayaka Josei Center.');
+            return redirect()->route('login')->with('info', 'Silakan mendaftar atau login terlebih dahulu untuk mengakses koleksi E-Book materi eksklusif Ayaka Jossei Center.');
         }
 
         $this->syncSharedContent();

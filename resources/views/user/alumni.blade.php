@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
-@section('title', 'Kisah Sukses Alumni di Jepang | Ayaka Josei Center')
-@section('meta_title', 'Kisah Sukses Alumni di Jepang | Ayaka Josei Center')
-@section('meta_description', 'Melihat langsung kisah sukses ratusan alumni Ayaka Josei Center yang telah berhasil berkarir profesional di berbagai perusahaan terkemuka di Jepang.')
-@section('meta_keywords', 'alumni LPK jepang, kisah sukses magang jepang, pengalaman kerja di jepang, testimoni LPK jepang, alumni ayaka josei center')
+@section('title', 'Kisah Sukses Alumni di Jepang | Ayaka Jossei Center')
+@section('meta_title', 'Kisah Sukses Alumni di Jepang | Ayaka Jossei Center')
+@section('meta_description', 'Melihat langsung kisah sukses ratusan alumni Ayaka Jossei Center yang telah berhasil berkarir profesional di berbagai perusahaan terkemuka di Jepang.')
+@section('meta_keywords', 'alumni LPK jepang, kisah sukses magang jepang, pengalaman kerja di jepang, testimoni LPK jepang, alumni ayaka jossei center')
 @section('canonical', url('/alumni'))
 
 @section('content')
@@ -24,7 +24,7 @@
                     </div>
                     <h1 class="text-5xl md:text-8xl lg:text-[130px] font-black leading-[0.95] md:leading-[0.85] text-slate-900 tracking-tighter mb-10 italic uppercase">Jejak <br /> <span class="text-[#da291c]">Sukses</span> Kami</h1>
                     <div class="w-20 h-1.5 bg-[#da291c] mb-10 mx-auto lg:mx-0"></div>
-                    <p class="text-xl md:text-2xl text-slate-500 leading-tight max-w-md mx-auto lg:mx-0 mb-12">Kisah inspiratif dari para alumni Ayaka Josei Center yang kini telah berkarir secara profesional di Jepang.</p>
+                    <p class="text-xl md:text-2xl text-slate-500 leading-tight max-w-md mx-auto lg:mx-0 mb-12">Kisah inspiratif dari para alumni Ayaka Jossei Center yang kini telah berkarir secara profesional di Jepang.</p>
                     
                     <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-12">
                         <button class="w-full sm:w-auto bg-slate-900 text-white px-12 py-5 rounded-full font-black uppercase tracking-widest text-sm hover:bg-[#da291c] transition-all shadow-2xl">Gabung Sekarang</button>

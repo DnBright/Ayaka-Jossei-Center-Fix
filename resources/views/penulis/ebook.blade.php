@@ -12,7 +12,7 @@
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6">
         <div>
             <h1 class="text-3xl font-black text-slate-900 tracking-tight">Manajemen E-Book Materi</h1>
-            <p class="text-slate-500 font-medium mt-1">Kelola koleksi materi edukasi digital untuk member Ayaka Josei Center.</p>
+            <p class="text-slate-500 font-medium mt-1">Kelola koleksi materi edukasi digital untuk member Ayaka Jossei Center.</p>
         </div>
         <button @click="openUploadModal = true" class="bg-gradient-to-r from-[#da291c] to-[#b91c1c] text-white px-8 py-4 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-red-900/20 hover:-translate-y-1 transition-all flex items-center gap-3">
             <i data-lucide="plus" class="w-5 h-5"></i>

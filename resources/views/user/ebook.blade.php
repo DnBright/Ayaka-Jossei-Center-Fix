@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
-@section('title', 'Download E-Book Panduan Kerja ke Jepang Gratis | Ayaka Josei Center')
-@section('meta_title', 'Download E-Book Panduan Kerja ke Jepang Gratis | Ayaka Josei Center')
-@section('meta_description', 'Download gratis E-Book panduan sukses wawancara, materi bahasa Jepang, dan persiapan kerja ke Jepang khusus dari Ayaka Josei Center.')
+@section('title', 'Download E-Book Panduan Kerja ke Jepang Gratis | Ayaka Jossei Center')
+@section('meta_title', 'Download E-Book Panduan Kerja ke Jepang Gratis | Ayaka Jossei Center')
+@section('meta_description', 'Download gratis E-Book panduan sukses wawancara, materi bahasa Jepang, dan persiapan kerja ke Jepang khusus dari Ayaka Jossei Center.')
 @section('meta_keywords', 'ebook belajar bahasa jepang, download materi bahasa jepang, panduan kerja ke jepang, materi LPK jepang gratis, ebook magang jepang')
 @section('canonical', url('/ebook'))
 
@@ -105,7 +105,7 @@
                 </div>
                 <div>
                     <h4 class="text-lg font-black text-slate-900 mb-2 uppercase italic tracking-tight">Perhatian Hak Cipta</h4>
-                    <p class="text-slate-500 text-sm md:text-base leading-relaxed">Seluruh materi e-book di atas adalah milik eksklusif Ayaka Josei Center. Dilarang keras menyebarluaskan, memperjualbelikan, atau mengubah konten tanpa izin tertulis dari pihak manajemen AJC.</p>
+                    <p class="text-slate-500 text-sm md:text-base leading-relaxed">Seluruh materi e-book di atas adalah milik eksklusif Ayaka Jossei Center. Dilarang keras menyebarluaskan, memperjualbelikan, atau mengubah konten tanpa izin tertulis dari pihak manajemen AJC.</p>
                 </div>
             </div>
         </div>

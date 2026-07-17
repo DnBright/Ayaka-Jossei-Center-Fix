@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
-@section('title', 'Program Pelatihan | Kaigo, FnB, Manufaktur | Ayaka Josei Center')
-@section('meta_title', 'Program Pelatihan | Kaigo, FnB, Manufaktur | Ayaka Josei Center')
-@section('meta_description', 'Pilihan program pelatihan kerja ke Jepang di Ayaka Josei Center. Kami membuka pendaftaran untuk bidang Kaigo (Caregiver), Food & Beverage Service, dan Manufaktur.')
+@section('title', 'Program Pelatihan | Kaigo, FnB, Manufaktur | Ayaka Jossei Center')
+@section('meta_title', 'Program Pelatihan | Kaigo, FnB, Manufaktur | Ayaka Jossei Center')
+@section('meta_description', 'Pilihan program pelatihan kerja ke Jepang di Ayaka Jossei Center. Kami membuka pendaftaran untuk bidang Kaigo (Caregiver), Food & Beverage Service, dan Manufaktur.')
 @section('meta_keywords', 'program pelatihan jepang, kaigo jepang, fnb service jepang, manufaktur jepang, pelatihan bahasa jepang, magang jepang resmi')
 @section('canonical', url('/program'))
 

@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
-@section('title', 'Blog & Artikel Seputar Kerja di Jepang | Ayaka Josei Center')
-@section('meta_title', 'Blog & Artikel Seputar Kerja di Jepang | Ayaka Josei Center')
+@section('title', 'Blog & Artikel Seputar Kerja di Jepang | Ayaka Jossei Center')
+@section('meta_title', 'Blog & Artikel Seputar Kerja di Jepang | Ayaka Jossei Center')
 @section('meta_description', 'Kumpulan artikel, berita, tips wawancara, dan informasi budaya kerja Jepang terbaru. Panduan lengkap persiapan karir di Jepang untuk putri Indonesia.')
-@section('meta_keywords', 'artikel kerja jepang, tips magang jepang, budaya kerja jepang, berita LPK jepang, info magang jepang terbaru, blog ayaka josei center')
+@section('meta_keywords', 'artikel kerja jepang, tips magang jepang, budaya kerja jepang, berita LPK jepang, info magang jepang terbaru, blog ayaka jossei center')
 @section('canonical', url('/blog'))
 
 @section('content')
@@ -122,7 +122,7 @@
                             <h3 class="text-xl md:text-2xl font-black text-slate-900 mb-4 group-hover:text-[#da291c] transition-colors leading-tight tracking-tighter italic uppercase">{{ $article->title }}</h3>
                             
                             @if($isMemberOnly && !Auth::check())
-                                <p class="text-sm text-slate-400 line-clamp-3 mb-6 leading-relaxed italic">Konten ini hanya tersedia untuk member resmi Ayaka Josei Center.</p>
+                                <p class="text-sm text-slate-400 line-clamp-3 mb-6 leading-relaxed italic">Konten ini hanya tersedia untuk member resmi Ayaka Jossei Center.</p>
                                 <span class="text-[10px] font-black uppercase tracking-widest text-[#da291c] flex items-center justify-center lg:justify-start gap-2">Register to Read <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path></svg></span>
                             @else
                                 <p class="text-sm text-slate-500 line-clamp-3 mb-6 leading-relaxed">{{ \Illuminate\Support\Str::limit(strip_tags($article->content), 120) }}</p>

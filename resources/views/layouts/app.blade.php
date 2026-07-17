@@ -5,28 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     {{-- ===== CORE SEO META ===== --}}
-    <title>@yield('meta_title', ($settings->site_name ?? 'Ayaka Josei Center') . ' - LPK Khusus Putri untuk Karir Profesional di Jepang')</title>
-    <meta name="description" content="@yield('meta_description', 'Ayaka Josei Center (AJC) adalah Lembaga Pelatihan Kerja (LPK) khusus putri terpercaya untuk karir profesional di Jepang. Program Kaigo, FnB, Manufaktur dengan tingkat kelulusan 98%.')">
-    <meta name="keywords" content="@yield('meta_keywords', 'LPK Jepang, Ayaka Josei Center, pelatihan kerja Jepang, karir Jepang perempuan, kaigo, magang Jepang, LPK putri, tenaga kerja Jepang, berangkat kerja Jepang')">
-    <meta name="author" content="Ayaka Josei Center">
+    <title>@yield('meta_title', ($settings->site_name ?? 'Ayaka Jossei Center') . ' - LPK Khusus Putri untuk Karir Profesional di Jepang')</title>
+    <meta name="description" content="@yield('meta_description', 'Ayaka Jossei Center (AJC) adalah Lembaga Pelatihan Kerja (LPK) khusus putri terpercaya untuk karir profesional di Jepang. Program Kaigo, FnB, Manufaktur dengan tingkat kelulusan 98%.')">
+    <meta name="keywords" content="@yield('meta_keywords', 'LPK Jepang, Ayaka Jossei Center, pelatihan kerja Jepang, karir Jepang perempuan, kaigo, magang Jepang, LPK putri, tenaga kerja Jepang, berangkat kerja Jepang')">
+    <meta name="author" content="Ayaka Jossei Center">
     <meta name="robots" content="@yield('meta_robots', 'index, follow')">
     <link rel="canonical" href="@yield('canonical', url()->current())">
 
     {{-- ===== OPEN GRAPH (Facebook, WhatsApp, LinkedIn) ===== --}}
     <meta property="og:type" content="@yield('og_type', 'website')">
     <meta property="og:url" content="@yield('canonical', url()->current())">
-    <meta property="og:title" content="@yield('og_title', ($settings->site_name ?? 'Ayaka Josei Center') . ' - LPK Khusus Putri untuk Karir Profesional di Jepang')">
-    <meta property="og:description" content="@yield('og_description', 'Ayaka Josei Center (AJC) adalah Lembaga Pelatihan Kerja khusus putri terpercaya untuk karir profesional di Jepang.')">
+    <meta property="og:title" content="@yield('og_title', ($settings->site_name ?? 'Ayaka Jossei Center') . ' - LPK Khusus Putri untuk Karir Profesional di Jepang')">
+    <meta property="og:description" content="@yield('og_description', 'Ayaka Jossei Center (AJC) adalah Lembaga Pelatihan Kerja khusus putri terpercaya untuk karir profesional di Jepang.')">
     <meta property="og:image" content="@yield('og_image', asset('images/og-default.png'))">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:site_name" content="{{ $settings->site_name ?? 'Ayaka Josei Center' }}">
+    <meta property="og:site_name" content="{{ $settings->site_name ?? 'Ayaka Jossei Center' }}">
     <meta property="og:locale" content="id_ID">
 
     {{-- ===== TWITTER CARD ===== --}}
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="@yield('og_title', ($settings->site_name ?? 'Ayaka Josei Center') . ' - LPK Khusus Putri')">
-    <meta name="twitter:description" content="@yield('og_description', 'Ayaka Josei Center - LPK Khusus Putri untuk Karir Profesional di Jepang.')">
+    <meta name="twitter:title" content="@yield('og_title', ($settings->site_name ?? 'Ayaka Jossei Center') . ' - LPK Khusus Putri')">
+    <meta name="twitter:description" content="@yield('og_description', 'Ayaka Jossei Center - LPK Khusus Putri untuk Karir Profesional di Jepang.')">
     <meta name="twitter:image" content="@yield('og_image', asset('images/og-default.png'))">
 
     {{-- ===== FAVICON ===== --}}
@@ -42,7 +42,7 @@
     {
         "@@context": "https://schema.org",
         "@@type": "EducationalOrganization",
-        "name": "Ayaka Josei Center",
+        "name": "Ayaka Jossei Center",
         "alternateName": "AJC",
         "url": "https://ayakajosseicenter.com",
         "logo": "{{ asset('images/AJC LOGO TERBARU.png') }}",
@@ -362,7 +362,7 @@
                     <a href="/" class="inline-block h-16 mb-8 hover:opacity-80 transition-opacity">
                         <img src="{{ asset('images/AJC LOGO TERBARU.png') }}" alt="Logo" class="h-full object-contain">
                     </a>
-                    <h3 class="text-3xl font-black italic tracking-tighter mb-4">{{ $settings->site_name ?? 'Ayaka Josei Center' }}</h3>
+                    <h3 class="text-3xl font-black italic tracking-tighter mb-4">{{ $settings->site_name ?? 'Ayaka Jossei Center' }}</h3>
                     <p class="text-slate-500 max-w-md leading-relaxed">{{ $settings->site_description ?? 'Membuka gerbang karir profesional di Jepang untuk perempuan Indonesia melalui pelatihan yang berkualitas dan sistem pemberangkatan yang transparan.' }}</p>
                 </div>
                 <div>
@@ -392,7 +392,7 @@
                 </div>
             </div>
             <div class="text-center pt-12 border-t border-white/5 text-slate-600 text-[10px] font-black uppercase tracking-[0.3em]">
-                &copy; {{ date('Y') }} {{ $settings->site_name ?? 'Ayaka Josei Center' }}. All Rights Reserved.
+                &copy; {{ date('Y') }} {{ $settings->site_name ?? 'Ayaka Jossei Center' }}. All Rights Reserved.
             </div>
         </div>
     </footer>

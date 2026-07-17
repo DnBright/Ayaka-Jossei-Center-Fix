@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
-@section('title', 'Profil Ayaka Josei Center | Sejarah & Visi Misi LPK Jepang')
-@section('meta_title', 'Profil Ayaka Josei Center | Sejarah & Visi Misi LPK Jepang')
-@section('meta_description', 'Mengenal lebih dekat Ayaka Josei Center. Mengetahui sejarah, visi, misi, dan tim profesional di balik kesuksesan ratusan alumni LPK khusus putri ke Jepang.')
-@section('meta_keywords', 'profil ayaka josei center, sejarah LPK AJC, visi misi LPK Jepang, tentang kami LPK putri, lembaga pelatihan kerja Jepang terpercaya')
+@section('title', 'Profil Ayaka Jossei Center | Sejarah & Visi Misi LPK Jepang')
+@section('meta_title', 'Profil Ayaka Jossei Center | Sejarah & Visi Misi LPK Jepang')
+@section('meta_description', 'Mengenal lebih dekat Ayaka Jossei Center. Mengetahui sejarah, visi, misi, dan tim profesional di balik kesuksesan ratusan alumni LPK khusus putri ke Jepang.')
+@section('meta_keywords', 'profil ayaka jossei center, sejarah LPK AJC, visi misi LPK Jepang, tentang kami LPK putri, lembaga pelatihan kerja Jepang terpercaya')
 @section('canonical', url('/profil'))
 
 @section('content')
@@ -17,7 +17,7 @@
                     {{ $pages['about']->content['hero_title'] ?? 'Dedikasi Kami Untuk Masa Depan Perempuan Indonesia' }}
                 </h1>
                 <p class="prof-hero-lead">
-                    {{ $pages['about']->content['hero_subtitle'] ?? 'Ayaka Josei Center adalah jembatan profesional menuju karir gemilang di Jepang.' }}
+                    {{ $pages['about']->content['hero_subtitle'] ?? 'Ayaka Jossei Center adalah jembatan profesional menuju karir gemilang di Jepang.' }}
                 </p>
             </div>
         </div>
@@ -42,7 +42,7 @@
                     <div class="narrative-block">
                         <h2 class="text-3xl md:text-4xl font-black text-slate-900 mb-6 md:mb-8 tracking-tighter">{{ $pages['about']->content['pengantar_title'] ?? 'Pengantar' }}</h2>
                         <p class="text-base md:text-lg text-slate-600 leading-relaxed">
-                            {{ $pages['about']->content['pengantar_text'] ?? 'Ayaka Josei Center (AJC) adalah Lembaga Pelatihan Kerja (LPK) yang secara khusus didirikan untuk mempersiapkan perempuan Indonesia agar mampu bersaing secara profesional di Jepang.' }}
+                            {{ $pages['about']->content['pengantar_text'] ?? 'Ayaka Jossei Center (AJC) adalah Lembaga Pelatihan Kerja (LPK) yang secara khusus didirikan untuk mempersiapkan perempuan Indonesia agar mampu bersaing secara profesional di Jepang.' }}
                         </p>
                     </div>
                     <div class="w-16 h-0.5 bg-slate-200 my-8 md:my-12"></div>
@@ -120,7 +120,7 @@
     <section class="prof-cta py-20 md:py-32 text-center bg-white relative overflow-hidden">
         <div class="container mx-auto px-6 professional-reveal">
             <h2 class="text-4xl md:text-5xl lg:text-7xl font-black text-slate-900 tracking-tighter italic uppercase mb-8 leading-none">Wujudkan Impianmu</h2>
-            <p class="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto mb-10 md:mb-12">Bergabunglah dengan keluarga besar Ayaka Josei Center dan mulailah perjalanan karir profesionalmu di Negeri Sakura.</p>
+            <p class="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto mb-10 md:mb-12">Bergabunglah dengan keluarga besar Ayaka Jossei Center dan mulailah perjalanan karir profesionalmu di Negeri Sakura.</p>
             <div class="mt-8 md:mt-12">
                 <button class="w-full sm:w-auto bg-slate-900 text-white px-12 py-5 rounded-full font-black uppercase tracking-widest text-sm flex items-center justify-center gap-4 mx-auto hover:bg-[#da291c] transition-all shadow-xl group">
                     Hubungi Kami

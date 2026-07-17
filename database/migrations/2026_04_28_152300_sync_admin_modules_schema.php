@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::table('settings', function (Blueprint $table) {
             if (!Schema::hasColumn('settings', 'site_name')) {
-                $table->string('site_name')->default('Ayaka Josei Center');
+                $table->string('site_name')->default('Ayaka Jossei Center');
             }
             if (!Schema::hasColumn('settings', 'site_tagline')) {
                 $table->string('site_tagline')->nullable();

@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
-@section('title', $article->title . ' | Ayaka Josei Center')
-@section('meta_title', $article->title . ' | Ayaka Josei Center')
+@section('title', $article->title . ' | Ayaka Jossei Center')
+@section('meta_title', $article->title . ' | Ayaka Jossei Center')
 @section('meta_description', Str::limit(strip_tags($article->content), 155))
-@section('meta_keywords', ($article->category->name ?? 'LPK Jepang') . ', Ayaka Josei Center, ' . Str::words(strip_tags($article->content), 8, ''))
+@section('meta_keywords', ($article->category->name ?? 'LPK Jepang') . ', Ayaka Jossei Center, ' . Str::words(strip_tags($article->content), 8, ''))
 @section('canonical', route('blog.show', $article->slug))
 @section('og_type', 'article')
 @section('og_title', $article->title)
@@ -22,11 +22,11 @@
     "image": "{{ $article->featured_image ? (str_starts_with($article->featured_image, 'http') ? $article->featured_image : asset($article->featured_image)) : asset('images/og-default.png') }}",
     "author": {
         "@@type": "Person",
-        "name": "{{ $article->author->name ?? 'Ayaka Josei Center' }}"
+        "name": "{{ $article->author->name ?? 'Ayaka Jossei Center' }}"
     },
     "publisher": {
         "@@type": "Organization",
-        "name": "Ayaka Josei Center",
+        "name": "Ayaka Jossei Center",
         "logo": { "@@type": "ImageObject", "url": "{{ asset('images/AJC LOGO TERBARU.png') }}" }
     },
     "datePublished": "{{ $article->created_at->toISOString() }}",

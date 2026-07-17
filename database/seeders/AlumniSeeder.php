@@ -14,7 +14,7 @@ class AlumniSeeder extends Seeder
                 'name' => 'Siti Rohmah',
                 'batch' => 'Batch 8',
                 'working_at' => 'Tokyo, Japan (Kaigo)',
-                'testimonial' => 'Terima kasih Ayaka Josei Center, berkat pelatihan yang intensif saya bisa berkarir di Tokyo sekarang.',
+                'testimonial' => 'Terima kasih Ayaka Jossei Center, berkat pelatihan yang intensif saya bisa berkarir di Tokyo sekarang.',
                 'is_featured' => true
             ],
             [
