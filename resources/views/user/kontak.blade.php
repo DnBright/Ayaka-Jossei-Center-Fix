@@ -112,45 +112,13 @@
                             </p>
                         </div>
 
-                        @if(session('success'))
-                            <div class="mb-10 p-5 bg-emerald-50 text-emerald-700 rounded-2xl font-bold text-sm border border-emerald-100 animate-in fade-in slide-in-from-top-4 duration-500">
-                                {{ session('success') }}
-                            </div>
-                        @endif
-
-                        <form action="{{ route('kontak.store') }}" method="POST" class="space-y-6 md:space-y-8">
-                            @csrf
-                            <div class="space-y-3">
-                                <label class="text-sm font-bold text-slate-900">Nama Lengkap</label>
-                                <input type="text" name="name" required placeholder="Masukkan nama Anda" value="{{ old('name') }}" class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 focus:outline-none focus:border-[#da291c] focus:bg-white transition-all text-sm">
-                            </div>
-
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-                                <div class="space-y-3">
-                                    <label class="text-sm font-bold text-slate-900">Email Kontak</label>
-                                    <input type="email" name="email" required placeholder="example@email.com" value="{{ old('email') }}" class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 focus:outline-none focus:border-[#da291c] focus:bg-white transition-all text-sm">
-                                </div>
-                                <div class="space-y-3">
-                                    <label class="text-sm font-bold text-slate-900">Subjek</label>
-                                    <select name="subject" required class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 focus:outline-none focus:border-[#da291c] focus:bg-white transition-all appearance-none text-sm">
-                                        <option value="">Pilih Subjek</option>
-                                        <option value="Konsultasi Program">Konsultasi Program</option>
-                                        <option value="Pendaftaran">Pendaftaran</option>
-                                        <option value="Pertanyaan Umum">Pertanyaan Umum</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="space-y-3">
-                                <label class="text-sm font-bold text-slate-900">Pesan Anda</label>
-                                <textarea name="message" rows="5" required placeholder="Tuliskan pesan atau pertanyaan Anda di sini..." class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 focus:outline-none focus:border-[#da291c] focus:bg-white transition-all resize-none text-sm">{{ old('message') }}</textarea>
-                            </div>
-
-                            <button type="submit" class="w-full bg-slate-900 text-white py-5 rounded-2xl font-black uppercase tracking-widest text-sm flex items-center justify-center gap-4 hover:bg-[#da291c] transition-all shadow-xl group">
-                                Kirim Pesan Sekarang
-                                <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                            </button>
-                        </form>
+                        <div class="text-center md:text-left mt-8">
+                            <p class="text-slate-600 mb-8 leading-relaxed">Untuk respon yang lebih cepat dan langsung ditindaklanjuti, silakan kirimkan pesan Anda melalui WhatsApp resmi kami.</p>
+                            <a href="https://wa.me/6281542007626" target="_blank" class="w-full bg-[#25D366] text-white py-5 rounded-2xl font-black uppercase tracking-widest text-sm flex items-center justify-center gap-4 hover:bg-[#20bd5a] transition-all shadow-xl shadow-green-900/20 group">
+                                Hubungi via WhatsApp
+                                <svg class="w-6 h-6 group-hover:translate-x-1 transition-transform" fill="currentColor" viewBox="0 0 24 24"><path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984a9.964 9.964 0 001.333 4.993L2 22l5.233-1.337a9.993 9.993 0 004.779 1.216h.004c5.502 0 9.985-4.48 9.985-9.99 0-2.664-1.038-5.166-2.922-7.049A9.92 9.92 0 0012.012 2zm5.836 14.331c-.244.688-1.44 1.309-2.025 1.386-.48.064-1.12.183-3.21-.683-2.518-.838-4.14-3.411-4.267-3.583-.126-.17-1.018-1.353-1.018-2.583 0-1.229.641-1.834.869-2.083.228-.248.498-.31.664-.31.166 0 .332-.002.48-.002.166 0 .393-.062.599.435.216.516.726 1.77.788 1.895.062.124.104.268.02.434-.082.165-.124.268-.248.412-.124.145-.259.314-.373.414-.124.124-.256.26-.114.506.142.246.634 1.05 1.366 1.7 1.261.84 2.051 1.096 2.299 1.221.248.124.394.104.54-.061.144-.165.623-.726.79-974.166-.248.185-.248.435-.165.663.082.228 1.44.683 1.688.807.248.124.414.186.476.29.062.104.062.6-.184 1.288z"></path></svg>
+                            </a>
+                        </div>
                     </div>
 
                     <div class="mt-8 md:mt-12 p-6 md:p-8 bg-green-50 rounded-2xl border border-dashed border-green-200 flex items-center gap-6">
