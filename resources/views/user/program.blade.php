@@ -162,9 +162,9 @@
                     <p class="text-lg opacity-60 mb-12">
                         {{ $pages['program']->content['cta_description'] ?? 'Dapatkan bimbingan langsung dari konsultan kami mengenai alur pendaftaran dan biaya pelatihan.' }}
                     </p>
-                    <button class="bg-[#da291c] text-white px-10 md:px-12 py-4 md:py-5 rounded-full font-black uppercase tracking-widest text-xs flex items-center justify-center gap-6 w-full sm:w-fit hover:scale-105 transition-all mx-auto md:mx-0">
+                    <a href="{{ route('kontak') }}" class="bg-[#da291c] text-white px-10 md:px-12 py-4 md:py-5 rounded-full font-black uppercase tracking-widest text-xs flex items-center justify-center gap-6 w-full sm:w-fit hover:scale-105 transition-all mx-auto md:mx-0 text-center">
                         Hubungi Kami <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>

@@ -27,7 +27,7 @@
                     <p class="text-xl md:text-2xl text-slate-500 leading-tight max-w-md mx-auto lg:mx-0 mb-12">Kisah inspiratif dari para alumni Ayaka Jossei Center yang kini telah berkarir secara profesional di Jepang.</p>
                     
                     <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-12">
-                        <button class="w-full sm:w-auto bg-slate-900 text-white px-12 py-5 rounded-full font-black uppercase tracking-widest text-sm hover:bg-[#da291c] transition-all shadow-2xl">Gabung Sekarang</button>
+                        <a href="{{ route('kontak') }}" class="w-full sm:w-auto bg-slate-900 text-white px-12 py-5 rounded-full font-black uppercase tracking-widest text-sm hover:bg-[#da291c] transition-all shadow-2xl text-center">Gabung Sekarang</a>
                         <div class="flex items-center -space-x-4">
                             @php $avatars = ['A', 'Y', 'K', 'J']; @endphp
                             @foreach($avatars as $letter)

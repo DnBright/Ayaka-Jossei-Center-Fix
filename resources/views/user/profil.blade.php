@@ -122,10 +122,10 @@
             <h2 class="text-4xl md:text-5xl lg:text-7xl font-black text-slate-900 tracking-tighter italic uppercase mb-8 leading-none">Wujudkan Impianmu</h2>
             <p class="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto mb-10 md:mb-12">Bergabunglah dengan keluarga besar Ayaka Jossei Center dan mulailah perjalanan karir profesionalmu di Negeri Sakura.</p>
             <div class="mt-8 md:mt-12">
-                <button class="w-full sm:w-auto bg-slate-900 text-white px-12 py-5 rounded-full font-black uppercase tracking-widest text-sm flex items-center justify-center gap-4 mx-auto hover:bg-[#da291c] transition-all shadow-xl group">
+                <a href="{{ route('kontak') }}" class="w-full sm:w-auto bg-slate-900 text-white px-12 py-5 rounded-full font-black uppercase tracking-widest text-sm flex items-center justify-center gap-4 mx-auto hover:bg-[#da291c] transition-all shadow-xl group text-center">
                     Hubungi Kami
                     <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                </button>
+                </a>
             </div>
         </div>
     </section>
